@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "832659153323",
+    "project_id": "wastenot-b32d2",
+    "storage_bucket": "wastenot-b32d2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832659153323:android:a3f4cf087ea0d71b5632ee",
+        "android_client_info": {
+          "package_name": "com.example.waste_not"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7-XGnJ3o4xqnAnIq-S7UzkfxGyvYS1As"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
