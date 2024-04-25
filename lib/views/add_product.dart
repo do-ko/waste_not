@@ -1,24 +1,20 @@
 import 'dart:io';
 
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 // import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProductPage extends StatefulWidget {
-  const AddProductPage(
-      {super.key, required this.title, required this.firebaseApp});
+class AddProductView extends StatefulWidget {
+  const AddProductView({super.key});
 
-  final String title;
-  final FirebaseApp? firebaseApp;
+  final String title = 'Add product';
 
   @override
-  State<AddProductPage> createState() => _AddProductPage();
+  State<AddProductView> createState() => _AddProductPage();
 }
 
-class _AddProductPage extends State<AddProductPage> {
+class _AddProductPage extends State<AddProductView> {
   bool textScanning = false;
 
   XFile? imageFile;
@@ -69,8 +65,11 @@ class _AddProductPage extends State<AddProductPage> {
         RegExpMatch? match = exp.firstMatch(line.text);
         if (match != null) {
           // print(match.pattern);
-          String foundDate = match.group(0)!;  // Safely extract the matched date (non-null guaranteed by if-check)
-          scannedText = scannedText + foundDate + "\n";  // Append the found date to your result string with a newline
+          String foundDate = match.group(
+              0)!; // Safely extract the matched date (non-null guaranteed by if-check)
+          scannedText = scannedText +
+              foundDate +
+              "\n"; // Append the found date to your result string with a newline
           print(foundDate);
           // print("Date found: $foundDate");  // Optional: output the found date
         }
@@ -172,7 +171,7 @@ class _AddProductPage extends State<AddProductPage> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.camera_alt,
                                 size: 30,
                               ),
