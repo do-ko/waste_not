@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/home.dart';
 
 import 'firebase_options.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
 
           return MaterialApp(
             title: 'Waste Not (WIP)',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               // This is the theme of your application.
               //
@@ -50,8 +52,8 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: HomePage(
-                title: 'WasteNot Demo Home Page', firebaseApp: firebaseApp),
+            home: AddProductPage(
+                title: 'Text Reading Test', firebaseApp: firebaseApp),
           );
         });
   }
