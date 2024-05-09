@@ -44,21 +44,22 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
               body: SingleChildScrollView(
-                child: Column(children: [
-                  Text(firebaseApp == null
-                      ? 'Not connected :('
-                      : 'Connected :D'),
-                  ProductList(firebaseApp: firebaseApp)
-                ]),
-                // bottomNavigationBar: NavigationBar(destinations: [
-                //   IconButton(
-                //       icon: const Icon(Icons.delete_rounded),
-                //       onPressed: productsMarked > 0 ? () => {} : null),
-                //   IconButton(
-                //       icon: const Icon(Icons.live_help_outlined),
-                //       onPressed: () => {})
-                // ])]
-              ));
+                  child: Column(children: [
+                Text(firebaseApp == null ? 'Not connected :(' : 'Connected :D'),
+                ProductList(firebaseApp: firebaseApp)
+              ])),
+              bottomNavigationBar: NavigationBar(destinations: [
+                IconButton(
+                    icon: const Icon(Icons.delete_rounded),
+                    onPressed: productsMarked > 0 ? () => {} : null),
+                IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () =>
+                        Navigator.of(context).pushNamed("/product/add")),
+                IconButton(
+                    icon: const Icon(Icons.live_help_outlined),
+                    onPressed: () => {})
+              ]));
         });
   }
 }
