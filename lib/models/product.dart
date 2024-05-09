@@ -4,7 +4,7 @@ class Product {
   String comment;
   DateTime expirationDate;
   String imageLink;
-  final String owner;
+  String owner;
 
   Product({
     required this.name,
@@ -17,7 +17,7 @@ class Product {
 
 
   // Convert a Product instance to a Map.
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'name': name,
       'category': category,
