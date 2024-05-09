@@ -32,7 +32,8 @@ class WasteNotApp extends ConsumerWidget {
         '/account': (context) => const EditAccountView(),
         '/product': (context) =>
             ProductView(productController: ProductController(productId: "0")),
-        '/product/edit': (context) => const EditProductView(),
+        '/product/edit': (context) => EditProductView(
+            productController: ProductController(productId: "0")),
         '/product/add': (context) => const AddProductView()
       },
     );

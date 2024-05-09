@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_not/controllers/product.dart';
+import 'package:waste_not/views/edit_product.dart';
 
 import '../models/product.dart';
 
@@ -14,7 +15,17 @@ class ProductView extends ConsumerWidget {
     Product? product = productController.product;
 
     return Scaffold(
-        appBar: AppBar(title: Text("Product")),
+        appBar: AppBar(
+          title: const Text("Product"),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) =>
+                      EditProductView(productController: productController))),
+            )
+          ],
+        ),
         body: Column(
           children: [
             Text("Image link: ${product?.imageLink ?? "[Image link]"}"),
