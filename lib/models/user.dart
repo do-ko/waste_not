@@ -7,15 +7,15 @@ class User {
     required this.name
   });
 
-  // Convert a User instance to a Map (for firebase?)
-  Map<String, dynamic> toMap() {
+  // Convert a User instance to a json
+  Map<String, dynamic> toJson() {
     return {
       'email': email,
       'name': name,
     };
   }
 
-  // Construct a User from a map (for firebase?)
+  // Construct a User from a json
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
       email: map['email'], 
