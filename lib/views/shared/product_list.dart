@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/product.dart';
+import '../../models/product.dart';
 
 class ProductList extends ConsumerStatefulWidget {
   final FirebaseApp? firebaseApp;
