@@ -1,32 +1,39 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:waste_not/controllers/product.dart';
+import 'package:waste_not/views/shared/product_tile.dart';
 
-import '../../models/product.dart';
+import '../../controllers/products.dart';
 
 class ProductList extends ConsumerStatefulWidget {
-  final FirebaseApp? firebaseApp;
-  const ProductList({super.key, required this.firebaseApp});
+  final ProductsController productsController;
+  const ProductList({super.key, required this.productsController});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ProductListState();
 }
 
 class _ProductListState extends ConsumerState<ProductList> {
-  List<Product> products = [];
+  List<ProductController> products = [];
 
   @override
   void initState() {
     // TODO: implement initState
     // get products from firebase
-    if (widget.firebaseApp != null) {
-      // widget.firebaseApp!.get() OR ProductController.getAll() ?
-    }
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: List.generate(3, (index) => Text('$index')));
+    ref.watch(ChangeNotifierProvider((ref) => widget.productsController));
+    products =
+        widget.productsController.getProducts("0"); // TODO: use current user id
+
+    return Column(
+        children: List.generate(
+            products.length,
+            (index) =>
+                //Text(index.toString()))); //
+                ProductTile(productController: products[index])));
   }
 }
