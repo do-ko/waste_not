@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/edit_product.dart';
@@ -29,8 +30,10 @@ class WasteNotApp extends ConsumerWidget {
         '/': (context) => const HomeView(),
         '/settings': (context) => const SettingsView(),
         '/account': (context) => const EditAccountView(),
-        '/product': (context) => const ProductView(),
-        '/product/edit': (context) => const EditProductView(),
+        '/product': (context) =>
+            ProductView(productController: ProductController(productId: "0")),
+        '/product/edit': (context) => EditProductView(
+            productController: ProductController(productId: "0")),
         '/product/add': (context) => const AddProductView()
       },
     );

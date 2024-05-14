@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:waste_not/views/shared/product_list.dart';
 
+import '../controllers/products.dart';
 import '../controllers/user.dart';
 import '../firebase_options.dart';
 import '../models/user.dart';
@@ -46,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
               body: SingleChildScrollView(
                   child: Column(children: [
                 Text(firebaseApp == null ? 'Not connected :(' : 'Connected :D'),
-                ProductList(firebaseApp: firebaseApp)
+                ProductList(productsController: ProductsController())
               ])),
               bottomNavigationBar: NavigationBar(destinations: [
                 IconButton(
