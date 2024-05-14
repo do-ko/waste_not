@@ -67,25 +67,53 @@ class _HomeViewState extends State<HomeView> {
 }
 
 class TestRoute extends StatelessWidget {
-  const TestRoute({super.key});
+  TestRoute({super.key});
+
+  final nameTextController = TextEditingController();
+  final emailTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Scaffold(
         appBar: AppBar(title: const Text('User testing')),
-        body: StreamBuilder<List<User>>(
-            stream: UserController.readUsers(),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('something went wrong ${snapshot.error}');
-              } else if (snapshot.hasData) {
-                final users = snapshot.data!;
-                return ListView(
-                    children: users.map((e) => Text(e.email)).toList());
-              } else {
-                return const Center(child: CircularProgressIndicator());
-              }
-            }));
+        body: SingleChildScrollView(child: Column(children: [
+          StreamBuilder<List<User>>(
+              stream: UserController.readUsers(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('something went wrong ${snapshot.error}');
+                } else if (snapshot.hasData) {
+                  final users = snapshot.data!;
+                  return Column(
+                      children: users.map((e) => Text(e.email)).toList());
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              }),
+          Column(
+            children: [
+              TextField(
+                  controller: nameTextController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Name'
+                  )
+              ),
+              const SizedBox(height: 24),
+              TextField(
+                  controller: emailTextController,
+                  decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Email'
+                  )
+              ),
+              const SizedBox(height: 24),
+              ElevatedButton(onPressed: () {
+                  UserController.createUser(email: emailTextController.text, name: nameTextController.text);
+              }, child: const Text("Create User"))
+            ],
+          )
+        ]))
+    );
   }
 }

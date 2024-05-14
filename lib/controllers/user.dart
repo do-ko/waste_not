@@ -8,14 +8,15 @@ class UserController extends ChangeNotifier {
     return null;
   }
 
-  Future createUser({required String email, required String name}) async {
-    final docUser = FirebaseFirestore.instance.collection('users').doc();
-    final user = User(email: email, name: name);
+  static Future createUser({required String email, required String name}) async {
+    final docUser = FirebaseFirestore.instance.collection('Users').doc();
+
+    final user = User(id:docUser.id, email: email, name: name);
     final jsonUser = user.toJson();
     await docUser.set(jsonUser);
   }
 
-  static Stream<List<User>> readUsers() => FirebaseFirestore.instance.collection('users')
+  static Stream<List<User>> readUsers() => FirebaseFirestore.instance.collection('Users')
       .snapshots()
       .map((snapshot) => snapshot.docs.map((doc) => User.fromMap(doc.data())).toList());
 }
