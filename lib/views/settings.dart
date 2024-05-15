@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:waste_not/controllers/auth.dart';
 
-class SettingsView extends ConsumerStatefulWidget {
+class SettingsView extends HookConsumerWidget {
   const SettingsView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsViewState();
-}
-
-class _SettingsViewState extends ConsumerState<SettingsView> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Settings')),
-        body: const Placeholder());
+      appBar: AppBar(),
+      body: Center(
+        child: ElevatedButton(
+            onPressed: () {
+              ref.read(loginControllerProvider.notifier).signOut();
+              Navigator.of(context).pushReplacementNamed('/');
+            },
+            child: const Text("Sign Out")),
+      ),
+    );
   }
 }

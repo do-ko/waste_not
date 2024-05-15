@@ -15,8 +15,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  FirebaseApp? firebaseApp;
-  late User? user;
+  // FirebaseApp? firebaseApp;
+  // late User? user;
   int productsMarked = 1;
 
   @override
@@ -27,42 +27,32 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: Future<FirebaseApp>(() => Firebase.initializeApp(
-            options: DefaultFirebaseOptions.currentPlatform)),
-        builder: (context, firebaseAppSnapshot) {
-          firebaseApp = firebaseAppSnapshot.data;
-
-          return Scaffold(
-              appBar: AppBar(
-                title: const Text('Hello, Dominika!'), // TODO use user.name
-                actions: [
-                  IconButton(
-                    icon: const Icon(Icons.settings),
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed("/settings"),
-                  )
-                ],
-              ),
-              body: SingleChildScrollView(
-                  child: Column(children: [
-                Text(firebaseApp == null ? 'Not connected :(' : 'Connected :D'),
-                ProductList(productsController: ProductsController())
-              ])),
-              bottomNavigationBar: NavigationBar(destinations: [
-                IconButton(
-                    icon: const Icon(Icons.delete_rounded),
-                    onPressed: productsMarked > 0 ? () => {} : null),
-                IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () =>
-                        Navigator.of(context).pushNamed("/product/add")),
-                IconButton(
-                  icon: const Icon(Icons.live_help_outlined),
-                  onPressed: () => {},
-                )
-              ]));
-        });
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Hello, Dominika!'), // TODO use user.name
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings),
+              onPressed: () => Navigator.of(context).pushNamed("/settings"),
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+            child: Column(children: [
+          ProductList(productsController: ProductsController()),
+        ])),
+        bottomNavigationBar: NavigationBar(destinations: [
+          IconButton(
+              icon: const Icon(Icons.delete_rounded),
+              onPressed: productsMarked > 0 ? () => {} : null),
+          IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: () => Navigator.of(context).pushNamed("/product/add")),
+          IconButton(
+            icon: const Icon(Icons.live_help_outlined),
+            onPressed: () => {},
+          )
+        ]));
   }
 }
 

@@ -120,14 +120,14 @@ class _AuthenticationViewState extends State<AuthenticationView> {
               ),
               child: MaterialButton(
                 onPressed: () async {
-                  bool shouldNavigate =
-                  await AuthController.register(emailTextController.text, passwordTextController.text, nameTextController.text);
-                  if (shouldNavigate) {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => const HomeView()),
-                    );
-                  }
+                  // bool shouldNavigate =
+                  // await AuthController.register(emailTextController.text, passwordTextController.text, nameTextController.text);
+                  // if (shouldNavigate) {
+                  //   Navigator.pushReplacement(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => const HomeView()),
+                  //   );
+                  // }
                 },
                 child: const Text("Register"),
               ),
@@ -148,14 +148,14 @@ class _AuthenticationViewState extends State<AuthenticationView> {
               ),
               child: MaterialButton(
                   onPressed: () async {
-                    bool shouldNavigate =
-                    await AuthController.signIn(emailTextController.text, passwordTextController.text);
-                    if (shouldNavigate) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const HomeView()),
-                      );
-                    }
+                    // bool shouldNavigate =
+                    // await AuthController.signIn(emailTextController.text, passwordTextController.text);
+                    // if (shouldNavigate) {
+                    //   Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(builder: (context) => const HomeView()),
+                    //   );
+                    // }
                   },
                   child: const Text("Login")),
             ),
