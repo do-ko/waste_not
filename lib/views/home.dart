@@ -59,62 +59,61 @@ class _HomeViewState extends State<HomeView> {
                         Navigator.of(context).pushNamed("/product/add")),
                 IconButton(
                   icon: const Icon(Icons.live_help_outlined),
-                  onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const TestRoute())),
+                  onPressed: () => {},
                 )
               ]));
         });
   }
 }
 
-class TestRoute extends StatelessWidget {
-  TestRoute({super.key});
-
-  final nameTextController = TextEditingController();
-  final emailTextController = TextEditingController();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text('User testing')),
-        body: SingleChildScrollView(child: Column(children: [
-          StreamBuilder<List<User>>(
-              stream: UserController.readUsers(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('something went wrong ${snapshot.error}');
-                } else if (snapshot.hasData) {
-                  final users = snapshot.data!;
-                  return Column(
-                      children: users.map((e) => Text(e.email)).toList());
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              }),
-          Column(
-            children: [
-              TextField(
-                  controller: nameTextController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Name'
-                  )
-              ),
-              const SizedBox(height: 24),
-              TextField(
-                  controller: emailTextController,
-                  decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Email'
-                  )
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(onPressed: () {
-                  UserController.createUser(email: emailTextController.text, name: nameTextController.text);
-              }, child: const Text("Create User"))
-            ],
-          )
-        ]))
-    );
-  }
-}
+// class TestRoute extends StatelessWidget {
+//   TestRoute({super.key});
+//
+//   final emailTextController = TextEditingController();
+//   final passwordTextController = TextEditingController();
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//         appBar: AppBar(title: const Text('User testing')),
+//         body: SingleChildScrollView(child: Column(children: [
+//           StreamBuilder<List<User>>(
+//               stream: UserController.readUsers(),
+//               builder: (context, snapshot) {
+//                 if (snapshot.hasError) {
+//                   return Text('something went wrong ${snapshot.error}');
+//                 } else if (snapshot.hasData) {
+//                   final users = snapshot.data!;
+//                   return Column(
+//                       children: users.map((e) => Text(e.email)).toList());
+//                 } else {
+//                   return const Center(child: CircularProgressIndicator());
+//                 }
+//               }),
+//           Column(
+//             children: [
+//               TextField(
+//                   controller: emailTextController,
+//                   decoration: const InputDecoration(
+//                       border: OutlineInputBorder(),
+//                       labelText: 'Email'
+//                   )
+//               ),
+//               const SizedBox(height: 24),
+//               TextField(
+//                   controller: passwordTextController,
+//                   decoration: const InputDecoration(
+//                       border: OutlineInputBorder(),
+//                       labelText: 'Password'
+//                   )
+//               ),
+//               const SizedBox(height: 24),
+//               ElevatedButton(onPressed: () {
+//                   UserController.createUser(email: emailTextController.text, name: passwordTextController.text);
+//               }, child: const Text("Create User"))
+//             ],
+//           )
+//         ]))
+//     );
+//   }
+// }
