@@ -5,17 +5,15 @@ import 'package:waste_not/views/shared/product_tile.dart';
 import '../../controllers/products.dart';
 
 class ProductList extends StatelessWidget {
-  final ProductsController productsController;
-  ProductList({super.key, required this.productsController});
+  const ProductList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProductsController productsController = Get.put(ProductsController());
+
     return Obx(() => Column(
-        children: List.generate(
-            productsController.products.length,
-            (index) =>
-                //Text(index.toString()))); //
-                ProductTile(
-                    productController: productsController.products[index]))));
+        children: productsController.products
+            .map((element) => ProductTile(productController: element))
+            .toList()));
   }
 }

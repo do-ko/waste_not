@@ -4,10 +4,10 @@ import '../models/product.dart';
 
 class ProductController extends GetxController {
   final String productId;
-  Rx<Product>? product;
+  late Rx<Product?> product;
 
   ProductController({required this.productId}) {
-    product = getProduct(productId)?.obs;
+    product = getProduct(productId).obs;
   }
 
   Product? getProduct(String productId) {

@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/auth_check.dart';
@@ -15,12 +16,13 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   final widgetBinding = WidgetsFlutterBinding.ensureInitialized();
-
-  // await GetStorage.init();
-
   // FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await GetStorage.init();
+  FirebaseApp firebaseApp = await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform);
+  GetStorage().write("firebaseApp", firebaseApp);
+
   runApp(const WasteNotApp());
 }
 

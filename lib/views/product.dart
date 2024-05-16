@@ -24,13 +24,13 @@ class ProductView extends StatelessWidget {
         body: Obx(() => Column(
               children: [
                 Text(
-                    "Image link: ${productController.product?.value.imageLink ?? "[Image link]"}"),
+                    "Image link: ${productController.product.value?.imageLink ?? "[Image link]"}"),
                 Text(
-                    "Name: ${productController.product?.value.name ?? "[Name]"}"),
+                    "Name: ${productController.product.value?.name ?? "[Name]"}"),
                 Text(
-                    "Expiration date: ${productController.product?.value.imageLink ?? "[Expiration date]"}"),
+                    "Expiration date: ${productController.product.value?.imageLink ?? "[Expiration date]"}"),
                 Text(
-                    "Category: ${productController.product?.value.category ?? "[Category]"}"),
+                    "Category: ${productController.product.value?.category ?? "[Category]"}"),
                 OutlinedButton.icon(
                     onPressed: () => {},
                     label: const Text("Remove"),

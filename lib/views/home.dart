@@ -1,11 +1,6 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/views/shared/product_list.dart';
-
-import '../controllers/products.dart';
-import '../controllers/user.dart';
-import '../firebase_options.dart';
-import '../models/user.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,21 +10,22 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  // FirebaseApp? firebaseApp;
-  // late User? user;
-  int productsMarked = 1;
+  late int productsMarked;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    productsMarked = 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    String username = GetStorage().read('username') ??
+        "[username]"; // TODO where is username actually?
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Hello, Dominika!'), // TODO use user.name
+          title: Text('Hello, $username!'),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -39,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: SingleChildScrollView(
             child: Column(children: [
-          ProductList(productsController: ProductsController()),
+          ProductList(),
         ])),
         bottomNavigationBar: NavigationBar(destinations: [
           IconButton(
@@ -55,55 +51,3 @@ class _HomeViewState extends State<HomeView> {
         ]));
   }
 }
-
-// class TestRoute extends StatelessWidget {
-//   TestRoute({super.key});
-//
-//   final emailTextController = TextEditingController();
-//   final passwordTextController = TextEditingController();
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//         appBar: AppBar(title: const Text('User testing')),
-//         body: SingleChildScrollView(child: Column(children: [
-//           StreamBuilder<List<User>>(
-//               stream: UserController.readUsers(),
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasError) {
-//                   return Text('something went wrong ${snapshot.error}');
-//                 } else if (snapshot.hasData) {
-//                   final users = snapshot.data!;
-//                   return Column(
-//                       children: users.map((e) => Text(e.email)).toList());
-//                 } else {
-//                   return const Center(child: CircularProgressIndicator());
-//                 }
-//               }),
-//           Column(
-//             children: [
-//               TextField(
-//                   controller: emailTextController,
-//                   decoration: const InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'Email'
-//                   )
-//               ),
-//               const SizedBox(height: 24),
-//               TextField(
-//                   controller: passwordTextController,
-//                   decoration: const InputDecoration(
-//                       border: OutlineInputBorder(),
-//                       labelText: 'Password'
-//                   )
-//               ),
-//               const SizedBox(height: 24),
-//               ElevatedButton(onPressed: () {
-//                   UserController.createUser(email: emailTextController.text, name: passwordTextController.text);
-//               }, child: const Text("Create User"))
-//             ],
-//           )
-//         ]))
-//     );
-//   }
-// }
