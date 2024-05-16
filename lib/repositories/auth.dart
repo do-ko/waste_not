@@ -1,61 +1,102 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:waste_not/views/login.dart';
 
-class AuthRepository {
-  const AuthRepository(this._auth);
+// class AuthRepository {
+//   const AuthRepository(this._auth);
+//
+//   final FirebaseAuth _auth;
+//
+//   Stream<User?> get authStateChange => _auth.idTokenChanges();
+//
+//   // User get user => _auth.currentUser;
+//
+//   Future<User?> signIn(String email, String password) async {
+//     try {
+//       UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
+//       return userCredential.user;
+//     } on FirebaseAuthException catch (e) {
+//       if (e.code == 'user-not-found'){
+//         throw AuthException("User not found");
+//       } else if (e.code == 'wrong-password'){
+//         throw AuthException("Wrong password");
+//       } else {
+//         throw AuthException("An error occurred. Please try again later.");
+//       }
+//     }
+//   }
+//
+//   Future<void> signOut() async{
+//     await _auth.signOut();
+//   }
 
-  final FirebaseAuth _auth;
+class AuthRepository extends GetxController {
+  static AuthRepository get instance => Get.find();
 
-  Stream<User?> get authStateChange => _auth.idTokenChanges();
+  final deviceStorage = GetStorage();
+  final _auth = FirebaseAuth.instance;
 
-  // User get user => _auth.currentUser;
+  @override
+  void onReady() {
+    FlutterNativeSplash.remove();
+    screenRedirect();
+  }
 
-  Future<User?> signIn(String email, String password) async {
+  screenRedirect() async {
+    Get.offAll(() => const LoginView());
+  }
+
+  // register
+  Future<UserCredential> register(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: email, password: password);
-      return userCredential.user;
+      return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found'){
-        throw AuthException("User not found");
-      } else if (e.code == 'wrong-password'){
-        throw AuthException("Wrong password");
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
       } else {
-        throw AuthException("An error occurred. Please try again later.");
+        print('Error: ${e.code}');
       }
+      throw AuthException(e.code).message;
+    } on FirebaseException catch (e) {
+      throw AuthException(e.code).message;
     }
   }
-
-  Future<void> signOut() async{
-    await _auth.signOut();
-  }
-
-  // static Future<bool> register(
-  //     String email, String password, String name) async {
-  //   try {
-  //     UserCredential userCredential = await FirebaseAuth.instance
-  //         .createUserWithEmailAndPassword(email: email, password: password);
-  //     String uid = userCredential.user!.uid;
-  //     UserController.createUser(email: email, name: name, uid: uid);
-  //     return true;
-  //   } on FirebaseAuthException catch (e) {
-  //     if (e.code == 'weak-password') {
-  //       print('The password provided is too weak.');
-  //     } else if (e.code == 'email-already-in-use') {
-  //       print('The account already exists for that email.');
-  //     }
-  //     return false;
-  //   } catch (e) {
-  //     print(e.toString());
-  //     return false;
-  //   }
-  // }
 }
 
-class AuthException implements Exception{
+// static Future<bool> register(
+//     String email, String password, String name) async {
+//   try {
+//     UserCredential userCredential = await FirebaseAuth.instance
+//         .createUserWithEmailAndPassword(email: email, password: password);
+//     String uid = userCredential.user!.uid;
+//     UserController.createUser(email: email, name: name, uid: uid);
+//     return true;
+//   } on FirebaseAuthException catch (e) {
+//     if (e.code == 'weak-password') {
+//       print('The password provided is too weak.');
+//     } else if (e.code == 'email-already-in-use') {
+//       print('The account already exists for that email.');
+//     }
+//     return false;
+//   } catch (e) {
+//     print(e.toString());
+//     return false;
+//   }
+// }
+// }
+
+class AuthException implements Exception {
   final String message;
+
   AuthException(this.message);
 
   @override
-  String toString(){
+  String toString() {
     return message;
   }
 }

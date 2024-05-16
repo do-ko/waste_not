@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:waste_not/views/add_product.dart';
+import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
-
 import '../controllers/products.dart';
-import '../controllers/user.dart';
-import '../firebase_options.dart';
-import '../models/user.dart';
+
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -33,21 +34,22 @@ class _HomeViewState extends State<HomeView> {
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
-              onPressed: () => Navigator.of(context).pushNamed("/settings"),
+              onPressed: () => Get.to(() => const SettingsView()),
             )
           ],
         ),
         body: SingleChildScrollView(
             child: Column(children: [
-          ProductList(productsController: ProductsController()),
+          // ProductList(productsController: ProductsController()),
         ])),
         bottomNavigationBar: NavigationBar(destinations: [
           IconButton(
               icon: const Icon(Icons.delete_rounded),
               onPressed: productsMarked > 0 ? () => {} : null),
           IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () => Navigator.of(context).pushNamed("/product/add")),
+            icon: const Icon(Icons.add),
+            onPressed: () => Get.to(() => const AddProductView()),
+          ),
           IconButton(
             icon: const Icon(Icons.live_help_outlined),
             onPressed: () => {},

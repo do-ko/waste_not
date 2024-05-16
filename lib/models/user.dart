@@ -1,12 +1,12 @@
-class User {
+class UserModel {
   String id;
   String email;
-  String name;
+  String username;
 
-  User({
+  UserModel({
     this.id = '',
     required this.email, 
-    required this.name
+    required this.username
   });
 
   // Convert a User instance to a json
@@ -14,16 +14,16 @@ class User {
     return {
       'id': id,
       'email': email,
-      'name': name,
+      'name': username,
     };
   }
 
   // Construct a User from a json
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       id: map['id'],
       email: map['email'], 
-      name: map['name'],
+      username: map['name'],
     );
   }
 }

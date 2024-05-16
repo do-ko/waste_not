@@ -5,13 +5,13 @@ import 'package:waste_not/views/edit_product.dart';
 
 import '../models/product.dart';
 
-class ProductView extends ConsumerWidget {
+class ProductView extends StatelessWidget {
   final ProductController productController;
   const ProductView({super.key, required this.productController});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(ChangeNotifierProvider((ref) => productController));
+  Widget build(BuildContext context) {
+    // ref.watch(ChangeNotifierProvider((ref) => productController));
     Product? product = productController.product;
 
     return Scaffold(
