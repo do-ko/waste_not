@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:waste_not/controllers/auth.dart';
+import 'package:waste_not/repositories/auth.dart';
 
 // import '../providers/auth_provider.dart';
 
@@ -39,8 +40,15 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: const Text("test"),
-    );
+        appBar: AppBar(),
+        body: Column(
+          children: [
+            Center(
+              child: ElevatedButton(
+                  onPressed: () => AuthRepository.instance.logout(),
+                  child: const Text("Sign Out")),
+            ),
+          ],
+        ));
   }
 }

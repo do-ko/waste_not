@@ -13,6 +13,15 @@ class UserRepository extends GetxController {
       throw CreateUserException(e.code).message;
     }
   }
+
+  Future<UserModel> getUser(String uid) async {
+    try {
+      final user = await db.collection("Users").doc(uid).get();
+      return UserModel.fromMap(user.data() as Map<String, dynamic>);
+    } on FirebaseException catch (e) {
+      throw CreateUserException(e.code).message;
+    }
+  }
 }
 
 class CreateUserException implements Exception {
