@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
+
 import '../controllers/user.dart';
 
-class AuthController{
+class AuthController extends GetxController {
   static Future<bool> signIn(String email, String password) async {
     try {
       await FirebaseAuth.instance
@@ -13,7 +15,8 @@ class AuthController{
     }
   }
 
-  static Future<bool> register(String email, String password, String name) async {
+  static Future<bool> register(
+      String email, String password, String name) async {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
@@ -33,7 +36,3 @@ class AuthController{
     }
   }
 }
-
-
-
-

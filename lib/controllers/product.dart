@@ -1,13 +1,13 @@
-import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 
 import '../models/product.dart';
 
-class ProductController extends ChangeNotifier {
+class ProductController extends GetxController {
   final String productId;
-  Product? product;
+  Rx<Product>? product;
 
   ProductController({required this.productId}) {
-    product = getProduct(productId);
+    product = getProduct(productId)?.obs;
   }
 
   Product? getProduct(String productId) {

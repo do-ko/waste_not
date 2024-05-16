@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SettingsView extends ConsumerStatefulWidget {
+class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _SettingsViewState();
+  State<StatefulWidget> createState() => _SettingsViewState();
 }
 
-class _SettingsViewState extends ConsumerState<SettingsView> {
+class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
