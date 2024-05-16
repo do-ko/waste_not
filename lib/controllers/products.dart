@@ -25,4 +25,26 @@ class ProductsController extends GetxController {
   ProductController getProduct(String productId) {
     return ProductController(productId: productId);
   }
+
+  bool removeProduct(productId) {
+    ProductController? pc =
+        products.firstWhereOrNull((pc) => pc.productId == productId);
+
+    if (pc != null) {
+      products.remove(pc);
+      pc.removeProduct();
+
+      return true;
+    }
+
+    return false;
+  }
+
+  bool removeProducts(List<String> productIds) {
+    bool success = true;
+    for (String id in productIds) {
+      success &= removeProduct(id);
+    }
+    return success;
+  }
 }

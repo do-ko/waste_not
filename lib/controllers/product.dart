@@ -19,4 +19,9 @@ class ProductController extends GetxController {
         imageLink: "null",
         owner: "0");
   }
+
+  bool removeProduct() {
+    product = null.obs;
+    return true;
+  }
 }

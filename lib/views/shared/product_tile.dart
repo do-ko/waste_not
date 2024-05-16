@@ -1,50 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/views/product.dart';
 
 import '../../controllers/product.dart';
-import '../../models/product.dart';
 
-class ProductTile extends StatefulWidget {
+class ProductTile extends StatelessWidget {
   final ProductController productController;
+  final HomeController homeController;
 
-  const ProductTile({super.key, required this.productController});
-
-  @override
-  State<StatefulWidget> createState() => _ProductTileState();
-}
-
-class _ProductTileState extends State<ProductTile> {
-  Product? product;
-  late bool marked;
-
-  @override
-  void initState() {
-    super.initState();
-    marked = false;
-  }
+  const ProductTile(
+      {super.key,
+      required this.homeController,
+      required this.productController});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(widget.productController);
+    Get.put(productController);
+    Get.put(homeController);
 
-    return Obx(() => ListTile(
-          title: Text(widget.productController.product.value?.name ?? "[Name]"),
-          subtitle: Text(
-              widget.productController.product.value?.category.toString() ??
-                  "[Category]"), // TODO: product category name
-          leading: Icon(marked
+    return Obx(
+      () => ListTile(
+          title: Text(productController.product.value?.name ?? "[Name]"),
+          subtitle: Text(productController.product.value?.category.toString() ??
+              "[Category]"), // TODO: product category name
+          leading: Icon(homeController.markedProducts
+                  .contains(productController.productId)
               ? Icons.check_circle_rounded
               : Icons.add), // TODO: get the right icon
           trailing: Text(
-              "expires in ${widget.productController.product.value?.expirationDate ?? "#"} days"), // TODO: expiration date
+              "expires in ${productController.product.value?.expirationDate ?? "#"} days"), // TODO: expiration date
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ProductView(
-                    productController: widget.productController,
+                    productController: productController,
                   ))),
-          onLongPress: () => setState(() {
-            marked = !marked;
+          onLongPress: () {
+            homeController.switchMarkedProduct(productController.productId);
           }),
-        ));
+    );
   }
 }

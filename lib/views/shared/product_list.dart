@@ -2,18 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/views/shared/product_tile.dart';
 
+import '../../controllers/home.dart';
 import '../../controllers/products.dart';
 
 class ProductList extends StatelessWidget {
-  const ProductList({super.key});
+  ProductsController productsController;
+  HomeController homeController;
+  ProductList(
+      {super.key,
+      required this.homeController,
+      required this.productsController});
 
   @override
   Widget build(BuildContext context) {
-    final ProductsController productsController = Get.put(ProductsController());
+    Get.put(productsController);
 
     return Obx(() => Column(
         children: productsController.products
-            .map((element) => ProductTile(productController: element))
+            .map((element) => ProductTile(
+                homeController: homeController, productController: element))
             .toList()));
   }
 }
