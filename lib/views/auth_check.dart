@@ -18,26 +18,9 @@ class AuthCheckerView extends ConsumerWidget {
       data: (user) {
         if (user != null) {
           return const HomeView();
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/settings');
-          });
-          // Navigator.pushReplacement(context,
-          //     MaterialPageRoute(builder: (context) => const HomeView()));
         } else {
           return const LoginView();
-          // Explicitly navigate to the LoginView if user is null
-          // WidgetsBinding.instance.addPostFrameCallback((_) {
-          //   Navigator.of(context).pushReplacementNamed('/login');
-          // });
         }
-        return const Scaffold(
-          backgroundColor: Colors.deepPurple,
-          body: Center(
-            child: CircularProgressIndicator(
-              color: Colors.white,
-            ),
-          ),
-        );
       },
       error: (error, trace) => const LoginView(),
       loading: () => const Scaffold(
