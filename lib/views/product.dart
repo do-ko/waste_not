@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/views/edit_product.dart';
 
@@ -12,7 +12,7 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // ref.watch(ChangeNotifierProvider((ref) => productController));
-    Product? product = productController.product;
+    Product? product = productController.product.value;
 
     return Scaffold(
         appBar: AppBar(

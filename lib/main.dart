@@ -2,10 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:waste_not/controllers/auth.dart';
 import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/repositories/auth.dart';
@@ -35,11 +33,11 @@ Future<void> main() async {
   runApp(const WasteNotApp());
 }
 
-class WasteNotApp extends ConsumerWidget {
+class WasteNotApp extends StatelessWidget {
   const WasteNotApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return GetMaterialApp(
       home: const Scaffold(
         backgroundColor: Colors.deepPurple,
