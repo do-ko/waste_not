@@ -26,6 +26,10 @@ class LoginController extends GetxController {
   // }
 
   Future<void> signIn() async {
+    if (!loginFormKey.currentState!.validate()){
+      return;
+    }
+
     if (rememberMe.value) {
       deviceStorage.write("REMEMBER_ME_EMAIL", email.text.trim());
       deviceStorage.write("REMEMBER_ME_PASSWORD", password.text.trim());

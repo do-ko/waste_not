@@ -4,12 +4,10 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/auth.dart';
 import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/repositories/auth.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/auth_check.dart';
-import 'package:waste_not/views/authentication.dart';
 import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/home.dart';

@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/signup_controller.dart';
+import 'package:waste_not/views/shared/validator.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});
@@ -35,6 +36,7 @@ class RegisterView extends StatelessWidget {
                           prefixIcon: Icon(CupertinoIcons.person),
                         ),
                         controller: controller.username,
+                        validator: (value) => CustomValidator.validateEmptyText("Username", value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -45,6 +47,7 @@ class RegisterView extends StatelessWidget {
                           prefixIcon: Icon(CupertinoIcons.mail),
                         ),
                         controller: controller.email,
+                        validator: (value) => CustomValidator.validateEmail(value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -53,6 +56,7 @@ class RegisterView extends StatelessWidget {
                         () => TextFormField(
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
+                          validator: (value) => CustomValidator.validatePassword(value),
                           decoration: InputDecoration(
                             labelText: "Password",
                             prefixIcon: const Icon(CupertinoIcons.lock),
