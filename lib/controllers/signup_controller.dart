@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/repositories/auth.dart';
 import 'package:waste_not/repositories/user.dart';
 import 'package:waste_not/views/home.dart';
@@ -15,6 +16,8 @@ class SignupController extends GetxController {
   final TextEditingController password = TextEditingController();
   final TextEditingController username = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
+  final deviceStorage = GetStorage();
+
 
   signUp() async {
     try {
@@ -29,7 +32,12 @@ class SignupController extends GetxController {
       final userRepository = Get.put(UserRepository());
       userRepository.saveUser(userModel);
 
-      Get.off(() => const HomeView());
+      deviceStorage.write("username", userModel.username);
+      deviceStorage.write("email", userModel.email);
+      // deviceStorage.write("username", userModel.username);
+
+
+      Get.offAll(() => const HomeView());
     } catch (e) {
       throw "Something went wrong.";
     } finally {}

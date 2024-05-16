@@ -23,7 +23,7 @@ class AuthRepository extends GetxController {
   // register
   Future<UserCredential> register(String email, String password) async {
     try {
-      return await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      return await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
