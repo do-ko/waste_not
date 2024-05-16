@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_not/controllers/product.dart';
 
 class EditProductView extends StatelessWidget {

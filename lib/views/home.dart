@@ -1,10 +1,11 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
+
 import '../controllers/products.dart';
 
 
@@ -16,21 +17,22 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  // FirebaseApp? firebaseApp;
-  // late User? user;
-  int productsMarked = 1;
+  late int productsMarked;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    productsMarked = 0;
   }
 
   @override
   Widget build(BuildContext context) {
+    String username = GetStorage().read('username') ??
+        "[username]"; // TODO where is username actually?
+
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Hello, Dominika!'), // TODO use user.name
+          title: Text('Hello, $username!'),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),
@@ -40,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
         ),
         body: SingleChildScrollView(
             child: Column(children: [
-          // ProductList(productsController: ProductsController()),
+          ProductList(),
         ])),
         bottomNavigationBar: NavigationBar(destinations: [
           IconButton(
