@@ -22,6 +22,15 @@ class HomeView extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           title: Text('Hello, $username!'),
+          backgroundColor: Colors.white,
+          centerTitle: false,
+          titleTextStyle: const TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+          ),
+          iconTheme: const IconThemeData(
+            color: Colors.black,
+          ),
           actions: [
             IconButton(
               icon: const Icon(Icons.settings),

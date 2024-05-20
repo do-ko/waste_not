@@ -15,6 +15,7 @@ import 'package:waste_not/views/login.dart';
 import 'package:waste_not/views/product.dart';
 import 'package:waste_not/views/register.dart';
 import 'package:waste_not/views/settings.dart';
+import 'package:waste_not/views/shared/theme.dart';
 
 import 'firebase_options.dart';
 
@@ -38,7 +39,7 @@ class WasteNotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: const Scaffold(
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: loadingScreenBackground,
         body: Center(
           child: CircularProgressIndicator(
             color: Colors.white,
@@ -48,8 +49,19 @@ class WasteNotApp extends StatelessWidget {
       title: 'Waste Not (WIP)',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
         useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: backgroundHeaderColor,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: fontColor,
+            fontSize: 24,
+          ),
+          iconTheme: IconThemeData(
+            color: fontColor,
+          ),
+        ),
       ),
       // routes: {
       //   // '/': (context) => const AuthCheckerView(),
