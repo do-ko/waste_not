@@ -21,6 +21,11 @@ class SignupController extends GetxController {
 
   signUp() async {
     try {
+
+      if (!signupFormKey.currentState!.validate()){
+        return;
+      }
+
       final userCredential = await AuthRepository.instance
           .register(email.text.trim(), password.text.trim());
 
