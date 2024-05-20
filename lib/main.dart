@@ -4,19 +4,9 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/product.dart';
 import 'package:waste_not/repositories/auth.dart';
-import 'package:waste_not/views/add_product.dart';
-import 'package:waste_not/views/auth_check.dart';
-import 'package:waste_not/views/edit_account.dart';
-import 'package:waste_not/views/edit_product.dart';
-import 'package:waste_not/views/home.dart';
-import 'package:waste_not/views/login.dart';
-import 'package:waste_not/views/product.dart';
-import 'package:waste_not/views/register.dart';
-import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/theme.dart';
-
+import 'controllers/settings_controller.dart';
 import 'firebase_options.dart';
 
 Future<void> main() async {
@@ -26,8 +16,13 @@ Future<void> main() async {
 
   FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
-      .then((FirebaseApp value) => Get.put(AuthRepository()));
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      // .then((FirebaseApp value) => Get.put(AuthRepository()));
+
+  Get.put(DarkModeController(), permanent: true);
+  Get.put(NotificationsController(), permanent: true);
+
+  Get.put(AuthRepository());
 
   runApp(const WasteNotApp());
 }

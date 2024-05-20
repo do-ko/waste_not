@@ -13,3 +13,23 @@ const Color primaryBlue = Color(0xff3E5F90);
 
 // TextStyles
 const TextStyle headerStyle = TextStyle(color: textHeaderColor);
+
+
+// ThemeData lightTheme = ThemeData(
+//   primaryColor: backgroundHeaderColor,
+//   primaryColorDark: textHeaderColor
+// );
+//
+// ThemeData darkTheme = ThemeData(
+//   primarySwatch: Colors.grey,
+//   accentColor: Colors.lightBlue,
+//   scaffoldBackgroundColor: Colors.black87,
+//   textTheme: TextTheme(
+//     bodyText1: TextStyle(color: Colors.white),
+//     headline1: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+//   ),
+//   appBarTheme: AppBarTheme(
+//     color: Colors.grey[850],
+//     elevation: 4,
+//   ),
+// );

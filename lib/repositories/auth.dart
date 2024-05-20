@@ -4,10 +4,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/views/home.dart';
 import 'package:waste_not/views/login.dart';
-import 'package:waste_not/views/verify_email.dart';
+
+import '../controllers/settings_controller.dart';
 
 class AuthRepository extends GetxController {
   static AuthRepository get instance => Get.find();
+
+  DarkModeController darkModeController = Get.find();
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
@@ -23,9 +26,9 @@ class AuthRepository extends GetxController {
   screenRedirect() async {
     final user = _auth.currentUser;
     if (user != null) {
+      deviceStorage.writeIfNull('darkMode', false);
+      deviceStorage.writeIfNull('notifications', true);
       Get.offAll(() => const HomeView());
-      // Get.offAll(() => const VerifyEmailView());
-
     } else {
       Get.offAll(() => const LoginView());
     }
@@ -75,6 +78,7 @@ class AuthRepository extends GetxController {
       await _auth.signOut();
       deviceStorage.remove("username");
       deviceStorage.remove("email");
+      deviceStorage.write('darkMode', darkModeController.darkMode.value);
       Get.offAll(() => const LoginView());
     } catch (e) {
       throw "logout error";
