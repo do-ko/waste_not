@@ -21,7 +21,8 @@ Future<void> main() async {
 
   Get.put(DarkModeController(), permanent: true);
   Get.put(NotificationsController(), permanent: true);
-
+  Get.put(LanguageController(), permanent: true);
+  Get.put(NotificationsIntervalController(), permanent: true);
   Get.put(AuthRepository());
 
   runApp(const WasteNotApp());

@@ -26,5 +26,40 @@ class NotificationsController extends GetxController {
     bool? notificationsStored = deviceStorage.read<bool>('notifications');
     _notifications.value = notificationsStored ?? false;
   }
+}
 
+class LanguageController extends GetxController {
+  final deviceStorage = GetStorage();
+  final RxList<String> _languages = <String>['English', 'Polish'].obs;
+  final RxString _language = 'English'.obs;
+  RxString get language => _language;
+  List<String> get languages => _languages.toList();
+
+  @override
+  void onInit() {
+    super.onInit();
+    String? languageStored = deviceStorage.read<String>('language');
+    _language.value = languageStored ?? 'English';
+  }
+
+  void updateLanguage(String newLanguage) {
+    language.value = newLanguage;
+  }
+}
+
+class NotificationsIntervalController extends GetxController {
+  final deviceStorage = GetStorage();
+  final RxInt _notificationInterval = 3.obs;
+  RxInt get notificationInterval => _notificationInterval;
+
+  @override
+  void onInit() {
+    super.onInit();
+    int? notificationIntervalStored = deviceStorage.read<int>('notificationsInterval');
+    _notificationInterval.value = notificationIntervalStored ?? 3;
+  }
+
+  void updateInterval(int newNotificationInterval) {
+    notificationInterval.value = newNotificationInterval;
+  }
 }

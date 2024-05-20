@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/views/shared/theme.dart';
+
 import '../controllers/settings_controller.dart';
 import '../repositories/auth.dart';
 
@@ -12,8 +13,12 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     String username = GetStorage().read('username') ?? "[username]";
     String email = GetStorage().read('email') ?? "[email]";
+    List<int> intervals = [1, 3, 5];
     DarkModeController darkModeController = Get.find();
     NotificationsController notificationsController = Get.find();
+    LanguageController languageController = Get.find();
+    NotificationsIntervalController notificationsIntervalController =
+        Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +39,10 @@ class SettingsView extends StatelessWidget {
                       children: [
                         const Text(
                           "You are logged in as ",
-                          style: TextStyle(fontSize: 24, color: fontColor),
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: fontColor,
+                          ),
                         ),
                         Text(
                           username,
@@ -46,7 +54,10 @@ class SettingsView extends StatelessWidget {
                         ),
                         const Text(
                           ".",
-                          style: TextStyle(fontSize: 24, color: fontColor),
+                          style: TextStyle(
+                            fontSize: 24,
+                            color: fontColor,
+                          ),
                         ),
                       ],
                     ),
@@ -80,7 +91,10 @@ class SettingsView extends StatelessWidget {
                       children: [
                         Text(
                           "Edit Account",
-                          style: TextStyle(fontSize: 20),
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: fontColor,
+                          ),
                         ),
                         Icon(
                           Icons.chevron_right,
@@ -117,16 +131,20 @@ class SettingsView extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                         // Match InkWell's border radius with Card's
                         child: Padding(
-                          padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                          padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "Notifications",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: fontColor,
+                                ),
                               ),
                               Switch(
+                                activeTrackColor: primaryBlue,
                                 value:
                                     notificationsController.notifications.value,
                                 onChanged: (value) {
@@ -166,11 +184,15 @@ class SettingsView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
+                              const Text(
                                 "Dark Mode",
-                                style: TextStyle(fontSize: 20),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: fontColor,
+                                ),
                               ),
                               Switch(
+                                activeTrackColor: primaryBlue,
                                 value: darkModeController.darkMode.value,
                                 onChanged: (value) {
                                   darkModeController.darkMode.value =
@@ -198,19 +220,44 @@ class SettingsView extends StatelessWidget {
                       splashColor: containerColorSplash,
                       borderRadius: BorderRadius.circular(15),
                       // Match InkWell's border radius with Card's
-                      child: const Padding(
+                      child: Padding(
                         padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
+                            const Text(
                               "Language",
-                              style: TextStyle(fontSize: 20),
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: fontColor,
+                              ),
                             ),
-                            Icon(
-                              Icons.keyboard_arrow_down_sharp,
-                              size: 32,
+                            Obx(
+                              () => DropdownButton<String>(
+                                value: languageController.language.value,
+                                icon: const Icon(
+                                  Icons.keyboard_arrow_down_sharp,
+                                  size: 32,
+                                ),
+                                onChanged: (String? newValue) {
+                                  if (newValue != null) {
+                                    languageController.updateLanguage(newValue);
+                                  }
+                                },
+                                items: languageController.languages
+                                    .map((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(
+                                      value,
+                                      style: const TextStyle(
+                                        color: fontColor,
+                                      ),
+                                    ),
+                                  );
+                                }).toList(), // Ensure this is a synchronous operation
+                              ),
                             ),
                           ],
                         ),
@@ -227,69 +274,54 @@ class SettingsView extends StatelessWidget {
                           15), // Set the Card's border radius
                     ),
                     shadowColor: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {},
-                      splashColor: containerColorSplash,
-                      borderRadius: BorderRadius.circular(15),
-                      // Match InkWell's border radius with Card's
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Notification Interval",
-                              style: TextStyle(fontSize: 20),
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "Notification Interval",
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: fontColor,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "1",
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.none,
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: intervals.map((interval) {
+                              return Obx(() => InkWell(
+                                    onTap: () => notificationsIntervalController
+                                        .updateInterval(interval),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 8, horizontal: 12),
+                                      decoration: BoxDecoration(
+                                          color: notificationsIntervalController
+                                                      .notificationInterval
+                                                      .value ==
+                                                  interval
+                                              ? primaryBlue
+                                              : Colors.transparent,
+                                          borderRadius:
+                                              BorderRadius.circular(5)),
+                                      child: Text(
+                                        interval.toString(),
+                                        style: TextStyle(
+                                          color: notificationsIntervalController
+                                                      .notificationInterval
+                                                      .value ==
+                                                  interval
+                                              ? Colors.white
+                                              : fontColor,
+                                          fontSize: 20,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                Text(
-                                  "  |  ",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "3",
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  "  |  ",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "5",
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      color: Colors.black,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                  ));
+                            }).toList(),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -325,85 +357,3 @@ class SettingsView extends StatelessWidget {
     );
   }
 }
-
-// // Column(
-// // children: [
-// // Center(
-// // child: ElevatedButton(
-// // onPressed: () => AuthRepository.instance.logout(),
-// // child: const Text("Sign Out")),
-// // ),
-// // ],
-// // ),
-//
-// // @override
-// // Widget build(BuildContext context) {
-// //   return Scaffold(
-// //     appBar: AppBar(
-// //       title: Text('Settings'),
-// //       leading: BackButton(),
-// //     ),
-// //     body: ListView(
-// //       children: [
-// //         ListTile(
-// //           title: Text('You are logged in as Dominika'),
-// //           subtitle: Text('email@email.com'),
-// //         ),
-// //         ListTile(
-// //           title: Text('Edit Account'),
-// //           trailing: Icon(Icons.navigate_next),
-// //           onTap: () {
-// //             // Navigate to edit account page
-// //           },
-// //         ),
-// //         SwitchListTile(
-// //           title: Text('Notifications'), value: true, onChanged: (bool value) {  },
-// //
-// //         ),
-// //         SwitchListTile(
-// //           title: Text('Dark Mode'), value: false, onChanged: (bool value) {  },
-// //
-// //         ),
-// //         ListTile(
-// //           title: Text('Language'),
-// //           trailing: Icon(Icons.navigate_next),
-// //           onTap: () {
-// //             // Navigate to language settings page
-// //           },
-// //         ),
-// //         Padding(
-// //           padding: const EdgeInsets.all(16.0),
-// //           child: Text('Notification interval'),
-// //         ),
-// //         RadioListTile<int>(
-// //           title: Text('1'),
-// //           value: 1, groupValue: null, onChanged: (int? value) {  },
-// //
-// //         ),
-// //         RadioListTile<int>(
-// //           title: Text('3'),
-// //           value: 3, groupValue: null, onChanged: (int? value) {  },
-// //
-// //         ),
-// //         RadioListTile<int>(
-// //           title: Text('5'),
-// //           value: 5, groupValue: null, onChanged: (int? value) {  },
-// //
-// //         ),
-// //         Padding(
-// //           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-// //           child: ElevatedButton(
-// //             onPressed: () {
-// //               // Handle logout
-// //             },
-// //             child: Text('Logout'),
-// //             style: ElevatedButton.styleFrom(
-// //               foregroundColor: Colors.white, backgroundColor: Colors.blue,
-// //             ),
-// //           ),
-// //         ),
-// //       ],
-// //     ),
-// //   );
-// // }
-// }

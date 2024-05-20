@@ -11,6 +11,9 @@ class AuthRepository extends GetxController {
   static AuthRepository get instance => Get.find();
 
   DarkModeController darkModeController = Get.find();
+  NotificationsController notificationsController = Get.find();
+  LanguageController languageController = Get.find();
+  NotificationsIntervalController notificationsIntervalController = Get.find();
 
   final deviceStorage = GetStorage();
   final _auth = FirebaseAuth.instance;
@@ -28,6 +31,9 @@ class AuthRepository extends GetxController {
     if (user != null) {
       deviceStorage.writeIfNull('darkMode', false);
       deviceStorage.writeIfNull('notifications', true);
+      deviceStorage.writeIfNull('language', 'English');
+      deviceStorage.writeIfNull('notificationsInterval', 3);
+
       Get.offAll(() => const HomeView());
     } else {
       Get.offAll(() => const LoginView());
@@ -79,6 +85,9 @@ class AuthRepository extends GetxController {
       deviceStorage.remove("username");
       deviceStorage.remove("email");
       deviceStorage.write('darkMode', darkModeController.darkMode.value);
+      deviceStorage.write('notifications', notificationsController.notifications.value);
+      deviceStorage.write('language', languageController.language.value);
+      deviceStorage.write('notificationsInterval', notificationsIntervalController.notificationInterval.value);
       Get.offAll(() => const LoginView());
     } catch (e) {
       throw "logout error";
