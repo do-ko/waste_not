@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/settings_controller.dart';
@@ -79,7 +80,7 @@ class SettingsView extends StatelessWidget {
                 ),
                 shadowColor: Colors.transparent,
                 child: InkWell(
-                  onTap: () {},
+                  onTap: () => Get.to(const EditAccountView()),
                   splashColor: containerColorSplash,
                   borderRadius: BorderRadius.circular(15),
                   // Match InkWell's border radius with Card's
