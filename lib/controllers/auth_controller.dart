@@ -95,6 +95,23 @@ class AuthController extends GetxController {
       throw "logout error";
     }
   }
+
+  Future<void> changeEmail(String newEmail) async {
+    try {
+      await authUser!.verifyBeforeUpdateEmail(newEmail);
+    }catch (e) {
+      print(e.toString());
+      throw "Email change failed.";
+    }
+  }
+
+  Future<void> changePassword(String newPassword) async {
+    try {
+      await authUser!.updatePassword(newPassword);
+    }catch (e) {
+      throw "Password change failed.";
+    }
+  }
 }
 
 class AuthException implements Exception {

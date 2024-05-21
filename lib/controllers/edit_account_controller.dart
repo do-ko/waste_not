@@ -5,6 +5,7 @@ import 'package:waste_not/controllers/user_controller.dart';
 import 'package:waste_not/controllers/user_firebase_controller.dart';
 
 import '../models/user.dart';
+import 'auth_controller.dart';
 
 class EditAccountController extends GetxController {
   static EditAccountController get instance => Get.find();
@@ -13,9 +14,12 @@ class EditAccountController extends GetxController {
   final TextEditingController usernameTextController = TextEditingController();
   final TextEditingController oldEmailTextController = TextEditingController();
   final TextEditingController newEmailTextController = TextEditingController();
-
+  final TextEditingController oldPasswordTextController = TextEditingController();
+  final TextEditingController newPasswordTextController = TextEditingController();
+  final TextEditingController newPasswordRepeatTextController = TextEditingController();
   GlobalKey<FormState> editUsernameFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editEmailFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> editPasswordFormKey = GlobalKey<FormState>();
 
   editUsername() async {
     try {
@@ -59,10 +63,11 @@ class EditAccountController extends GetxController {
         return;
       }
 
-      Map<String, dynamic> emailJson = {
-        'email': newEmailTextController.text.trim()
-      };
-      await userFirebaseController.updateSingleField(emailJson);
+      // Map<String, dynamic> emailJson = {
+      //   'email': newEmailTextController.text.trim()
+      // };
+      // await userFirebaseController.updateSingleField(emailJson);
+      await AuthController.instance.changeEmail(newEmailTextController.text.trim());
 
       UserModel updatedUser = userController.user.value
           .copyWith(email: newEmailTextController.text.trim());
@@ -71,7 +76,41 @@ class EditAccountController extends GetxController {
       oldEmailTextController.text = '';
       newEmailTextController.text = '';
       Get.back();
-      Get.snackbar("Success", "Email was changed", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Success", "The confirmation request has been sent to your email.", snackPosition: SnackPosition.BOTTOM);
+    } catch (e) {
+      Get.back();
+      Get.snackbar("Error", "Something went wrong: $e", snackPosition: SnackPosition.BOTTOM);
+    }
+  }
+
+  editPassword () async {
+    try {
+      Get.dialog(
+        const Center(child: CircularProgressIndicator()),
+        barrierDismissible: false, // User cannot dismiss the dialog by tapping outside
+      );
+
+      if (!editPasswordFormKey.currentState!.validate()) {
+        Get.back();
+        return;
+      }
+
+      // Map<String, dynamic> passwordJson = {
+      //   'password': newPasswordTextController.text.trim()
+      // };
+      // await userFirebaseController.updateSingleField(passwordJson);
+      //
+      // UserModel updatedUser = userController.user.value
+      //     .copyWith(email: newEmailTextController.text.trim());
+      // userController.user.value = updatedUser;
+      await AuthController.instance.changePassword(newPasswordTextController.text.trim());
+
+
+      oldPasswordTextController.text = '';
+      newPasswordTextController.text = '';
+      newPasswordRepeatTextController.text = '';
+      Get.back();
+      Get.snackbar("Success", "Password was changed", snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       Get.back();
       Get.snackbar("Error", "Something went wrong: $e", snackPosition: SnackPosition.BOTTOM);
