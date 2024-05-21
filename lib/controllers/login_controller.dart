@@ -2,11 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/repositories/auth.dart';
 
-import '../models/user.dart';
-import '../repositories/user.dart';
 import '../views/home.dart';
+import 'auth_controller.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -18,7 +16,6 @@ class LoginController extends GetxController {
   final hidePassword = true.obs;
   final rememberMe = false.obs;
 
-
   @override
   void onInit() {
     super.onInit();
@@ -27,17 +24,16 @@ class LoginController extends GetxController {
       print(deviceStorage.read("REMEMBER_ME_EMAIL"));
       print(deviceStorage.read("REMEMBER_ME_PASSWORD"));
     }
-    if (deviceStorage.read("REMEMBER_ME_EMAIL") != null){
+    if (deviceStorage.read("REMEMBER_ME_EMAIL") != null) {
       email.text = deviceStorage.read("REMEMBER_ME_EMAIL");
     }
-    if (deviceStorage.read("REMEMBER_ME_PASSWORD") != null){
+    if (deviceStorage.read("REMEMBER_ME_PASSWORD") != null) {
       password.text = deviceStorage.read("REMEMBER_ME_PASSWORD");
     }
-
   }
 
   Future<void> signIn() async {
-    if (!loginFormKey.currentState!.validate()){
+    if (!loginFormKey.currentState!.validate()) {
       return;
     }
 
@@ -49,14 +45,14 @@ class LoginController extends GetxController {
       deviceStorage.remove("REMEMBER_ME_PASSWORD");
     }
 
-    final userCredentials = await AuthRepository.instance
+    await AuthController.instance
         .login(email.text.trim(), password.text.trim());
 
-    final userRepository = Get.put(UserRepository());
-    UserModel user = await userRepository.getUser(userCredentials.user!.uid);
-    
-    deviceStorage.write("username", user.username);
-    deviceStorage.write("email", user.email);
+    // final userRepository = Get.put(UserFirebaseController());
+    // UserModel user = await userRepository.getUser(userCredentials.user!.uid);
+    //
+    // deviceStorage.write("username", user.username);
+    // deviceStorage.write("email", user.email);
 
     Get.offAll(() => const HomeView());
   }

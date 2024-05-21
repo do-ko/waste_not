@@ -7,8 +7,8 @@ import 'package:waste_not/views/login.dart';
 
 import '../controllers/settings_controller.dart';
 
-class AuthRepository extends GetxController {
-  static AuthRepository get instance => Get.find();
+class AuthController extends GetxController {
+  static AuthController get instance => Get.find();
 
   DarkModeController darkModeController = Get.find();
   NotificationsController notificationsController = Get.find();
@@ -82,17 +82,18 @@ class AuthRepository extends GetxController {
   Future<void> logout() async {
     try {
       await _auth.signOut();
-      deviceStorage.remove("username");
-      deviceStorage.remove("email");
+      // deviceStorage.remove("username");
+      // deviceStorage.remove("email");
       deviceStorage.write('darkMode', darkModeController.darkMode.value);
-      deviceStorage.write('notifications', notificationsController.notifications.value);
+      deviceStorage.write(
+          'notifications', notificationsController.notifications.value);
       deviceStorage.write('language', languageController.language.value);
-      deviceStorage.write('notificationsInterval', notificationsIntervalController.notificationInterval.value);
+      deviceStorage.write('notificationsInterval',
+          notificationsIntervalController.notificationInterval.value);
       Get.offAll(() => const LoginView());
     } catch (e) {
       throw "logout error";
     }
-
   }
 }
 

@@ -1,12 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/repositories/auth.dart';
-import 'package:waste_not/repositories/user.dart';
+import 'package:waste_not/controllers/user_firebase_controller.dart';
 import 'package:waste_not/views/home.dart';
 
 import '../models/user.dart';
+import 'auth_controller.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();
@@ -18,15 +17,13 @@ class SignupController extends GetxController {
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
   final deviceStorage = GetStorage();
 
-
   signUp() async {
     try {
-
-      if (!signupFormKey.currentState!.validate()){
+      if (!signupFormKey.currentState!.validate()) {
         return;
       }
 
-      final userCredential = await AuthRepository.instance
+      final userCredential = await AuthController.instance
           .register(email.text.trim(), password.text.trim());
 
       final userModel = UserModel(
@@ -34,13 +31,12 @@ class SignupController extends GetxController {
           email: email.text.trim(),
           username: username.text.trim());
 
-      final userRepository = Get.put(UserRepository());
+      final userRepository = Get.put(UserFirebaseController());
       userRepository.saveUser(userModel);
 
-      deviceStorage.write("username", userModel.username);
-      deviceStorage.write("email", userModel.email);
       // deviceStorage.write("username", userModel.username);
-
+      // deviceStorage.write("email", userModel.email);
+      // deviceStorage.write("username", userModel.username);
 
       Get.offAll(() => const HomeView());
     } catch (e) {
@@ -48,4 +44,3 @@ class SignupController extends GetxController {
     } finally {}
   }
 }
-

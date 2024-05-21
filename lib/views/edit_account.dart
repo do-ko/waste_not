@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:waste_not/controllers/edit_account_controller.dart';
 import 'package:waste_not/views/shared/theme.dart';
 import 'package:waste_not/views/shared/validator.dart';
 
@@ -7,11 +9,14 @@ class EditAccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final EditAccountController editAccountController =
+        Get.put(EditAccountController());
+
     return Scaffold(
         appBar: AppBar(title: const Text('Edit account')),
         body: SingleChildScrollView(
             child: Padding(
-          padding: EdgeInsets.fromLTRB(24, 48, 24, 24),
+          padding: EdgeInsets.fromLTRB(24, 48, 24, 48),
           child: Column(
             children: [
               Center(
@@ -28,7 +33,7 @@ class EditAccountView extends StatelessWidget {
                       height: 8,
                     ),
                     TextFormField(
-                      // controller: controller.password,
+                      controller: editAccountController.usernameTextController,
                       validator: (value) =>
                           CustomValidator.validateEmptyText("Username", value),
                       decoration: const InputDecoration(
@@ -46,7 +51,7 @@ class EditAccountView extends StatelessWidget {
                       height: 8,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {editAccountController.editUsername();},
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: primaryBlue,
@@ -59,7 +64,6 @@ class EditAccountView extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(
                       height: 48,
                     ),
@@ -123,8 +127,6 @@ class EditAccountView extends StatelessWidget {
                         ),
                       ),
                     ),
-
-
                     const SizedBox(
                       height: 48,
                     ),

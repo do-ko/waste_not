@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:waste_not/controllers/auth_controller.dart';
 import 'package:waste_not/models/user.dart';
-import 'package:waste_not/repositories/auth.dart';
 
-class UserRepository extends GetxController {
-  static UserRepository get instance => Get.find();
+class UserFirebaseController extends GetxController {
+  static UserFirebaseController get instance => Get.find();
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
+
+  // Repository methods to communicate with db
   Future<void> saveUser(UserModel user) async {
     try {
       await db.collection("Users").doc(user.id).set(user.toJson());
@@ -15,11 +17,11 @@ class UserRepository extends GetxController {
     }
   }
 
-  Future<UserModel> getUser(String uid) async {
+  Future<UserModel> getUser() async {
     try {
       final user = await db
           .collection("Users")
-          .doc(AuthRepository.instance.authUser?.uid)
+          .doc(AuthController.instance.authUser?.uid)
           .get();
       return UserModel.fromMap(user.data() as Map<String, dynamic>);
     } on FirebaseException catch (e) {
@@ -37,7 +39,10 @@ class UserRepository extends GetxController {
 
   Future<void> updateSingleField(Map<String, dynamic> json) async {
     try {
-      await db.collection("Users").doc(AuthRepository.instance.authUser?.uid).update(json);
+      await db
+          .collection("Users")
+          .doc(AuthController.instance.authUser?.uid)
+          .update(json);
     } on FirebaseException catch (e) {
       throw UpdateUserException(e.code).message;
     }
@@ -47,7 +52,7 @@ class UserRepository extends GetxController {
     try {
       await db.collection("Users").doc(userId).delete();
     } on FirebaseException catch (e) {
-      throw DeleteUserException(e.code).message;
+      throw UpdateUserException(e.code).message;
     }
   }
 }

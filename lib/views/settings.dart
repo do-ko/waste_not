@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:waste_not/controllers/auth_controller.dart';
+import 'package:waste_not/controllers/user_controller.dart';
 import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/settings_controller.dart';
-import '../repositories/auth.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -20,6 +21,7 @@ class SettingsView extends StatelessWidget {
     LanguageController languageController = Get.find();
     NotificationsIntervalController notificationsIntervalController =
         Get.find();
+    UserController userController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -45,12 +47,14 @@ class SettingsView extends StatelessWidget {
                             color: fontColor,
                           ),
                         ),
-                        Text(
-                          username,
-                          style: const TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: fontColor,
+                        Obx(
+                          () => Text(
+                            userController.user.value.username,
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: fontColor,
+                            ),
                           ),
                         ),
                         const Text(
@@ -62,12 +66,14 @@ class SettingsView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Text(
-                      email,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          color: fontColorLight),
+                    Obx(
+                      () => Text(
+                        userController.user.value.email,
+                        style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: fontColorLight),
+                      ),
                     ),
                   ],
                 ),
@@ -337,7 +343,7 @@ class SettingsView extends StatelessWidget {
               ),
               Center(
                 child: ElevatedButton(
-                  onPressed: () => AuthRepository.instance.logout(),
+                  onPressed: () => AuthController.instance.logout(),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: primaryBlue,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/controllers/settings_controller.dart';
+import 'package:waste_not/controllers/user_controller.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
@@ -15,6 +16,7 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final UserController userController = Get.put(UserController());
     HomeController homeController = Get.put(HomeController());
     ProductsController productsController = Get.put(ProductsController());
     DarkModeController darkModeController = Get.find();
@@ -27,7 +29,7 @@ class HomeView extends StatelessWidget {
           preferredSize: const Size.fromHeight(56),
           child: Obx(
             () => AppBar(
-              title: Text('Hello, $username!'),
+              title: Text('Hello, ${userController.user.value.username}!'),
               centerTitle: false,
               backgroundColor: darkModeController.darkMode.value
                   ? Colors.red
