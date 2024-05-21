@@ -32,26 +32,32 @@ class EditAccountView extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    TextFormField(
-                      controller: editAccountController.usernameTextController,
-                      validator: (value) =>
-                          CustomValidator.validateEmptyText("Username", value),
-                      decoration: const InputDecoration(
-                        labelText: "Username",
-                        labelStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: fontColorBlue),
-                        filled: true,
-                        fillColor: containerColor,
-                        enabledBorder: InputBorder.none,
+                    Form(
+                      key: editAccountController.editUsernameFormKey,
+                      child: TextFormField(
+                        controller:
+                            editAccountController.usernameTextController,
+                        validator: (value) => CustomValidator.validateEmptyText(
+                            "Username", value),
+                        decoration: const InputDecoration(
+                          labelText: "Username",
+                          labelStyle: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                              color: fontColorBlue),
+                          filled: true,
+                          fillColor: containerColor,
+                          enabledBorder: InputBorder.none,
+                        ),
                       ),
                     ),
                     const SizedBox(
                       height: 8,
                     ),
                     ElevatedButton(
-                      onPressed: () {editAccountController.editUsername();},
+                      onPressed: () {
+                        editAccountController.editUsername();
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: primaryBlue,
