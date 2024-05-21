@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/views/product.dart';
 
-import '../../controllers/product.dart';
+import '../../controllers/product_controller.dart';
 
 class ProductTile extends StatelessWidget {
   final ProductController productController;

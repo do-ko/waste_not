@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/product.dart';
+import 'package:waste_not/controllers/product_controller.dart';
 
 class ProductsController extends GetxController {
   RxList<ProductController> products = (<ProductController>[]).obs;

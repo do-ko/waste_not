@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:waste_not/controllers/product.dart';
+import 'package:waste_not/controllers/product_controller.dart';
 
 class ProductIcon extends StatelessWidget {
   final ProductController productController;
