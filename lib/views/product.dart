@@ -1,3 +1,4 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -34,15 +35,24 @@ class ProductView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.maxFinite,
-              height: 200,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: AssetImage('lib/assets/cheese_temp.jpg'))),
-            ),
             //TODO add a category icon (round above image)
+            FutureBuilder<String>(future: getDownloadURL(product.imageLink), builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+                return Container(
+                  width: double.maxFinite,
+                  height: 200,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(snapshot.data!),
+                    )
+                  ),
+                );
+              } else if (snapshot.hasError){
+                return const Text('Error loading image');
+              }
+              return const CircularProgressIndicator();
+            }),
             const SizedBox(height: 20),
             _buildDetailCard('Product Name', product.name),
             _buildDetailTimeCard(
@@ -191,5 +201,17 @@ class ProductView extends StatelessWidget {
                 ],
               ),
             )));
+  }
+}
+
+Future<String> getDownloadURL(String gsUrl) async {
+  try {
+    final ref = FirebaseStorage.instance.refFromURL(gsUrl);
+    final url = await ref.getDownloadURL();
+    print(url);
+    return url;
+  } catch (e) {
+    print('Error obtaining download URL: $e');
+    return '';
   }
 }

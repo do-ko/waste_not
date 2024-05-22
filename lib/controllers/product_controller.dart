@@ -12,21 +12,6 @@ class ProductController extends GetxController {
     fetchProductsForUser();
   }
 
-  // ProductsController() {
-  //   String userId = GetStorage().read("userId") ?? "0";
-  //
-  //   // products = getProducts(userId).obs;
-  // }
-  //
-  // List<ProductController> getProducts(String userId) {
-  //   List<String> productIds = []; // TODO get from firebase
-  //
-  //   // if (kDebugMode) {
-  //   //   productIds = ["1", "2", "3"];
-  //   // }
-  //
-  //   return productIds.map((productId) => getProduct(productId)).toList();
-  // }
 
   Future<void> fetchProductsForUser() async {
     String? currentUserId = AuthController.instance.authUser?.uid;
@@ -53,13 +38,7 @@ class ProductController extends GetxController {
             .toList();
         products.assignAll(productsList);
       }
-      // print(snapshot.docs);
-      // List<ProductModel> productsList = snapshot.docs
-      //     .map((doc) => ProductModel.fromMap(doc.data() as Map<String, dynamic>))
-      //     .toList();
 
-      // print(productsList);
-      // products.assignAll(productsList);
     } catch (e) {
       print('Failed to fetch products: $e');
     }
