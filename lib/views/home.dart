@@ -69,13 +69,31 @@ class HomeView extends StatelessWidget {
         //     )
         //   ],
         // ),
-        body: Padding(
-          padding: EdgeInsets.fromLTRB(25, 45, 25, 0),
-          child: SizedBox(
-              child: Column(children: [
-                ProductList(),
-              ])),
+        body: Container(
+          padding: EdgeInsets.only(top: 20),
+          margin: EdgeInsets.only(top: 10),
+          decoration: BoxDecoration(
+            color: fridgeColor,
+            borderRadius: BorderRadius.circular(30),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Colors.grey.withOpacity(0.5),
+            //     spreadRadius: 5,
+            //     blurRadius: 7,
+            //     offset: Offset(0, 3), // changes position of shadow
+            //   ),
+            // ],
+          ),
+          child: ProductList(),
         ),
+
+        // Padding(
+        //   padding: EdgeInsets.fromLTRB(25, 45, 25, 0),
+        //   child: SizedBox(
+        //       child: Column(children: [
+        //         ProductList(),
+        //       ])),
+        // ),
         bottomNavigationBar: NavigationBar(destinations: [
           Obx(() => IconButton(
               icon: const Icon(Icons.delete_rounded),
