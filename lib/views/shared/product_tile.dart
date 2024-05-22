@@ -1,41 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/home.dart';
+import 'package:waste_not/models/product.dart';
 import 'package:waste_not/views/product.dart';
 
 import '../../controllers/product_controller.dart';
+import '../../controllers/product_controller_old.dart';
 
 class ProductTile extends StatelessWidget {
-  final ProductController productController;
-  final HomeController homeController;
+  int productIndex;
+  ProductModel product;
+  ProductTile({super.key, required this.productIndex, required this.product});
 
-  const ProductTile(
-      {super.key,
-      required this.homeController,
-      required this.productController});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(productController);
-    Get.put(homeController);
-
+    final HomeController homeController = Get.find();
+    final ProductController productController = Get.find();
+    
     return Obx(
       () => ListTile(
-          title: Text(productController.product.value?.name ?? "[Name]"),
-          subtitle: Text(productController.product.value?.category.toString() ??
+          title: Text(product.name ?? "[Name]"),
+          subtitle: Text(product.category.toString() ??
               "[Category]"), // TODO: product category name
           leading: Icon(homeController.markedProducts
-                  .contains(productController.productId)
+                  .contains(product.productId)
               ? Icons.check_circle_rounded
               : Icons.add), // TODO: get the right icon
           trailing: Text(
-              "expires in ${productController.product.value?.expirationDate ?? "#"} days"), // TODO: expiration date
+              "expires in ${product.expirationDate ?? "#"} days"), // TODO: expiration date
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => ProductView(
-                    productController: productController,
+                    product: product,
                   ))),
           onLongPress: () {
-            homeController.switchMarkedProduct(productController.productId);
+            homeController.switchMarkedProduct(product.productId);
           }),
     );
   }

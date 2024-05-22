@@ -1,24 +1,27 @@
-class Product {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class ProductModel {
+  String productId;
   String name;
-  int category;
+  String category;
   String comment;
   DateTime expirationDate;
   String imageLink;
   String owner;
 
-  Product({
-    required this.name,
-    required this.category, 
-    required this.comment,
-    required this.expirationDate,
-    required this.imageLink,
-    required this.owner
-  });
-
+  ProductModel(
+      {this.productId = '',
+      required this.name,
+      required this.category,
+      required this.comment,
+      required this.expirationDate,
+      required this.imageLink,
+      required this.owner});
 
   // Convert a Product instance to a Map.
   Map<String, dynamic> toJson() {
     return {
+      'productId': productId,
       'name': name,
       'category': category,
       'comment': comment,
@@ -29,14 +32,15 @@ class Product {
   }
 
   // Construct a Product from a map.
-  factory Product.fromMap(Map<String, dynamic> map) {
-    return Product(
+  factory ProductModel.fromMap(Map<String, dynamic> map) {
+    return ProductModel(
+      productId: map['productId'],
       name: map['name'],
-      category: map['category'],
+      category: map['category'] is DocumentReference ? map['category'].id : map['category'],
       comment: map['comment'],
-      expirationDate: DateTime.parse(map['expiration_date']),
+      expirationDate: (map['expiration_date'] as Timestamp).toDate(),
       imageLink: map['image_link'],
-      owner: map['owner'],
+      owner: map['owner'] is DocumentReference ? map['owner'].id : map['owner'],
     );
   }
 }

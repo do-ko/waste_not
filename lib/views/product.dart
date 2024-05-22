@@ -2,20 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:waste_not/controllers/product_controller.dart';
+import 'package:waste_not/controllers/product_controller_old.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
+import '../controllers/product_controller.dart';
 import '../models/product.dart';
 
 class ProductView extends StatelessWidget {
-  final ProductController productController;
+  ProductModel product;
+  ProductView({super.key, required this.product});
 
-  const ProductView({super.key, required this.productController});
+  // final ProductController productController;
 
   @override
   Widget build(BuildContext context) {
-    Product? product = productController.product.value;
+    final ProductController productController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -41,17 +43,17 @@ class ProductView extends StatelessWidget {
             //TODO add a category icon (round above image)
             const SizedBox(height: 20),
             _buildDetailCard(
-                'Product Name', productController.product.value!.name),
+                'Product Name', product.name),
             _buildDetailTimeCard(
                 'Expiration Date',
                 DateFormat('MM/dd/yyyy')
-                    .format(productController.product.value!.expirationDate),
+                    .format(product.expirationDate),
                 DateTime.now()
-                    .difference(productController.product.value!.expirationDate)
+                    .difference(product.expirationDate)
                     .inDays
                     .toString()),
             _buildDetailCard('Category',
-                productController.product.value!.category.toString()),
+                product.category.toString()),
             //TODO get category name and not id
             const SizedBox(
               height: 20,

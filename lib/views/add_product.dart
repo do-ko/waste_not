@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:google_ml_kit/google_ml_kit.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:waste_not/controllers/product_controller.dart';
+import 'package:waste_not/controllers/product_controller_old.dart';
 import 'package:waste_not/views/product.dart';
 
 class AddProductView extends StatefulWidget {
@@ -94,9 +94,9 @@ class _AddProductViewState extends State<AddProductView> {
               onPressed: () {
                 // TODO: create product in products
                 Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => ProductView(
-                        productController: ProductController(productId: "0"))));
+              //   Navigator.of(context).push(MaterialPageRoute(
+              //       builder: (context) => ProductView(
+              //           productController: ProductController(productId: "0"))));
               })
         ],
       ),
