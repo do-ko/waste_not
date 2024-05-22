@@ -70,11 +70,14 @@ class HomeView extends StatelessWidget {
         //   ],
         // ),
         body: Container(
-          padding: EdgeInsets.only(top: 20),
+          // padding: EdgeInsets.only(top: 20),
           margin: EdgeInsets.only(top: 10),
           decoration: BoxDecoration(
             color: fridgeColor,
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20), // 20 is the radius of the curve
+              topRight: Radius.circular(20),
+            ),
             // boxShadow: [
             //   BoxShadow(
             //     color: Colors.grey.withOpacity(0.5),

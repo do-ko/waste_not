@@ -40,36 +40,40 @@ class ProductTile extends StatelessWidget {
     //   ),
     // );
     return Obx(() => InkWell(
-      onTap: () => Get.to( ProductView(product: product)),
-      onLongPress: () => homeController.switchMarkedProduct(product.productId),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        margin: EdgeInsets.only(left: 25, right: 25),
-        decoration: BoxDecoration(color: Colors.white),
-        child: Row(
-          children: [
-            Icon(homeController.markedProducts.contains(product.productId)
-                ? Icons.check_circle_rounded
-                : Icons.add),
-            SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(product.category,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
-                  Text(product.name,
-                      style: TextStyle(color: Colors.grey[700])),
-                ],
-              ),
+          onTap: () => Get.to(ProductView(product: product)),
+          onLongPress: () =>
+              homeController.switchMarkedProduct(product.productId),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            // margin: EdgeInsets.only(left: 25, right: 25),
+            decoration: BoxDecoration(
+              color: Colors.red,
+              // borderRadius: BorderRadius.circular(20),
             ),
-            Text(
-                'expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString()} days'),
-            SizedBox(width: 10),
-            // Icon(Icons.check_circle_outline, color: Colors.green), // Checkbox-like icon
-          ],
-        ),
-      ),
-    ));
+            child: Row(
+              children: [
+                Icon(homeController.markedProducts.contains(product.productId)
+                    ? Icons.check_circle_rounded
+                    : Icons.add),
+                SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(product.category,
+                          style: TextStyle(fontWeight: FontWeight.bold)),
+                      Text(product.name,
+                          style: TextStyle(color: Colors.grey[700])),
+                    ],
+                  ),
+                ),
+                Text(
+                    'expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString()} days'),
+                SizedBox(width: 10),
+                // Icon(Icons.check_circle_outline, color: Colors.green), // Checkbox-like icon
+              ],
+            ),
+          ),
+        ));
   }
 }

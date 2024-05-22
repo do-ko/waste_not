@@ -4,7 +4,6 @@ import 'package:waste_not/views/shared/product_tile.dart';
 
 import '../../controllers/home.dart';
 import '../../controllers/product_controller.dart';
-import '../../models/product.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
@@ -25,10 +24,20 @@ class ProductList extends StatelessWidget {
       if (productController.products.isEmpty) {
         return const Center(child: Text("No products found"));
       }
-      return Column(
-          children: productController.products
-              .map((product) => ProductTile(product: product))
-              .toList());
+      return Container(
+          height: double.maxFinite,
+          margin: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(30)),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: SingleChildScrollView(
+              child: Column(
+                  children: productController.products
+                      .map((product) => ProductTile(product: product))
+                      .toList()),
+            ),
+          ));
     });
 
     // return Obx(() {
