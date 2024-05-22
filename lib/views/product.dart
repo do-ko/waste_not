@@ -1,10 +1,8 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:waste_not/controllers/product_controller_old.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
@@ -36,37 +34,116 @@ class ProductView extends StatelessWidget {
         child: Column(
           children: [
             //TODO add a category icon (round above image)
-            FutureBuilder<String>(
-                future: getDownloadURL(product.imageLink),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.done &&
-                      snapshot.hasData) {
-                    return Container(
-                      width: double.maxFinite,
-                      height: 200,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(snapshot.data!),
-                      )),
-                    );
-                  } else if (snapshot.hasError) {
-                    return Container(
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                FutureBuilder<String>(
+                    future: getDownloadURL(product.imageLink),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done &&
+                          snapshot.hasData) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(snapshot.data!),
+                          )),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Container(
+                            width: double.maxFinite,
+                            height: 200,
+                            alignment: Alignment.center,
+                            color: Colors.white,
+                            child: const Text('Error loading image'));
+                      }
+                      return Container(
                         width: double.maxFinite,
                         height: 200,
                         alignment: Alignment.center,
                         color: Colors.white,
-                        child: const Text('Error loading image'));
-                  }
-                  return Container(
-                    width: double.maxFinite,
-                    height: 200,
-                    alignment: Alignment.center,
-                    color: Colors.white,
-                    child: CircularProgressIndicator(),
-                  );
-                }),
-            const SizedBox(height: 20),
+                        child: const CircularProgressIndicator(),
+                      );
+                    }),
+                Positioned(
+                  bottom: -40,
+                  right: 30,
+                  child: Container(
+                    width: 80,
+                    height: 80,
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      color: primaryBlue, // Color of the circle container
+                      shape: BoxShape.circle, // Makes the container circular
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3), // Shadow position
+                        ),
+                      ],
+                    ),
+                    // child: Icon(
+                    //   Icons.delete, // Icon inside the circle
+                    //   color: Colors.white,
+                    //   size: 40,
+                    // ),
+
+                    child: SvgPicture.asset(
+                      'lib/assets/ready_meals.svg',
+                      width: 50,
+                      height: 50,
+                      fit: BoxFit.contain
+                    ),
+
+                    // child: Container(
+                    //   width: 10,
+                    //   height: 10,
+                    //   child: SvgPicture.asset(
+                    //     'lib/assets/ready_meals.svg',
+                    //     fit: BoxFit.contain, // This will maintain the SVG's aspect ratio
+                    //   ),
+                    // ),
+
+                    // child: Image.asset('lib/assets/ready_meals.jpg'),
+                  ),
+                ),
+              ],
+            ),
+            // FutureBuilder<String>(
+            //     future: getDownloadURL(product.imageLink),
+            //     builder: (context, snapshot) {
+            //       if (snapshot.connectionState == ConnectionState.done &&
+            //           snapshot.hasData) {
+            //         return Container(
+            //           width: double.maxFinite,
+            //           height: 200,
+            //           decoration: BoxDecoration(
+            //               image: DecorationImage(
+            //             fit: BoxFit.cover,
+            //             image: NetworkImage(snapshot.data!),
+            //           )),
+            //         );
+            //       } else if (snapshot.hasError) {
+            //         return Container(
+            //             width: double.maxFinite,
+            //             height: 200,
+            //             alignment: Alignment.center,
+            //             color: Colors.white,
+            //             child: const Text('Error loading image'));
+            //       }
+            //       return Container(
+            //         width: double.maxFinite,
+            //         height: 200,
+            //         alignment: Alignment.center,
+            //         color: Colors.white,
+            //         child: const CircularProgressIndicator(),
+            //       );
+            //     }),
+            const SizedBox(height: 60),
             _buildDetailCard('Product Name', product.name),
             _buildDetailTimeCard(
                 'Expiration Date',
