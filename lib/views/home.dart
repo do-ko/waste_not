@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/controllers/settings_controller.dart';
 import 'package:waste_not/controllers/user_controller.dart';
@@ -20,6 +21,7 @@ class HomeView extends StatelessWidget {
     HomeController homeController = Get.put(HomeController());
     ProductController productController = Get.put(ProductController());
     DarkModeController darkModeController = Get.find();
+    Get.put(CategoryController());
 
     String username = GetStorage().read('username') ??
         "[username]"; // TODO where is username actually?
@@ -78,14 +80,6 @@ class HomeView extends StatelessWidget {
               topLeft: Radius.circular(20), // 20 is the radius of the curve
               topRight: Radius.circular(20),
             ),
-            // boxShadow: [
-            //   BoxShadow(
-            //     color: Colors.grey.withOpacity(0.5),
-            //     spreadRadius: 5,
-            //     blurRadius: 7,
-            //     offset: Offset(0, 3), // changes position of shadow
-            //   ),
-            // ],
           ),
           child: ProductList(),
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/models/product.dart';
 
@@ -14,7 +15,8 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
-    final ProductController productController = Get.find();
+    final CategoryController categoryController = Get.find();
+    // final ProductController productController = Get.find();
 
     // return Obx(
     //   () => ListTile(
@@ -47,8 +49,7 @@ class ProductTile extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             // margin: EdgeInsets.only(left: 25, right: 25),
             decoration: BoxDecoration(
-              color: Colors.red,
-              // borderRadius: BorderRadius.circular(20),
+              color: Colors.white,
             ),
             child: Row(
               children: [
@@ -60,7 +61,7 @@ class ProductTile extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(product.category,
+                      Text(categoryController.getCategoryById(product.category)!.name,
                           style: TextStyle(fontWeight: FontWeight.bold)),
                       Text(product.name,
                           style: TextStyle(color: Colors.grey[700])),

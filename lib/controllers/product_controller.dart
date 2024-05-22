@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/auth_controller.dart';
+import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/models/product.dart';
 
 class ProductController extends GetxController {

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:waste_not/controllers/category_controller.dart';
+import 'package:waste_not/models/category.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
@@ -19,6 +21,8 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ProductController productController = Get.find();
+    final CategoryController categoryController = Get.find();
+    final CategoryModel? categoryModel = categoryController.getCategoryById(product.category);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,63 +90,16 @@ class ProductView extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // child: Icon(
-                    //   Icons.delete, // Icon inside the circle
-                    //   color: Colors.white,
-                    //   size: 40,
-                    // ),
-
                     child: SvgPicture.asset(
-                      'lib/assets/ready_meals.svg',
+                      categoryModel!.iconPath,
                       width: 50,
                       height: 50,
                       fit: BoxFit.contain
                     ),
-
-                    // child: Container(
-                    //   width: 10,
-                    //   height: 10,
-                    //   child: SvgPicture.asset(
-                    //     'lib/assets/ready_meals.svg',
-                    //     fit: BoxFit.contain, // This will maintain the SVG's aspect ratio
-                    //   ),
-                    // ),
-
-                    // child: Image.asset('lib/assets/ready_meals.jpg'),
                   ),
                 ),
               ],
             ),
-            // FutureBuilder<String>(
-            //     future: getDownloadURL(product.imageLink),
-            //     builder: (context, snapshot) {
-            //       if (snapshot.connectionState == ConnectionState.done &&
-            //           snapshot.hasData) {
-            //         return Container(
-            //           width: double.maxFinite,
-            //           height: 200,
-            //           decoration: BoxDecoration(
-            //               image: DecorationImage(
-            //             fit: BoxFit.cover,
-            //             image: NetworkImage(snapshot.data!),
-            //           )),
-            //         );
-            //       } else if (snapshot.hasError) {
-            //         return Container(
-            //             width: double.maxFinite,
-            //             height: 200,
-            //             alignment: Alignment.center,
-            //             color: Colors.white,
-            //             child: const Text('Error loading image'));
-            //       }
-            //       return Container(
-            //         width: double.maxFinite,
-            //         height: 200,
-            //         alignment: Alignment.center,
-            //         color: Colors.white,
-            //         child: const CircularProgressIndicator(),
-            //       );
-            //     }),
             const SizedBox(height: 60),
             _buildDetailCard('Product Name', product.name),
             _buildDetailTimeCard(
@@ -152,8 +109,7 @@ class ProductView extends StatelessWidget {
                     .difference(DateTime.now())
                     .inDays
                     .toString()),
-            _buildDetailCard('Category', product.category.toString()),
-            //TODO get category name and not id
+            _buildDetailCard('Category', categoryModel!.name),
             const SizedBox(
               height: 20,
             ),

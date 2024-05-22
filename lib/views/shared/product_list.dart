@@ -8,17 +8,9 @@ import '../../controllers/product_controller.dart';
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
 
-  // ProductController productsController;
-  // HomeController homeController;
-  // ProductList(
-  //     {super.key,
-  //     required this.homeController,
-  //     required this.productsController});
-
   @override
   Widget build(BuildContext context) {
     final ProductController productController = Get.find();
-    final HomeController homeController = Get.find();
 
     return Obx(() {
       if (productController.products.isEmpty) {
