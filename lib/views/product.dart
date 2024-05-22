@@ -36,23 +36,36 @@ class ProductView extends StatelessWidget {
         child: Column(
           children: [
             //TODO add a category icon (round above image)
-            FutureBuilder<String>(future: getDownloadURL(product.imageLink), builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-                return Container(
-                  width: double.maxFinite,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(snapshot.data!),
-                    )
-                  ),
-                );
-              } else if (snapshot.hasError){
-                return const Text('Error loading image');
-              }
-              return const CircularProgressIndicator();
-            }),
+            FutureBuilder<String>(
+                future: getDownloadURL(product.imageLink),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done &&
+                      snapshot.hasData) {
+                    return Container(
+                      width: double.maxFinite,
+                      height: 200,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(snapshot.data!),
+                      )),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Container(
+                        width: double.maxFinite,
+                        height: 200,
+                        alignment: Alignment.center,
+                        color: Colors.white,
+                        child: const Text('Error loading image'));
+                  }
+                  return Container(
+                    width: double.maxFinite,
+                    height: 200,
+                    alignment: Alignment.center,
+                    color: Colors.white,
+                    child: CircularProgressIndicator(),
+                  );
+                }),
             const SizedBox(height: 20),
             _buildDetailCard('Product Name', product.name),
             _buildDetailTimeCard(
