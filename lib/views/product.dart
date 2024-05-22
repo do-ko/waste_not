@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:waste_not/controllers/product_controller_old.dart';
 import 'package:waste_not/views/edit_product.dart';
@@ -11,6 +12,7 @@ import '../models/product.dart';
 
 class ProductView extends StatelessWidget {
   ProductModel product;
+
   ProductView({super.key, required this.product});
 
   // final ProductController productController;
@@ -42,18 +44,15 @@ class ProductView extends StatelessWidget {
             ),
             //TODO add a category icon (round above image)
             const SizedBox(height: 20),
-            _buildDetailCard(
-                'Product Name', product.name),
+            _buildDetailCard('Product Name', product.name),
             _buildDetailTimeCard(
                 'Expiration Date',
-                DateFormat('MM/dd/yyyy')
-                    .format(product.expirationDate),
-                DateTime.now()
-                    .difference(product.expirationDate)
+                DateFormat('MM/dd/yyyy').format(product.expirationDate),
+                product.expirationDate
+                    .difference(DateTime.now())
                     .inDays
                     .toString()),
-            _buildDetailCard('Category',
-                product.category.toString()),
+            _buildDetailCard('Category', product.category.toString()),
             //TODO get category name and not id
             const SizedBox(
               height: 20,
