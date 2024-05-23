@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:waste_not/controllers/product_controller.dart';
+import 'package:waste_not/controllers/product.dart';
 
 class EditProductView extends StatelessWidget {
   final ProductController productController;

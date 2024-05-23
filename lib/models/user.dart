@@ -14,7 +14,7 @@ class UserModel {
     return {
       'id': id,
       'email': email,
-      'username': username,
+      'name': username,
     };
   }
 
@@ -23,19 +23,7 @@ class UserModel {
     return UserModel(
       id: map['id'],
       email: map['email'], 
-      username: map['username'],
-    );
-  }
-
-  UserModel copyWith({
-    String? id,
-    String? email,
-    String? username,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      username: username ?? this.username,
+      username: map['name'],
     );
   }
 }

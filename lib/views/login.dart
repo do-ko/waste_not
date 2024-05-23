@@ -1,16 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/login_controller.dart';
 import 'package:waste_not/views/register.dart';
-import 'package:waste_not/views/shared/validator.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -27,7 +24,6 @@ class LoginView extends StatelessWidget {
                 height: 32,
               ),
               Form(
-                  key: controller.loginFormKey,
                   child: Column(
                     children: [
                       TextFormField(
@@ -35,27 +31,15 @@ class LoginView extends StatelessWidget {
                           labelText: "Email",
                           prefixIcon: Icon(CupertinoIcons.mail),
                         ),
-                        controller: controller.email,
-                        validator: (value) => CustomValidator.validateEmail(value),
                       ),
                       const SizedBox(
                         height: 16,
                       ),
-                      Obx(
-                        () => TextFormField(
-                          obscureText: controller.hidePassword.value,
-                          controller: controller.password,
-                          validator: (value) => CustomValidator.validatePassword(value),
-                          decoration: InputDecoration(
-                            labelText: "Password",
-                            prefixIcon: const Icon(CupertinoIcons.lock),
-                            suffixIcon: IconButton(
-                                onPressed: () => controller.hidePassword.value =
-                                    !controller.hidePassword.value,
-                                icon: Icon(controller.hidePassword.value
-                                    ? CupertinoIcons.eye
-                                    : CupertinoIcons.eye_fill)),
-                          ),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          labelText: "Password",
+                          prefixIcon: Icon(CupertinoIcons.lock),
+                          suffixIcon: Icon(CupertinoIcons.eye),
                         ),
                       ),
                       const SizedBox(
@@ -66,12 +50,7 @@ class LoginView extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Obx(
-                                () => Checkbox(
-                                    value: controller.rememberMe.value,
-                                    onChanged: (value) => controller.rememberMe
-                                        .value = !controller.rememberMe.value),
-                              ),
+                              Checkbox(value: true, onChanged: (value) {}),
                               const Text("Remember Me")
                             ],
                           ),
@@ -86,7 +65,8 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () => {controller.signIn()}, child: const Text("Sign in")),
+                            onPressed: () {},
+                            child: const Text("Sign in")),
                       ),
                       const SizedBox(
                         height: 16,
@@ -95,7 +75,7 @@ class LoginView extends StatelessWidget {
                         width: double.infinity,
                         child: OutlinedButton(
                             onPressed: () =>
-                                {Get.to(() => const RegisterView())},
+                            {Get.to(() => const RegisterView())},
                             child: const Text("Create account")),
                       )
                     ],
