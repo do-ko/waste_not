@@ -1,6 +1,6 @@
 class Product {
   String name;
-  int category;
+  String category;
   String comment;
   DateTime expirationDate;
   String imageLink;

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'product.dart';
+import 'product_controller.dart';
 import '../models/product.dart';
 
 class ProductsController extends GetxController {
@@ -18,9 +18,9 @@ class ProductsController extends GetxController {
   Future<void> fetchProducts(String userId) async {
     try {
       QuerySnapshot snapshot = await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .get();
 
       List<ProductController> loadedProducts = snapshot.docs.map((doc) {
@@ -39,9 +39,9 @@ class ProductsController extends GetxController {
     try {
       String userId = deviceStorage.read("userId") ?? "0";
       DocumentReference docRef = await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .add(productController.product.value!.toJson());
 
       productController.productId = docRef.id;
@@ -61,9 +61,9 @@ class ProductsController extends GetxController {
     try {
       String userId = deviceStorage.read("userId") ?? "0";
       await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .doc(productController.productId)
           .update(productController.product.value!.toJson());
 
@@ -82,9 +82,9 @@ class ProductsController extends GetxController {
     try {
       String userId = deviceStorage.read("userId") ?? "0";
       await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .doc(productId)
           .delete();
 

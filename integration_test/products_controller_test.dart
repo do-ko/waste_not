@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:waste_not/controllers/products.dart';
-import 'package:waste_not/controllers/product.dart';
+import 'package:waste_not/controllers/products_controller.dart';
+import 'package:waste_not/controllers/product_controller.dart';
 import 'package:waste_not/models/product.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';

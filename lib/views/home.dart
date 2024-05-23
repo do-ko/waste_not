@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/views/add_product.dart';
+import 'package:waste_not/views/category_list.dart'; // Import CategoryListView
 import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
 import '../controllers/home.dart';
-import '../controllers/products.dart';
+import '../controllers/products_controller.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -48,6 +49,34 @@ class HomeView extends StatelessWidget {
           );
         }
       }),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Menu'),
+            ),
+            ListTile(
+              leading: const Icon(Icons.category),
+              title: const Text('Categories'),
+              onTap: () {
+                Get.to(() => CategoryListView());
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.add),
+              title: const Text('Add Product'),
+              onTap: () {
+                Get.to(() => const AddProductView());
+              },
+            ),
+            // Add more menu items as needed
+          ],
+        ),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(

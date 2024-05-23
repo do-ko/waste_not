@@ -1,37 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/controllers/home.dart';
+import 'package:waste_not/controllers/product_controller.dart';
 import 'package:waste_not/views/product.dart';
-import '../../controllers/product.dart';
 
 class ProductTile extends StatelessWidget {
   final ProductController productController;
   final HomeController homeController;
 
   const ProductTile({
-    Key? key,
+    super.key,
     required this.homeController,
     required this.productController,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    Get.put(productController);
-    Get.put(homeController);
+    final CategoryController categoryController = Get.find();
 
     return Obx(
       () => ListTile(
         title: Text(productController.product.value?.name ?? "[Name]"),
-        subtitle: Text(getCategoryName(productController.product.value?.category) ??
-            "[Category]"), // TODO: product category name
+        subtitle: Text(getCategoryName(productController.product.value?.category, categoryController) ?? "[Category]"),
         leading: Icon(
           homeController.markedProducts.contains(productController.productId)
               ? Icons.check_circle_rounded
               : Icons.add,
-        ), // TODO: get the right icon
+        ),
         trailing: Text(
           "expires in ${getDaysUntilExpiration(productController.product.value?.expirationDate)} days",
-        ), // TODO: expiration date
+        ),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => ProductView(
             productController: productController,
@@ -44,25 +43,12 @@ class ProductTile extends StatelessWidget {
     );
   }
 
-  String? getCategoryName(int? category) {
-    // Implement your logic to convert category id to category name
-    // For example, you could have a map or a switch statement
-    // to convert category id to human-readable category name.
-    // This is a placeholder implementation:
-    if (category == null) {
+  String? getCategoryName(String? categoryId, CategoryController categoryController) {
+    if (categoryId == null) {
       return null;
     }
-    switch (category) {
-      case 1:
-        return 'Dairy';
-      case 2:
-        return 'Fruits';
-      case 3:
-        return 'Vegetables';
-      // Add more cases as needed
-      default:
-        return 'Unknown';
-    }
+    final category = categoryController.categories.firstWhereOrNull((c) => c.id == categoryId);
+    return category?.name ?? 'Unknown';
   }
 
   String getDaysUntilExpiration(DateTime? expirationDate) {

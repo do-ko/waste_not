@@ -4,8 +4,9 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:waste_not/controllers/product.dart';
-import 'package:waste_not/controllers/products.dart';
+import 'package:waste_not/controllers/category_controller.dart';
+import 'package:waste_not/controllers/product_controller.dart';
+import 'package:waste_not/controllers/products_controller.dart';
 import 'package:waste_not/models/product.dart';
 
 class AddProductView extends StatefulWidget {
@@ -21,11 +22,13 @@ class _AddProductViewState extends State<AddProductView> {
   String scannedText = "";
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _categoryController = TextEditingController();
   final TextEditingController _commentController = TextEditingController();
   final TextEditingController _expirationDateController = TextEditingController();
 
   final ProductsController productsController = Get.find();
+  final CategoryController categoryController = Get.put(CategoryController());
+
+  String? selectedCategory;
 
   void getImage(ImageSource source) async {
     try {
@@ -67,9 +70,16 @@ class _AddProductViewState extends State<AddProductView> {
   }
 
   void addProduct() {
+    if (selectedCategory == null) {
+      // Show an error message if no category is selected
+      Get.snackbar('Error', 'Please select a category');
+      return;
+    }
+
+    final category = categoryController.categories.firstWhere((c) => c.name == selectedCategory);
     final product = Product(
       name: _nameController.text,
-      category: int.tryParse(_categoryController.text) ?? 0,
+      category: category.id,
       comment: _commentController.text,
       expirationDate: DateTime.parse(_expirationDateController.text),
       imageLink: imageFile?.path ?? '',
@@ -107,11 +117,27 @@ class _AddProductViewState extends State<AddProductView> {
                   controller: _nameController,
                   decoration: const InputDecoration(labelText: 'Product Name'),
                 ),
-                TextField(
-                  controller: _categoryController,
-                  decoration: const InputDecoration(labelText: 'Category'),
-                  keyboardType: TextInputType.number,
-                ),
+                Obx(() {
+                  if (categoryController.categories.isEmpty) {
+                    return const Text('Loading categories...');
+                  } else {
+                    return DropdownButton<String>(
+                      value: selectedCategory,
+                      hint: const Text('Select Category'),
+                      items: categoryController.categories.map((category) {
+                        return DropdownMenuItem<String>(
+                          value: category.name,
+                          child: Text(category.name),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCategory = value;
+                        });
+                      },
+                    );
+                  }
+                }),
                 TextField(
                   controller: _commentController,
                   decoration: const InputDecoration(labelText: 'Comment'),
