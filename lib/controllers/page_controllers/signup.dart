@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
-import 'package:waste_not/controllers/user_firebase_controller.dart';
+import 'package:waste_not/controllers/page_controllers/auth.dart';
 import 'package:waste_not/views/home.dart';
 
-import '../models/user.dart';
+import '../../models/user.dart';
+import '../model_controllers/user.dart';
 
 class SignupController extends GetxController {
   static SignupController get instance => Get.find();

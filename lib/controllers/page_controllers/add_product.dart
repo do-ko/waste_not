@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
-import 'package:waste_not/controllers/products_controller.dart';
+import 'package:waste_not/controllers/model_controllers/products.dart';
+import 'package:waste_not/controllers/page_controllers/auth.dart';
 
-import '../models/product.dart';
+import '../../models/product.dart';
 
 class AddProductController extends GetxController {
   final ProductsController productsController = Get.find();

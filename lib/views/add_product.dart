@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:waste_not/controllers/add_product_controller.dart';
-import 'package:waste_not/controllers/validator.dart';
+import 'package:waste_not/controllers/page_controllers/add_product.dart';
+import 'package:waste_not/controllers/shared/validator.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
-import '../controllers/category_controller.dart';
+import '../controllers/model_controllers/category.dart';
 
 class AddProductView extends StatelessWidget {
   const AddProductView({super.key});

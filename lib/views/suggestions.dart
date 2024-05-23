@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/home.dart';
-import 'package:waste_not/controllers/settings_controller.dart';
-import 'package:waste_not/controllers/user_controller.dart';
+import 'package:waste_not/controllers/model_controllers/user.dart';
+import 'package:waste_not/controllers/page_controllers/home.dart';
+import 'package:waste_not/controllers/page_controllers/settings.dart';
 
-import '../controllers/products_controller.dart';
+import '../controllers/model_controllers/products.dart';
 
 class SuggestionsView extends StatelessWidget {
   const SuggestionsView({super.key});

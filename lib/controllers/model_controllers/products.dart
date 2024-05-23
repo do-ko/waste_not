@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/product_controller.dart';
+import 'package:waste_not/controllers/model_controllers/product.dart';
 
-import '../models/product.dart';
-import 'auth_controller.dart';
+import '../../models/product.dart';
+import '../page_controllers/auth.dart';
 
 class ProductsController extends GetxController {
   RxList<ProductController> products = <ProductController>[].obs;

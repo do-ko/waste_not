@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
+import 'package:waste_not/controllers/page_controllers/auth.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/edit_product.dart';
@@ -14,7 +14,7 @@ import 'package:waste_not/views/register.dart';
 import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
-import 'controllers/settings_controller.dart';
+import 'controllers/page_controllers/settings.dart';
 import 'firebase_options.dart';
 import 'models/product.dart';
 

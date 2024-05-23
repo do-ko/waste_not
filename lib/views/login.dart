@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/login_controller.dart';
-import 'package:waste_not/controllers/validator.dart';
+import 'package:waste_not/controllers/page_controllers/login.dart';
+import 'package:waste_not/controllers/shared/validator.dart';
 import 'package:waste_not/views/register.dart';
 
 class LoginView extends StatelessWidget {

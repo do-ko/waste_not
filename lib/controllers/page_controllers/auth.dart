@@ -6,7 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/views/home.dart';
 import 'package:waste_not/views/login.dart';
 
-import '../controllers/settings_controller.dart';
+import 'settings.dart';
 
 class AuthException implements Exception {
   final String message;

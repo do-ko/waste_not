@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:waste_not/controllers/category_controller.dart';
+import 'package:waste_not/controllers/model_controllers/category.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/product_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
-import '../controllers/product_controller.dart';
+import '../controllers/model_controllers/product.dart';
 import '../models/product.dart';
 
 class ProductView extends StatelessWidget {

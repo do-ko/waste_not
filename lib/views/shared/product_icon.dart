@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/category_controller.dart';
+import 'package:waste_not/controllers/model_controllers/category.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 class ProductIcon extends StatelessWidget {

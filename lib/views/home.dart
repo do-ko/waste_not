@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/category_controller.dart';
-import 'package:waste_not/controllers/home.dart';
-import 'package:waste_not/controllers/settings_controller.dart';
-import 'package:waste_not/controllers/user_controller.dart';
-import 'package:waste_not/controllers/user_firebase_controller.dart';
+import 'package:waste_not/controllers/model_controllers/category.dart';
+import 'package:waste_not/controllers/model_controllers/user.dart';
+import 'package:waste_not/controllers/page_controllers/home.dart';
+import 'package:waste_not/controllers/page_controllers/settings.dart';
 import 'package:waste_not/views/add_product.dart';
 import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
 import 'package:waste_not/views/shared/theme.dart';
 import 'package:waste_not/views/suggestions.dart';
 
-import '../controllers/products_controller.dart';
+import '../controllers/model_controllers/products.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/category_controller.dart';
-import 'package:waste_not/controllers/home.dart';
+import 'package:waste_not/controllers/model_controllers/category.dart';
+import 'package:waste_not/controllers/page_controllers/home.dart';
 import 'package:waste_not/models/product.dart';
 import 'package:waste_not/views/shared/product_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';

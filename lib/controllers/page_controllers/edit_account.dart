@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/user_controller.dart';
-import 'package:waste_not/controllers/user_firebase_controller.dart';
+import 'package:waste_not/controllers/model_controllers/user.dart';
 
-import '../models/user.dart';
-import 'auth_controller.dart';
+import '../../models/user.dart';
+import 'auth.dart';
 
 class EditAccountController extends GetxController {
   static EditAccountController get instance => Get.find();

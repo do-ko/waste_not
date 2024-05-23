@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/signup_controller.dart';
-import 'package:waste_not/controllers/validator.dart';
+import 'package:waste_not/controllers/page_controllers/signup.dart';
+import 'package:waste_not/controllers/shared/validator.dart';
 
 class RegisterView extends StatelessWidget {
   const RegisterView({super.key});

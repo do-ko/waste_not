@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/views/shared/product_tile.dart';
 
-import '../../controllers/products_controller.dart';
+import '../../controllers/model_controllers/products.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});

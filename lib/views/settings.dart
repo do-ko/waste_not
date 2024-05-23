@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
-import 'package:waste_not/controllers/user_controller.dart';
+import 'package:waste_not/controllers/model_controllers/user.dart';
+import 'package:waste_not/controllers/page_controllers/auth.dart';
 import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
-import '../controllers/settings_controller.dart';
+import '../controllers/page_controllers/settings.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
