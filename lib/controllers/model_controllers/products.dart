@@ -123,6 +123,7 @@ class ProductsController extends GetxController {
           .collection('Products')
           .add(productModel.toJson());
 
+      await docRef.update({'productId': docRef.id});
       productModel.productId = docRef.id;
       ProductController productController =
           Get.put(ProductController(productId: docRef.id));
