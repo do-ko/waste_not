@@ -27,7 +27,7 @@ class ProductModel {
       'comment': comment,
       'expiration_date': expirationDate,
       'image_link': imageLink,
-      'owner': FirebaseFirestore.instance.doc("users/$owner"),
+      'owner': FirebaseFirestore.instance.doc("Users/$owner"),
     };
   }
 
