@@ -113,9 +113,10 @@ class ProductsController extends GetxController {
   //   }
   // }
 
-  Future<ProductController?> addProduct(ProductModel productModel) async {
+  Future<void> addProduct(ProductModel productModel) async {
     try {
-      String userId = deviceStorage.read("userId") ?? "0";
+      String? userId = AuthController.instance.authUser?.uid;
+
       DocumentReference docRef = await _firestore
           .collection('Users')
           .doc(userId)
@@ -139,7 +140,7 @@ class ProductsController extends GetxController {
 
   Future<void> updateProduct(ProductController productController) async {
     try {
-      String userId = deviceStorage.read("userId") ?? "0";
+      String? userId = AuthController.instance.authUser?.uid;
       await _firestore
           .collection('Users')
           .doc(userId)

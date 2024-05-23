@@ -5,7 +5,6 @@ class CategoryModel {
 
   CategoryModel({required this.id, required this.iconPath, required this.name});
 
-  // Convert a Category instance to a json
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -14,7 +13,6 @@ class CategoryModel {
     };
   }
 
-  // Construct a Category from a json
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
       id: map['id'],

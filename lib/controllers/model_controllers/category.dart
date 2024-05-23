@@ -12,6 +12,10 @@ class CategoryController extends GetxController {
   void onReady() {
     super.onReady();
     fetchAllCategories();
+    if (kDebugMode) {
+      print("categories");
+      print(categories);
+    }
   }
 
   // Future<CategoryModel> getCategoryFromRef(DocumentReference categoryRef) async {
@@ -38,10 +42,12 @@ class CategoryController extends GetxController {
     try {
       QuerySnapshot querySnapshot =
           await _firestore.collection('Categories').get();
+
       var loadedCategories = querySnapshot.docs
           .map((doc) =>
               CategoryModel.fromMap(doc.data() as Map<String, dynamic>))
           .toList();
+
       categories.assignAll(loadedCategories);
     } catch (e) {
       if (kDebugMode) {
