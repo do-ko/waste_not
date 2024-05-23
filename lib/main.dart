@@ -5,9 +5,14 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/auth_controller.dart';
 import 'package:waste_not/views/shared/theme.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import 'controllers/settings_controller.dart';
 import 'firebase_options.dart';
+
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
   final widgetBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +23,16 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // .then((FirebaseApp value) => Get.put(AuthRepository()));
+
+   // Initialize the FlutterLocalNotificationsPlugin
+  const AndroidInitializationSettings initializationSettingsAndroid =
+      AndroidInitializationSettings('@mipmap/ic_launcher');
+
+  const InitializationSettings initializationSettings = InitializationSettings(
+    android: initializationSettingsAndroid,
+  );
+
+  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   Get.put(DarkModeController(), permanent: true);
   Get.put(NotificationsController(), permanent: true);

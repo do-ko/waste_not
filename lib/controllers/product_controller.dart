@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/auth_controller.dart';
-import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/models/product.dart';
+import 'package:waste_not/notification_service.dart';
 
 class ProductController extends GetxController {
   RxList<ProductModel> products = RxList<ProductModel>();
+  final NotificationService notificationService = Get.put(NotificationService());
+  final storage = GetStorage();
 
   @override
   void onReady() {
     super.onReady();
     fetchProductsForUser();
+    notificationService.initialize();
   }
 
   Future<void> fetchProductsForUser() async {
@@ -52,6 +56,7 @@ class ProductController extends GetxController {
       product.productId = documentRef.id;
       await documentRef.update({'productId': documentRef.id});
       products.add(product);
+      scheduleNotification(product);
       print('Product added and list updated');
     } catch (e) {
       print('Failed to add product: $e');
@@ -62,10 +67,10 @@ class ProductController extends GetxController {
     var collectionRef = FirebaseFirestore.instance.collection('Products');
     try {
       await collectionRef.doc(product.productId).update(product.toJson());
-
       int index = products.indexWhere((p) => p.productId == product.productId);
       if (index != -1) {
         products[index] = product;
+        scheduleNotification(product);
       }
     } catch (e) {
       print('Error updating product: $e');
@@ -77,6 +82,8 @@ class ProductController extends GetxController {
     try {
       await collectionRef.doc(productId).delete();
       products.removeWhere((product) => product.productId == productId);
+      notificationService.cancelAllNotifications(); // Cancel all notifications to avoid duplicates
+      rescheduleAllNotifications(); // Reschedule notifications for remaining products
     } catch (e) {
       print('Error removing product: $e');
     }
@@ -88,29 +95,23 @@ class ProductController extends GetxController {
     }
   }
 
-// ProductController getProduct(String productId) {
-//   return ProductController(productId: productId);
-// }
+  void scheduleNotification(ProductModel product) {
+    final notificationInterval = storage.read('notificationInterval') ?? 1;
+    final scheduledDate = product.expirationDate.subtract(
+      Duration(days: notificationInterval),
+    );
 
-// bool removeProduct(productId) {
-//   ProductController? pc =
-//       products.firstWhereOrNull((pc) => pc.productId == productId);
-//
-//   if (pc != null) {
-//     products.remove(pc);
-//     pc.removeProduct();
-//
-//     return true;
-//   }
-//
-//   return false;
-// }
+    notificationService.scheduleNotification(
+      product.productId.hashCode,
+      'Product Expiration Alert',
+      'The product ${product.name} is about to expire in $notificationInterval days.',
+      scheduledDate,
+    );
+  }
 
-// bool removeProducts(List<String> productIds) {
-//   bool success = true;
-//   for (String id in productIds) {
-//     success &= removeProduct(id);
-//   }
-//   return success;
-// }
+  void rescheduleAllNotifications() {
+    for (var product in products) {
+      scheduleNotification(product);
+    }
+  }
 }

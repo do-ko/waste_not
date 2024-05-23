@@ -15,7 +15,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     String username = GetStorage().read('username') ?? "[username]";
     String email = GetStorage().read('email') ?? "[email]";
-    List<int> intervals = [1, 3, 5];
+    List<int> intervals = [1, 2, 3];
     DarkModeController darkModeController = Get.find();
     NotificationsController notificationsController = Get.find();
     LanguageController languageController = Get.find();
@@ -156,8 +156,7 @@ class SettingsView extends StatelessWidget {
                                     notificationsController.notifications.value,
                                 onChanged: (value) {
                                   notificationsController.notifications.value =
-                                      !notificationsController
-                                          .notifications.value;
+                                      value;
                                 },
                               ),
                             ],
@@ -202,8 +201,7 @@ class SettingsView extends StatelessWidget {
                                 activeTrackColor: primaryBlue,
                                 value: darkModeController.darkMode.value,
                                 onChanged: (value) {
-                                  darkModeController.darkMode.value =
-                                      !darkModeController.darkMode.value;
+                                  darkModeController.darkMode.value = value;
                                 },
                               ),
                             ],

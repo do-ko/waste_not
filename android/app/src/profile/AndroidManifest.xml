@@ -3,5 +3,23 @@
          the Flutter tool needs it to communicate with the running application
          to allow setting breakpoints, to provide hot reload, etc.
     -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name="${waste_not}"
+        android:label="waste_not"
+        android:icon="@mipmap/ic_launcher">
+        
+        <!-- Ensure you have these settings for notifications -->
+        <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.receivers.ActionBroadcastReceiver"/>
+        <receiver android:exported="true" android:name="com.dexterous.flutterlocalnotifications.receivers.DismissedBroadcastReceiver"/>
+        <receiver android:exported="true" android:permission="android.permission.RECEIVE_BOOT_COMPLETED" android:name="com.dexterous.flutterlocalnotifications.receivers.ScheduledNotificationBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
+            </intent-filter>
+        </receiver>
+        <service android:permission="android.permission.BIND_JOB_SERVICE" android:exported="true" android:name="com.dexterous.flutterlocalnotifications.FlutterLocalNotificationsPlugin$ScheduledNotificationService"/>
+    </application>
 </manifest>
