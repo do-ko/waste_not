@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
@@ -35,6 +37,7 @@ class AddProductView extends StatelessWidget {
       }
     }
 
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Product"),
@@ -52,12 +55,34 @@ class AddProductView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.maxFinite,
-              height: 200,
-              alignment: Alignment.center,
-              color: Colors.red,
-              child: const CircularProgressIndicator(),
+            Obx(
+              () => Container(
+                width: double.maxFinite,
+                height: 200,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: addProductController.image.value != null
+                          ? FileImage(File(addProductController.image.value!.path)) as ImageProvider
+                          : AssetImage('assets/placeholder_product_image.jpg'),
+                  fit: BoxFit.cover,
+                )),
+                child: ElevatedButton(
+                  onPressed: () {
+                    addProductController.pickImage();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: primaryBlue.withOpacity(0.7),
+                    backgroundColor: Colors.white.withOpacity(0.7),
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(5),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 50,
+                  ),
+                ),
+              ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(24, 24, 24, 48),
@@ -205,7 +230,7 @@ class AddProductView extends StatelessWidget {
 class CategoryButton extends StatelessWidget {
   final String label;
   final String iconPath;
-  final Color color; // Background color for the button
+  final Color color;
   final VoidCallback onPressed;
 
   const CategoryButton({
@@ -244,14 +269,6 @@ class CategoryButton extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: primaryBlue, // Color of the circle container
                 shape: BoxShape.circle, // Makes the container circular
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.grey.withOpacity(0.5),
-                //     spreadRadius: 5,
-                //     blurRadius: 7,
-                //     offset: const Offset(0, 3), // Shadow position
-                //   ),
-                // ],
               ),
               child: SvgPicture.asset(iconPath,
                   width: 15, height: 15, fit: BoxFit.contain),
