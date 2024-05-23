@@ -63,35 +63,51 @@ class ProductController extends GetxController {
         products.assignAll(productsList);
       }
     } catch (e) {
-      if (kDebugMode) {
-        print('Failed to fetch products: $e');
+      print('Failed to fetch products: $e');
+    }
+  }
+
+  Future<void> addProduct(ProductModel product) async {
+    var collectionRef = FirebaseFirestore.instance.collection('Products');
+    try {
+      var documentRef = await collectionRef.add(product.toJson());
+      product.productId = documentRef.id;
+      await documentRef.update({'productId': documentRef.id});
+      products.add(product);
+      print('Product added and list updated');
+    } catch (e) {
+      print('Failed to add product: $e');
+    }
+  }
+
+  Future<void> updateProduct(ProductModel product) async {
+    var collectionRef = FirebaseFirestore.instance.collection('Products');
+    try {
+      await collectionRef.doc(product.productId).update(product.toJson());
+
+      int index = products.indexWhere((p) => p.productId == product.productId);
+      if (index != -1) {
+        products[index] = product;
       }
+    } catch (e) {
+      print('Error updating product: $e');
     }
   }
 
-  ProductModel? getProduct(String productId) {
-    return products.firstWhereOrNull((pc) => pc.productId == productId);
-  }
-
-  bool removeProduct(productId) {
-    ProductModel? p = getProduct(productId);
-
-    if (p != null) {
-      products.remove(p);
-      // TODO:remove in Firebase
-
-      return true;
+  Future<void> removeProduct(String productId) async {
+    var collectionRef = FirebaseFirestore.instance.collection('Products');
+    try {
+      await collectionRef.doc(productId).delete();
+      products.removeWhere((product) => product.productId == productId);
+    } catch (e) {
+      print('Error removing product: $e');
     }
-
-    return false;
   }
 
-  bool removeProducts(List<String> productIds) {
-    bool success = true;
+  Future<void> removeProducts(List<String> productIds) async {
     for (String id in productIds) {
-      success &= removeProduct(id);
+      await removeProduct(id);
     }
-    return success;
   }
 
   static Future<String?> getDownloadURL(String gsUrl) async {

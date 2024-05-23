@@ -21,6 +21,8 @@ const Color fontColor = Color(0xff191C20);
 const Color fontColorLight = Color(0xff6C6C6C);
 const Color fontColorBlue = Color(0xff3E5F90);
 const Color primaryBlue = Color(0xff3E5F90);
+const Color selectedCategory = Color(0xffA7C8FF);
+
 
 // TextStyles
 const TextStyle headerStyle = TextStyle(color: textHeaderColor);

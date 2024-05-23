@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/models/category.dart';
 
 class CategoryController extends GetxController {
   static CategoryController get instance => Get.find();
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   RxList<CategoryModel> categories = RxList<CategoryModel>();
-  RxMap<String, CategoryModel> categoriesForProducts =
-      RxMap<String, CategoryModel>();
 
   @override
   void onReady() {
@@ -37,7 +37,7 @@ class CategoryController extends GetxController {
   void fetchAllCategories() async {
     try {
       QuerySnapshot querySnapshot =
-          await FirebaseFirestore.instance.collection('Categories').get();
+          await _firestore.collection('Categories').get();
       var loadedCategories = querySnapshot.docs
           .map((doc) =>
               CategoryModel.fromMap(doc.data() as Map<String, dynamic>))
@@ -50,5 +50,52 @@ class CategoryController extends GetxController {
 
   CategoryModel? getCategoryById(String categoryId) {
     return categories.firstWhereOrNull((cat) => cat.categoryId == categoryId);
+  }
+
+  Future<void> addCategory(CategoryModel category) async {
+    try {
+      DocumentReference docRef =
+          await _firestore.collection('Categories').add(category.toJson());
+      category.categoryId = docRef.id;
+      categories.add(category);
+
+      if (kDebugMode) {
+        print('Category added with ID: ${category.categoryId}');
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error adding category: $e');
+      }
+    }
+  }
+
+  Future<void> updateCategory(CategoryModel category) async {
+    try {
+      await _firestore
+          .collection('Categories')
+          .doc(category.categoryId)
+          .update(category.toJson());
+
+      int index =
+          categories.indexWhere((c) => c.categoryId == category.categoryId);
+      if (index != -1) {
+        categories[index] = category;
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error updating category: $e');
+      }
+    }
+  }
+
+  Future<void> removeCategory(String categoryId) async {
+    try {
+      await _firestore.collection('Categories').doc(categoryId).delete();
+      categories.removeWhere((category) => category.categoryId == categoryId);
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error removing category: $e');
+      }
+    }
   }
 }
