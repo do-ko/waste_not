@@ -5,6 +5,7 @@ import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/models/product.dart';
 
 class ProductController extends GetxController {
+
   RxList<ProductModel> products = RxList<ProductModel>();
 
   @override
@@ -43,6 +44,38 @@ class ProductController extends GetxController {
     } catch (e) {
       print('Failed to fetch products: $e');
     }
+  }
+
+  Future<void> addProduct(ProductModel product) async {
+    var collectionRef = FirebaseFirestore.instance.collection('Products');
+    try {
+      var documentRef = await collectionRef.add(product.toJson());
+      product.productId = documentRef.id;
+      await documentRef.update({'productId': documentRef.id});
+      products.add(product);
+      print('Product added and list updated');
+    } catch (e) {
+      print('Failed to add product: $e');
+    }
+    // try {
+    //   String userId = deviceStorage.read("userId") ?? "0";
+    //   DocumentReference docRef = await _firestore
+    //       .collection('users')
+    //       .doc(userId)
+    //       .collection('products')
+    //       .add(productController.product.value!.toJson());
+    //
+    //   productController.productId = docRef.id;
+    //   products.add(productController);
+    //
+    //   if (kDebugMode) {
+    //     print('Product added with ID: ${productController.productId}');
+    //   }
+    // } catch (e) {
+    //   if (kDebugMode) {
+    //     print('Error adding product: $e');
+    //   }
+    // }
   }
 
 // ProductController getProduct(String productId) {

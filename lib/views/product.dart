@@ -37,7 +37,6 @@ class ProductView extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            //TODO add a category icon (round above image)
             Stack(
               clipBehavior: Clip.none,
               children: [

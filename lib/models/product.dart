@@ -23,16 +23,18 @@ class ProductModel {
     return {
       'productId': productId,
       'name': name,
-      'category': category,
+      'category': FirebaseFirestore.instance.doc("Categories/$category"),
       'comment': comment,
-      'expiration_date': expirationDate.toIso8601String(),
+      'expiration_date': expirationDate,
       'image_link': imageLink,
-      'owner': owner,
+      'owner': FirebaseFirestore.instance.doc("users/$owner"),
     };
   }
 
   // Construct a Product from a map.
   factory ProductModel.fromMap(Map<String, dynamic> map) {
+    print("mapping now:");
+    print(map);
     return ProductModel(
       productId: map['productId'],
       name: map['name'],
