@@ -31,7 +31,6 @@ Future<void> main() async {
   Get.put(NotificationsController(), permanent: true);
   Get.put(LanguageController(), permanent: true);
   Get.put(NotificationsIntervalController(), permanent: true);
-  Get.put(AuthController());
 
   runApp(const WasteNotApp());
 }
@@ -41,12 +40,14 @@ class WasteNotApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthController authController = Get.put(AuthController());
+
     return GetMaterialApp(
       home: const Scaffold(
         backgroundColor: loadingScreenBackgroundColor,
         body: Center(
           child: CircularProgressIndicator(
-            color: Colors.white,
+            color: baseThemeColor,
           ),
         ),
       ),

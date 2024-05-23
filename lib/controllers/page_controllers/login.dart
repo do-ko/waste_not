@@ -3,7 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../../views/home.dart';
 import 'auth.dart';
 
 class LoginController extends GetxController {
@@ -48,7 +47,7 @@ class LoginController extends GetxController {
     await AuthController.instance
         .login(email.text.trim(), password.text.trim());
 
-    Get.offAll(() => const HomeView());
+    Get.offAllNamed("/home");
   }
 }
 

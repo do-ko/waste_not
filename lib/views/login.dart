@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/page_controllers/login.dart';
 import 'package:waste_not/controllers/shared/validator.dart';
-import 'package:waste_not/views/register.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -28,7 +27,7 @@ class LoginView extends StatelessWidget {
               const SizedBox(
                 height: 32,
               ),
-              Form(
+              Obx(() => Form(
                   key: controller.loginFormKey,
                   child: Column(
                     children: [
@@ -44,7 +43,7 @@ class LoginView extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      Obx(() => TextFormField(
+                      TextFormField(
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
                           validator: (value) =>
@@ -58,7 +57,7 @@ class LoginView extends StatelessWidget {
                                 icon: Icon(controller.hidePassword.value
                                     ? CupertinoIcons.eye
                                     : CupertinoIcons.eye_fill)),
-                          ))),
+                          )),
                       const SizedBox(
                         height: 8,
                       ),
@@ -96,12 +95,11 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                            onPressed: () =>
-                                {Get.to(() => const RegisterView())},
+                            onPressed: () => {Get.toNamed("/register")},
                             child: const Text("Create account")),
                       )
                     ],
-                  ))
+                  )))
             ],
           ),
         ),

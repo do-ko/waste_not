@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/page_controllers/auth.dart';
-import 'package:waste_not/views/home.dart';
 
 import '../../models/user.dart';
 import '../model_controllers/user.dart';
@@ -36,7 +35,7 @@ class SignupController extends GetxController {
       deviceStorage.write("email", userModel.email);
       deviceStorage.write("userId", userModel.id); // Store user ID
 
-      Get.offAll(() => const HomeView());
+      Get.offAllNamed("/home");
     } catch (e) {
       Get.snackbar("Error", "Sign up failed. Please try again.");
     }

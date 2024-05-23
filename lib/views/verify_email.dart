@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/views/login.dart';
 
 class VerifyEmailView extends StatelessWidget {
   const VerifyEmailView({super.key});
@@ -13,7 +12,7 @@ class VerifyEmailView extends StatelessWidget {
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-              onPressed: () => Get.offAll(() => const LoginView()),
+              onPressed: () => Get.offAllNamed("/login"),
               icon: const Icon(CupertinoIcons.clear))
         ],
       ),

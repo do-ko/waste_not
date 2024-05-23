@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/model_controllers/category.dart';
-import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/product_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
@@ -134,7 +133,8 @@ class ProductView extends StatelessWidget {
         actions: [
           IconButton(
               icon: const Icon(Icons.edit),
-              onPressed: () => Get.to(() => const EditProductView())),
+              onPressed: () => Get.toNamed("/product/edit",
+                  parameters: {"productId": product.productId})),
         ],
       ),
       body: SingleChildScrollView(

@@ -3,8 +3,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/views/home.dart';
-import 'package:waste_not/views/login.dart';
 
 import 'settings.dart';
 
@@ -38,17 +36,16 @@ class AuthController extends GetxController {
     screenRedirect();
   }
 
-  screenRedirect() async {
-    final user = _auth.currentUser;
-    if (user != null) {
+  void screenRedirect() async {
+    if (_auth.currentUser != null) {
       deviceStorage.writeIfNull('darkMode', false);
       deviceStorage.writeIfNull('notifications', true);
       deviceStorage.writeIfNull('language', 'English');
       deviceStorage.writeIfNull('notificationsInterval', 3);
 
-      Get.offAll(() => const HomeView());
+      Get.toNamed("/home");
     } else {
-      Get.offAll(() => const LoginView());
+      Get.toNamed("/login");
     }
   }
 
@@ -114,7 +111,7 @@ class AuthController extends GetxController {
       deviceStorage.write('language', languageController.language.value);
       deviceStorage.write('notificationsInterval',
           notificationsIntervalController.notificationInterval.value);
-      Get.offAll(() => const LoginView());
+      Get.offAllNamed("/login");
     } catch (e) {
       throw "logout error";
     }

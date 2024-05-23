@@ -4,11 +4,8 @@ import 'package:waste_not/controllers/model_controllers/category.dart';
 import 'package:waste_not/controllers/model_controllers/user.dart';
 import 'package:waste_not/controllers/page_controllers/home.dart';
 import 'package:waste_not/controllers/page_controllers/settings.dart';
-import 'package:waste_not/views/add_product.dart';
-import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/product_list.dart';
 import 'package:waste_not/views/shared/theme.dart';
-import 'package:waste_not/views/suggestions.dart';
 
 import '../controllers/model_controllers/products.dart';
 
@@ -48,7 +45,7 @@ class HomeView extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings),
-                onPressed: () => Get.to(() => const SettingsView()),
+                onPressed: () => Get.toNamed("/settings"),
               )
             ],
           ),
@@ -80,13 +77,11 @@ class HomeView extends StatelessWidget {
                 icon: Icon(Icons.delete_rounded), onPressed: null)),
         IconButton(
           icon: const Icon(Icons.add, color: iconColor),
-          onPressed: () => Get.to(() => const AddProductView()),
+          onPressed: () => Get.toNamed("/product/add"),
         ),
         IconButton(
             icon: const Icon(Icons.live_help_outlined, color: iconColor),
-            onPressed: () => Get.to(
-                  () => const SuggestionsView(),
-                ))
+            onPressed: () => Get.toNamed("/suggestions"))
       ]),
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const [

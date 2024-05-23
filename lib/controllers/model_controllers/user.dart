@@ -20,7 +20,7 @@ class UserController extends GetxController {
       final userFetched = await userFirebaseController.getUser();
       user.value = userFetched;
     } catch (e) {
-      user(UserModel(email: '', username: 'failed'));
+      user.value = UserModel(email: '', username: 'failed');
       if (kDebugMode) {
         print(e.toString());
       }

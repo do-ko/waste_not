@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/model_controllers/user.dart';
 import 'package:waste_not/controllers/page_controllers/auth.dart';
-import 'package:waste_not/views/edit_account.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/page_controllers/settings.dart';
@@ -86,7 +85,7 @@ class SettingsView extends StatelessWidget {
                 ),
                 shadowColor: Colors.transparent,
                 child: InkWell(
-                  onTap: () => Get.to(const EditAccountView()),
+                  onTap: () => Get.toNamed("/account"),
                   splashColor: containerColorSplash,
                   borderRadius: BorderRadius.circular(15),
                   // Match InkWell's border radius with Card's
