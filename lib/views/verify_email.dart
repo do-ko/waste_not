@@ -65,11 +65,10 @@ class VerifyEmailView extends StatelessWidget {
                     ),
                     textAlign: TextAlign.center,
                   ),
-
                   SizedBox(
                     width: double.infinity,
-                    child:
-                        ElevatedButton(onPressed: () {}, child: const Text("Verify")),
+                    child: ElevatedButton(
+                        onPressed: () {}, child: const Text("Verify")),
                   ),
                 ],
               ),

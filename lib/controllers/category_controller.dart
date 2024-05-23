@@ -44,23 +44,25 @@ class CategoryController extends GetxController {
           .toList();
       categories.assignAll(loadedCategories);
     } catch (e) {
-      print('Error fetching categories: $e');
+      if (kDebugMode) {
+        print('Error fetching categories: $e');
+      }
     }
   }
 
   CategoryModel? getCategoryById(String categoryId) {
-    return categories.firstWhereOrNull((cat) => cat.categoryId == categoryId);
+    return categories.firstWhereOrNull((cat) => cat.id == categoryId);
   }
 
   Future<void> addCategory(CategoryModel category) async {
     try {
       DocumentReference docRef =
           await _firestore.collection('Categories').add(category.toJson());
-      category.categoryId = docRef.id;
+      category.id = docRef.id;
       categories.add(category);
 
       if (kDebugMode) {
-        print('Category added with ID: ${category.categoryId}');
+        print('Category added with ID: ${category.id}');
       }
     } catch (e) {
       if (kDebugMode) {
@@ -73,11 +75,10 @@ class CategoryController extends GetxController {
     try {
       await _firestore
           .collection('Categories')
-          .doc(category.categoryId)
+          .doc(category.id)
           .update(category.toJson());
 
-      int index =
-          categories.indexWhere((c) => c.categoryId == category.categoryId);
+      int index = categories.indexWhere((c) => c.id == category.id);
       if (index != -1) {
         categories[index] = category;
       }
@@ -91,7 +92,7 @@ class CategoryController extends GetxController {
   Future<void> removeCategory(String categoryId) async {
     try {
       await _firestore.collection('Categories').doc(categoryId).delete();
-      categories.removeWhere((category) => category.categoryId == categoryId);
+      categories.removeWhere((category) => category.id == categoryId);
     } catch (e) {
       if (kDebugMode) {
         print('Error removing category: $e');

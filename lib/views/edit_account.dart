@@ -18,7 +18,7 @@ class EditAccountView extends StatelessWidget {
         appBar: AppBar(title: const Text('Edit account')),
         body: SingleChildScrollView(
             child: Padding(
-          padding: EdgeInsets.fromLTRB(24, 48, 24, 48),
+          padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
           child: Column(
             children: [
               Center(

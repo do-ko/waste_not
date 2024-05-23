@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -6,6 +7,17 @@ import 'package:waste_not/views/home.dart';
 import 'package:waste_not/views/login.dart';
 
 import '../controllers/settings_controller.dart';
+
+class AuthException implements Exception {
+  final String message;
+
+  AuthException(this.message);
+
+  @override
+  String toString() {
+    return message;
+  }
+}
 
 class AuthController extends GetxController {
   static AuthController get instance => Get.find();
@@ -40,18 +52,24 @@ class AuthController extends GetxController {
     }
   }
 
-  // login
+// login
   Future<UserCredential> login(String email, String password) async {
     try {
       return await _auth.signInWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        if (kDebugMode) {
+          print('The password provided is too weak.');
+        }
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        if (kDebugMode) {
+          print('The account already exists for that email.');
+        }
       } else {
-        print('Error: ${e.code}');
+        if (kDebugMode) {
+          print('Error: ${e.code}');
+        }
       }
       throw AuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -59,18 +77,24 @@ class AuthController extends GetxController {
     }
   }
 
-  // register
+// register
   Future<UserCredential> register(String email, String password) async {
     try {
       return await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
+        if (kDebugMode) {
+          print('The password provided is too weak.');
+        }
       } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
+        if (kDebugMode) {
+          print('The account already exists for that email.');
+        }
       } else {
-        print('Error: ${e.code}');
+        if (kDebugMode) {
+          print('Error: ${e.code}');
+        }
       }
       throw AuthException(e.code).message;
     } on FirebaseException catch (e) {
@@ -78,12 +102,12 @@ class AuthController extends GetxController {
     }
   }
 
-  // logout
+// logout
   Future<void> logout() async {
     try {
       await _auth.signOut();
-      // deviceStorage.remove("username");
-      // deviceStorage.remove("email");
+// deviceStorage.remove("username");
+// deviceStorage.remove("email");
       deviceStorage.write('darkMode', darkModeController.darkMode.value);
       deviceStorage.write(
           'notifications', notificationsController.notifications.value);
@@ -99,7 +123,7 @@ class AuthController extends GetxController {
   Future<void> changeEmail(String newEmail) async {
     try {
       await authUser!.verifyBeforeUpdateEmail(newEmail);
-    }catch (e) {
+    } catch (e) {
       print(e.toString());
       throw "Email change failed.";
     }
@@ -108,19 +132,8 @@ class AuthController extends GetxController {
   Future<void> changePassword(String newPassword) async {
     try {
       await authUser!.updatePassword(newPassword);
-    }catch (e) {
+    } catch (e) {
       throw "Password change failed.";
     }
-  }
-}
-
-class AuthException implements Exception {
-  final String message;
-
-  AuthException(this.message);
-
-  @override
-  String toString() {
-    return message;
   }
 }

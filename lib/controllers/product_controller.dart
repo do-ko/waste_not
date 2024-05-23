@@ -2,111 +2,162 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/models/product.dart';
 
 class ProductController extends GetxController {
-  RxList<ProductModel> products = RxList<ProductModel>();
+  String productId;
+  late Rx<ProductModel?> product;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  @override
-  void onReady() {
-    super.onReady();
-    fetchProductsForUser();
+  late RxString name;
+  late Rx<DateTime> expirationDate;
+
+  ProductController({required this.productId}) {
+    product = Rx<ProductModel?>(null);
+    name = ''.obs;
+    expirationDate = DateTime.now().obs;
+    fetchProduct();
   }
 
-  Future<void> fetchProductsForUser() async {
-    String? currentUserId = AuthController.instance.authUser?.uid;
-
-    if (currentUserId == null) {
-      if (kDebugMode) {
-        print("User is not logged in");
-      }
-      return;
-    }
-
-    DocumentReference ownerRef =
-        FirebaseFirestore.instance.doc('Users/$currentUserId');
-
+  Future<void> fetchProduct() async {
     try {
-      if (kDebugMode) {
-        print(currentUserId);
-      }
-
-      QuerySnapshot snapshot = await FirebaseFirestore.instance
-          .collection('Products')
-          .where('owner', isEqualTo: ownerRef)
+      String userId = GetStorage().read("userId") ?? "0";
+      DocumentSnapshot doc = await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('products')
+          .doc(productId)
           .get();
-      if (snapshot.docs.isEmpty) {
-        if (kDebugMode) {
-          print('No products found for the current user.');
-          if (kDebugMode) {
-            products.assignAll([1, 2, 3, 4, 5].map((i) => ProductModel(
-                productId: i.toString(),
-                name: 'Product $i',
-                category: 'Category $i',
-                comment: 'Hello $i',
-                expirationDate: DateTime.now().add(Duration(hours: i + 3)),
-                imageLink: '',
-                owner: currentUserId)));
-          }
-        }
-      } else {
-        if (kDebugMode) {
-          print('${snapshot.docs.length} products found.');
-        }
 
-        List<ProductModel> productsList = snapshot.docs
-            .map((doc) =>
-                ProductModel.fromMap(doc.data() as Map<String, dynamic>))
-            .toList();
-
-        products.assignAll(productsList);
+      if (doc.exists) {
+        product.value = ProductModel(
+          productId: productId,
+          name: doc['name'],
+          category: doc['category'],
+          comment: doc['comment'],
+          expirationDate: doc['expiration_date'].toDate(),
+          imageLink: doc['image_link'],
+          owner: doc['owner'],
+        );
+      } else if (kDebugMode && ["1", "2", "3", "4", "5"].contains(productId)) {
+        product.value = ProductModel(
+            productId: productId,
+            name: 'Product $productId',
+            category: 'Category $productId',
+            comment: 'Hello $productId',
+            expirationDate: DateTime.now().add(Duration(hours: 3)),
+            imageLink: '',
+            owner: userId);
       }
     } catch (e) {
-      print('Failed to fetch products: $e');
-    }
-  }
-
-  Future<void> addProduct(ProductModel product) async {
-    var collectionRef = FirebaseFirestore.instance.collection('Products');
-    try {
-      var documentRef = await collectionRef.add(product.toJson());
-      product.productId = documentRef.id;
-      await documentRef.update({'productId': documentRef.id});
-      products.add(product);
-      print('Product added and list updated');
-    } catch (e) {
-      print('Failed to add product: $e');
-    }
-  }
-
-  Future<void> updateProduct(ProductModel product) async {
-    var collectionRef = FirebaseFirestore.instance.collection('Products');
-    try {
-      await collectionRef.doc(product.productId).update(product.toJson());
-
-      int index = products.indexWhere((p) => p.productId == product.productId);
-      if (index != -1) {
-        products[index] = product;
+      if (kDebugMode) {
+        print('Error fetching product: $e');
       }
-    } catch (e) {
-      print('Error updating product: $e');
     }
   }
 
-  Future<void> removeProduct(String productId) async {
-    var collectionRef = FirebaseFirestore.instance.collection('Products');
+  // Future<void> addProduct(ProductModel product) async {
+  //   var collectionRef = FirebaseFirestore.instance.collection('Products');
+  //   try {
+  //     var documentRef = await collectionRef.add(product.toJson());
+  //     product.productId = documentRef.id;
+  //     await documentRef.update({'productId': documentRef.id});
+  //     products.add(product);
+  //     print('Product added and list updated');
+  //   } catch (e) {
+  //     print('Failed to add product: $e');
+  //   }
+  // }
+
+  Future<void> addProduct(ProductModel newProduct) async {
     try {
-      await collectionRef.doc(productId).delete();
-      products.removeWhere((product) => product.productId == productId);
+      String userId = GetStorage().read("userId") ?? "0";
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('products')
+          .add({
+        'name': newProduct.name,
+        'category': newProduct.category,
+        'comment': newProduct.comment,
+        'expiration_date': newProduct.expirationDate,
+        'image_link': newProduct.imageLink,
+        'owner': newProduct.owner,
+      });
+
+      product.value = newProduct;
     } catch (e) {
-      print('Error removing product: $e');
+      if (kDebugMode) {
+        print('Error updating product: $e');
+      }
     }
   }
 
-  Future<void> removeProducts(List<String> productIds) async {
-    for (String id in productIds) {
-      await removeProduct(id);
+  // Future<void> updateProduct(ProductModel product) async {
+  //   var collectionRef = FirebaseFirestore.instance.collection('Products');
+  //   try {
+  //     await collectionRef.doc(product.productId).update(product.toJson());
+  //
+  //     int index = products.indexWhere((p) => p.productId == product.productId);
+  //     if (index != -1) {
+  //       products[index] = product;
+  //     }
+  //   } catch (e) {
+  //     print('Error updating product: $e');
+  //   }
+  // }
+
+  Future<void> updateProduct(ProductModel updatedProduct) async {
+    try {
+      String userId = GetStorage().read("userId") ?? "0";
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('products')
+          .doc(productId)
+          .update({
+        'name': updatedProduct.name,
+        'category': updatedProduct.category,
+        'comment': updatedProduct.comment,
+        'expiration_date': updatedProduct.expirationDate,
+        'image_link': updatedProduct.imageLink,
+        'owner': updatedProduct.owner,
+      });
+
+      product.value = updatedProduct;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error updating product: $e');
+      }
+    }
+  }
+
+  // Future<void> removeProduct(String productId) async {
+  //   var collectionRef = FirebaseFirestore.instance.collection('Products');
+  //   try {
+  //     await collectionRef.doc(productId).delete();
+  //     products.removeWhere((product) => product.productId == productId);
+  //   } catch (e) {
+  //     print('Error removing product: $e');
+  //   }
+  // }
+
+  Future<void> removeProduct() async {
+    try {
+      String userId = GetStorage().read("userId") ?? "0";
+      await _firestore
+          .collection('users')
+          .doc(userId)
+          .collection('products')
+          .doc(productId)
+          .delete();
+
+      product.value = null;
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error removing product: $e');
+      }
     }
   }
 

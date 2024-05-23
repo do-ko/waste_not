@@ -7,8 +7,7 @@ class UserFirebaseController extends GetxController {
   static UserFirebaseController get instance => Get.find();
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-
-  // Repository methods to communicate with db
+// Repository methods to communicate with db
   Future<void> saveUser(UserModel user) async {
     try {
       await db.collection("Users").doc(user.id).set(user.toJson());

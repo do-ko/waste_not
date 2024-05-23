@@ -48,12 +48,34 @@ class LoginController extends GetxController {
     await AuthController.instance
         .login(email.text.trim(), password.text.trim());
 
-    // final userRepository = Get.put(UserFirebaseController());
-    // UserModel user = await userRepository.getUser(userCredentials.user!.uid);
-    //
-    // deviceStorage.write("username", user.username);
-    // deviceStorage.write("email", user.email);
-
     Get.offAll(() => const HomeView());
   }
 }
+
+// class LoginController extends GetxController {
+//   static LoginController get instance => Get.find();
+//
+//   final TextEditingController email = TextEditingController();
+//   final TextEditingController password = TextEditingController();
+//   final deviceStorage = GetStorage();
+//
+//   Future<void> login() async {
+//     try {
+//       final userCredential = await FirebaseAuth.instance
+//           .signInWithEmailAndPassword(
+//               email: email.text.trim(), password: password.text.trim());
+//
+//       final userId = userCredential.user!.uid;
+//       final userRepository = Get.put(UserRepository());
+//       final userModel = await userRepository.getUser(userId);
+//
+//       deviceStorage.write("userId", userModel.id);
+//       deviceStorage.write("username", userModel.username);
+//       deviceStorage.write("email", userModel.email);
+//
+//       Get.offAll(() => const HomeView());
+//     } catch (e) {
+//       Get.snackbar("Error", "Login failed. Please try again.");
+//     }
+//   }
+// }

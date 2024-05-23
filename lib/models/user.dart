@@ -3,18 +3,14 @@ class UserModel {
   String email;
   String username;
 
-  UserModel({
-    this.id = '',
-    required this.email, 
-    required this.username
-  });
+  UserModel({this.id = '', required this.email, required this.username});
 
   // Convert a User instance to a json
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'email': email,
-      'username': username,
+      'name': username,
     };
   }
 
@@ -22,20 +18,16 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       id: map['id'],
-      email: map['email'], 
-      username: map['username'],
+      email: map['email'],
+      username: map['name'],
     );
   }
 
-  UserModel copyWith({
-    String? id,
-    String? email,
-    String? username,
-  }) {
-    return UserModel(
-      id: id ?? this.id,
-      email: email ?? this.email,
-      username: username ?? this.username,
-    );
+  UserModel copyWith({String? id, String? email, String? username}) {
+    UserModel user = UserModel(
+        id: id ?? this.id,
+        email: email ?? this.email,
+        username: username ?? this.username);
+    return user;
   }
 }

@@ -2,7 +2,7 @@ name: waste_not
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.3.3 <4.0.0'
+  sdk: ">=3.3.3 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,7 +30,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   vector_graphics_compiler: ^1.1.11+1
   flutter_svg: ^2.0.10+1
   flutter_native_splash: ^2.4.0
@@ -44,7 +43,7 @@ dependencies:
   cloud_firestore: ^4.17.0
   firebase_storage: ^11.7.2
   firebase_core: ^2.30.0
-#  google_ml_kit: ^0.17.0
+  #  google_ml_kit: ^0.17.0
   intl: ^0.17.0
   google_mlkit_text_recognition: ^0.12.1
   image_picker: ^1.1.0
@@ -54,6 +53,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  integration_test:
+    sdk: flutter
+  
+  mockito: ^5.0.17
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -67,9 +71,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - lib/assets/
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -79,6 +80,9 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
+  assets:
+    - assets/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -17,7 +17,7 @@ class AddProductView extends StatelessWidget {
         Get.put(AddProductController());
     final CategoryController categoryController = Get.find();
 
-    void _presentDatePicker() async {
+    void presentDatePicker() async {
       final DateTime? picked = await showDatePicker(
         context: context,
         initialDate: addProductController.selectedDate.value,
@@ -82,17 +82,17 @@ class AddProductView extends StatelessWidget {
                             enabledBorder: InputBorder.none,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 40,
                         ),
-                        Text(
+                        const Text(
                           "Choose expiration date",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         TextFormField(
@@ -101,14 +101,14 @@ class AddProductView extends StatelessWidget {
                               CustomValidator.validateEmptyText("Date", value),
                           decoration: InputDecoration(
                             labelText: "Date",
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: fontColorBlue),
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.calendar_month),
+                              icon: const Icon(Icons.calendar_month),
                               color: primaryBlue,
-                              onPressed: _presentDatePicker,
+                              onPressed: presentDatePicker,
                             ),
                             filled: true,
                             fillColor: containerColor,
@@ -116,17 +116,17 @@ class AddProductView extends StatelessWidget {
                           ),
                           readOnly: true,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
-                        Text(
+                        const Text(
                           "or",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         ElevatedButton(
@@ -136,7 +136,7 @@ class AddProductView extends StatelessWidget {
                               backgroundColor: primaryBlue,
                               minimumSize: const Size(180, 36),
                             ),
-                            child: Row(
+                            child: const Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Icon(
@@ -146,7 +146,7 @@ class AddProductView extends StatelessWidget {
                                 SizedBox(
                                   width: 5,
                                 ),
-                                const Text(
+                                Text(
                                   'Take a photo',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -157,17 +157,17 @@ class AddProductView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   ),
-                  Text(
+                  const Text(
                     "Select category",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 15,
                   ),
                   Obx(
@@ -179,14 +179,14 @@ class AddProductView extends StatelessWidget {
                                 label: category.name,
                                 iconPath: category.iconPath,
                                 color: addProductController.categoryId.value ==
-                                        category.categoryId
+                                        category.id
                                     ? selectedCategory
                                     : Colors.white,
                                 onPressed: () {
                                   // Handle category selection
                                   // print("Selected: ${category.name}");
                                   addProductController.categoryId.value =
-                                      category.categoryId;
+                                      category.id;
                                 },
                               ))
                           .toList(),
@@ -208,7 +208,8 @@ class CategoryButton extends StatelessWidget {
   final Color color; // Background color for the button
   final VoidCallback onPressed;
 
-  CategoryButton({
+  const CategoryButton({
+    super.key,
     required this.label,
     required this.iconPath,
     required this.color,
@@ -221,11 +222,11 @@ class CategoryButton extends StatelessWidget {
       onTap: onPressed,
       borderRadius: BorderRadius.circular(20),
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 8,
@@ -240,7 +241,7 @@ class CategoryButton extends StatelessWidget {
               height: 30,
               width: 30,
               padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: primaryBlue, // Color of the circle container
                 shape: BoxShape.circle, // Makes the container circular
                 // boxShadow: [
@@ -257,8 +258,8 @@ class CategoryButton extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             Text(label,
-                style:
-                    TextStyle(color: fontColor, fontWeight: FontWeight.bold)),
+                style: const TextStyle(
+                    color: fontColor, fontWeight: FontWeight.bold)),
           ],
         ),
       ),

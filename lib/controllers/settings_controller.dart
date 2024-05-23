@@ -14,7 +14,6 @@ class DarkModeController extends GetxController {
   }
 }
 
-
 class NotificationsController extends GetxController {
   final deviceStorage = GetStorage();
   final RxBool _notifications = false.obs;
@@ -55,7 +54,8 @@ class NotificationsIntervalController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    int? notificationIntervalStored = deviceStorage.read<int>('notificationsInterval');
+    int? notificationIntervalStored =
+        deviceStorage.read<int>('notificationsInterval');
     _notificationInterval.value = notificationIntervalStored ?? 3;
   }
 

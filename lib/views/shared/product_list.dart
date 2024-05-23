@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/views/shared/product_tile.dart';
 
-import '../../controllers/product_controller.dart';
+import '../../controllers/products_controller.dart';
 
 class ProductList extends StatelessWidget {
   const ProductList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final ProductController productController = Get.find();
-    productController.fetchProductsForUser();
+    final ProductsController productsController = Get.find();
 
     return Obx(() {
       return Container(
@@ -22,10 +21,11 @@ class ProductList extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             child: SingleChildScrollView(
               child: Column(
-                  children: productController.products.isEmpty
+                  children: productsController.products.isEmpty
                       ? [const Center(child: Text("No products found"))]
-                      : productController.products
-                          .map((product) => ProductTile(product: product))
+                      : productsController.products
+                          .where((pc) => pc.product.value != null)
+                          .map((pc) => ProductTile(product: pc.product.value!))
                           .toList()),
             ),
           ));

@@ -10,11 +10,13 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
+    LoginController controller = Get.put(LoginController());
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(top: 100, left: 24, bottom: 24, right: 24),
+          padding:
+              const EdgeInsets.only(top: 100, left: 24, bottom: 24, right: 24),
           child: Column(
             children: [
               const Center(
@@ -42,8 +44,7 @@ class LoginView extends StatelessWidget {
                       const SizedBox(
                         height: 16,
                       ),
-                      Obx(
-                        () => TextFormField(
+                      Obx(() => TextFormField(
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
                           validator: (value) =>
@@ -57,9 +58,7 @@ class LoginView extends StatelessWidget {
                                 icon: Icon(controller.hidePassword.value
                                     ? CupertinoIcons.eye
                                     : CupertinoIcons.eye_fill)),
-                          ),
-                        ),
-                      ),
+                          ))),
                       const SizedBox(
                         height: 8,
                       ),

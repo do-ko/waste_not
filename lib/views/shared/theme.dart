@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Colors
-const Color basicColor = Colors.lightBlue;
+const Color baseThemeColor = Colors.blueAccent;
 
 const Color backgroundHeaderColor = Color(0xffa7c8ff);
 const Color textHeaderColor = Color(0xff04305F);
@@ -12,7 +12,7 @@ const Color categoryIconLightBackgroundColor = Color(0xffD5E3FF);
 const Color categoryIconDarkColor = Color(0xff04305F);
 const Color categoryIconDarkBackgroundColor = Color(0xff3E5F90);
 
-const Color loadingScreenBackground = Color(0xff04305F);
+const Color loadingScreenBackgroundColor = Color(0xff04305F);
 const Color containerColor = Color(0xffEDF5FE);
 const Color containerColorSplash = Color(0xffa7c8ff);
 const Color fridgeColor = Color(0xffA7C8FF);
@@ -22,7 +22,6 @@ const Color fontColorLight = Color(0xff6C6C6C);
 const Color fontColorBlue = Color(0xff3E5F90);
 const Color primaryBlue = Color(0xff3E5F90);
 const Color selectedCategory = Color(0xffA7C8FF);
-
 
 // TextStyles
 const TextStyle headerStyle = TextStyle(color: textHeaderColor);

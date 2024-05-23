@@ -4,10 +4,19 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/auth_controller.dart';
+import 'package:waste_not/views/add_product.dart';
+import 'package:waste_not/views/edit_account.dart';
+import 'package:waste_not/views/edit_product.dart';
+import 'package:waste_not/views/home.dart';
+import 'package:waste_not/views/login.dart';
+import 'package:waste_not/views/product.dart';
+import 'package:waste_not/views/register.dart';
+import 'package:waste_not/views/settings.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import 'controllers/settings_controller.dart';
 import 'firebase_options.dart';
+import 'models/product.dart';
 
 Future<void> main() async {
   final widgetBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +26,6 @@ Future<void> main() async {
   FlutterNativeSplash.preserve(widgetsBinding: widgetBinding);
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // .then((FirebaseApp value) => Get.put(AuthRepository()));
 
   Get.put(DarkModeController(), permanent: true);
   Get.put(NotificationsController(), permanent: true);
@@ -35,7 +43,7 @@ class WasteNotApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       home: const Scaffold(
-        backgroundColor: loadingScreenBackground,
+        backgroundColor: loadingScreenBackgroundColor,
         body: Center(
           child: CircularProgressIndicator(
             color: Colors.white,
@@ -45,33 +53,45 @@ class WasteNotApp extends StatelessWidget {
       title: 'Waste Not (WIP)',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: baseThemeColor),
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          backgroundColor: backgroundHeaderColor,
-          centerTitle: true,
-          titleTextStyle: TextStyle(
-            color: fontColor,
-            fontSize: 24,
-          ),
-          iconTheme: IconThemeData(
-            color: fontColor,
-          ),
-        ),
+            backgroundColor: backgroundHeaderColor,
+            centerTitle: true,
+            titleTextStyle: TextStyle(
+              color: fontColor,
+              fontSize: 24,
+            ),
+            iconTheme: IconThemeData(
+              color: fontColor,
+            )),
       ),
-      // routes: {
-      //   // '/': (context) => const AuthCheckerView(),
-      //   '/login': (context) => const LoginView(),
-      //   '/register': (context) => const RegisterView(),
-      //   '/home': (context) => const HomeView(),
-      //   '/settings': (context) => const SettingsView(),
-      //   '/account': (context) => const EditAccountView(),
-      //   '/product': (context) =>
-      //       ProductView(productController: ProductController(productId: "0")),
-      //   '/product/edit': (context) => EditProductView(
-      //       productController: ProductController(productId: "0")),
-      //   '/product/add': (context) => const AddProductView()
-      // },
+      initialRoute: '/login',
+      getPages: [
+        //GetPage(name: '/', page: () => const AuthenticationView()),
+        GetPage(name: '/login', page: () => const LoginView()),
+        GetPage(name: '/register', page: () => const RegisterView()),
+        GetPage(name: '/home', page: () => const HomeView()),
+        GetPage(name: '/settings', page: () => const SettingsView()),
+        GetPage(name: '/account', page: () => const EditAccountView()),
+        GetPage(
+          name: '/product',
+          page: () => ProductView(
+              product: ProductModel(
+                  productId: "0",
+                  name: "0",
+                  category: "0",
+                  comment: "0",
+                  expirationDate: DateTime.now(),
+                  imageLink: "",
+                  owner: "")),
+        ),
+        GetPage(
+          name: '/product/edit',
+          page: () => const EditProductView(),
+        ),
+        GetPage(name: '/product/add', page: () => const AddProductView()),
+      ],
     );
   }
 }

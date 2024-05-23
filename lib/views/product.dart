@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/category_controller.dart';
-import 'package:waste_not/models/category.dart';
 import 'package:waste_not/views/edit_product.dart';
 import 'package:waste_not/views/shared/product_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
@@ -11,112 +10,10 @@ import '../controllers/product_controller.dart';
 import '../models/product.dart';
 
 class ProductView extends StatelessWidget {
-  ProductModel product;
-
-  ProductView({super.key, required this.product});
-
+  final ProductModel product;
   // final ProductController productController;
 
-  @override
-  Widget build(BuildContext context) {
-    final ProductController productController = Get.find();
-    final CategoryController categoryController = Get.find();
-    final CategoryModel? categoryModel =
-        categoryController.getCategoryById(product.category);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Product"),
-        actions: [
-          IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: () => Get.to(
-                  () => EditProductView(productController: productController)))
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              clipBehavior: Clip.none,
-              children: [
-                FutureBuilder(
-                    future: ProductController.getDownloadURL(product.imageLink),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return Container(
-                          width: double.maxFinite,
-                          height: 200,
-                          alignment: Alignment.center,
-                          color: Colors.white,
-                          child: const CircularProgressIndicator(),
-                        );
-                      }
-
-                      if (snapshot.hasData && snapshot.hasData != null) {
-                        return Container(
-                          width: double.maxFinite,
-                          height: 200,
-                          decoration: BoxDecoration(
-                              image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(snapshot.data!),
-                          )),
-                        );
-                      }
-
-                      return Container(
-                          width: double.maxFinite,
-                          height: 200,
-                          alignment: Alignment.center,
-                          color: Colors.white,
-                          child: const Text('Error loading image'));
-                    }),
-                Positioned(
-                    bottom: -40,
-                    right: 30,
-                    child: ProductIcon(categoryId: product.category)),
-              ],
-            ),
-            const SizedBox(height: 60),
-            _buildDetailCard('Product Name', product.name),
-            _buildDetailTimeCard(
-                'Expiration Date',
-                DateFormat('MM/dd/yyyy').format(product.expirationDate),
-                product.expirationDate
-                    .difference(DateTime.now())
-                    .inDays
-                    .toString()),
-            _buildDetailCard('Category', categoryModel?.name ?? '[null]'),
-            const SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: ElevatedButton.icon(
-                onPressed: () {
-                  // Handle remove action
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: primaryBlue,
-                  minimumSize: const Size(180, 36),
-                ),
-                icon: const Icon(
-                  Icons.delete_outline,
-                  size: 18,
-                ),
-                label: const Text(
-                  'Remove',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  const ProductView({super.key, required this.product});
 
   Widget _buildDetailCard(String title, String value) {
     return Card(
@@ -225,5 +122,105 @@ class ProductView extends StatelessWidget {
                 ],
               ),
             )));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final CategoryController categoryController = Get.find();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Product"),
+        actions: [
+          IconButton(
+              icon: const Icon(Icons.edit),
+              onPressed: () => Get.to(() => const EditProductView())),
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Stack(
+              clipBehavior: Clip.none,
+              children: [
+                FutureBuilder(
+                    future: ProductController.getDownloadURL(product.imageLink),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          child: const CircularProgressIndicator(),
+                        );
+                      }
+
+                      if (snapshot.hasData) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          decoration: BoxDecoration(
+                              image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(snapshot.data!),
+                          )),
+                        );
+                      }
+
+                      return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          child: const Text('Error loading image'));
+                    }),
+                Positioned(
+                    bottom: -40,
+                    right: 30,
+                    child: ProductIcon(categoryId: product.category)),
+              ],
+            ),
+            const SizedBox(height: 60),
+            _buildDetailCard('Product Name', product.name),
+            _buildDetailTimeCard(
+                'Expiration Date',
+                DateFormat('MM/dd/yyyy').format(product.expirationDate),
+                product.expirationDate
+                    .difference(DateTime.now())
+                    .inDays
+                    .toString()),
+            _buildDetailCard(
+                'Category',
+                categoryController.getCategoryById(product.category)?.name ??
+                    'null'),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // Handle remove action
+                },
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: primaryBlue,
+                  minimumSize: const Size(180, 36),
+                ),
+                icon: const Icon(
+                  Icons.delete_outline,
+                  size: 18,
+                ),
+                label: const Text(
+                  'Remove',
+                  style: TextStyle(fontSize: 16),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

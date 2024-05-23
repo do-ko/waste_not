@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/user_controller.dart';
@@ -14,9 +13,12 @@ class EditAccountController extends GetxController {
   final TextEditingController usernameTextController = TextEditingController();
   final TextEditingController oldEmailTextController = TextEditingController();
   final TextEditingController newEmailTextController = TextEditingController();
-  final TextEditingController oldPasswordTextController = TextEditingController();
-  final TextEditingController newPasswordTextController = TextEditingController();
-  final TextEditingController newPasswordRepeatTextController = TextEditingController();
+  final TextEditingController oldPasswordTextController =
+      TextEditingController();
+  final TextEditingController newPasswordTextController =
+      TextEditingController();
+  final TextEditingController newPasswordRepeatTextController =
+      TextEditingController();
   GlobalKey<FormState> editUsernameFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editEmailFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editPasswordFormKey = GlobalKey<FormState>();
@@ -25,7 +27,8 @@ class EditAccountController extends GetxController {
     try {
       Get.dialog(
         const Center(child: CircularProgressIndicator()),
-        barrierDismissible: false, // User cannot dismiss the dialog by tapping outside
+        barrierDismissible:
+            false, // User cannot dismiss the dialog by tapping outside
       );
 
       if (!editUsernameFormKey.currentState!.validate()) {
@@ -44,18 +47,21 @@ class EditAccountController extends GetxController {
 
       usernameTextController.text = '';
       Get.back();
-      Get.snackbar("Success", "Username was changed", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Success", "Username was changed",
+          snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       Get.back();
-      Get.snackbar("Error", "Something went wrong: $e", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "Something went wrong: $e",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-  editEmail () async {
+  editEmail() async {
     try {
       Get.dialog(
         const Center(child: CircularProgressIndicator()),
-        barrierDismissible: false, // User cannot dismiss the dialog by tapping outside
+        barrierDismissible:
+            false, // User cannot dismiss the dialog by tapping outside
       );
 
       if (!editEmailFormKey.currentState!.validate()) {
@@ -63,11 +69,12 @@ class EditAccountController extends GetxController {
         return;
       }
 
-      // Map<String, dynamic> emailJson = {
-      //   'email': newEmailTextController.text.trim()
-      // };
-      // await userFirebaseController.updateSingleField(emailJson);
-      await AuthController.instance.changeEmail(newEmailTextController.text.trim());
+// Map<String, dynamic> emailJson = {
+//   'email': newEmailTextController.text.trim()
+// };
+// await userFirebaseController.updateSingleField(emailJson);
+      await AuthController.instance
+          .changeEmail(newEmailTextController.text.trim());
 
       UserModel updatedUser = userController.user.value
           .copyWith(email: newEmailTextController.text.trim());
@@ -76,18 +83,22 @@ class EditAccountController extends GetxController {
       oldEmailTextController.text = '';
       newEmailTextController.text = '';
       Get.back();
-      Get.snackbar("Success", "The confirmation request has been sent to your email.", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar(
+          "Success", "The confirmation request has been sent to your email.",
+          snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       Get.back();
-      Get.snackbar("Error", "Something went wrong: $e", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "Something went wrong: $e",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 
-  editPassword () async {
+  editPassword() async {
     try {
       Get.dialog(
         const Center(child: CircularProgressIndicator()),
-        barrierDismissible: false, // User cannot dismiss the dialog by tapping outside
+        barrierDismissible:
+            false, // User cannot dismiss the dialog by tapping outside
       );
 
       if (!editPasswordFormKey.currentState!.validate()) {
@@ -95,25 +106,27 @@ class EditAccountController extends GetxController {
         return;
       }
 
-      // Map<String, dynamic> passwordJson = {
-      //   'password': newPasswordTextController.text.trim()
-      // };
-      // await userFirebaseController.updateSingleField(passwordJson);
-      //
-      // UserModel updatedUser = userController.user.value
-      //     .copyWith(email: newEmailTextController.text.trim());
-      // userController.user.value = updatedUser;
-      await AuthController.instance.changePassword(newPasswordTextController.text.trim());
-
+// Map<String, dynamic> passwordJson = {
+//   'password': newPasswordTextController.text.trim()
+// };
+// await userFirebaseController.updateSingleField(passwordJson);
+//
+// UserModel updatedUser = userController.user.value
+//     .copyWith(email: newEmailTextController.text.trim());
+// userController.user.value = updatedUser;
+      await AuthController.instance
+          .changePassword(newPasswordTextController.text.trim());
 
       oldPasswordTextController.text = '';
       newPasswordTextController.text = '';
       newPasswordRepeatTextController.text = '';
       Get.back();
-      Get.snackbar("Success", "Password was changed", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Success", "Password was changed",
+          snackPosition: SnackPosition.BOTTOM);
     } catch (e) {
       Get.back();
-      Get.snackbar("Error", "Something went wrong: $e", snackPosition: SnackPosition.BOTTOM);
+      Get.snackbar("Error", "Something went wrong: $e",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }

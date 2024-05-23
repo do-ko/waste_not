@@ -1,23 +1,23 @@
 class CategoryModel {
-  String categoryId;
+  String id;
   String iconPath;
   String name;
 
-  CategoryModel({required this.categoryId, required this.iconPath, required this.name});
+  CategoryModel({required this.id, required this.iconPath, required this.name});
 
   // Convert a Category instance to a json
   Map<String, dynamic> toJson() {
     return {
-      'categoryId': categoryId,
+      'id': id,
       'icon_path': iconPath,
       'name': name,
     };
   }
 
-  // Construct a Category from a json 
+  // Construct a Category from a json
   factory CategoryModel.fromMap(Map<String, dynamic> map) {
     return CategoryModel(
-      categoryId: map['categoryId'],
+      id: map['id'],
       iconPath: map['icon_path'],
       name: map['name'],
     );
