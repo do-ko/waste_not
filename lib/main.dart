@@ -66,7 +66,6 @@ class WasteNotApp extends StatelessWidget {
               color: fontColor,
             )),
       ),
-      initialRoute: '/login',
       getPages: [
         //GetPage(name: '/', page: () => const AuthenticationView()),
         GetPage(name: '/login', page: () => const LoginView()),
