@@ -20,8 +20,8 @@ class ProductsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchProducts();
-    //fetchProductsForUser();
+    // fetchProducts();
+    fetchProductsForUser();
   }
 
   Future<void> fetchProducts() async {
@@ -60,58 +60,61 @@ class ProductsController extends GetxController {
     }
   }
 
-  // Future<void> fetchProductsForUser() async {
-  //   String? currentUserId = AuthController.instance.authUser?.uid;
-  //
-  //   if (currentUserId == null) {
-  //     if (kDebugMode) {
-  //       print("User is not logged in");
-  //     }
-  //     return;
-  //   }
-  //
-  //   DocumentReference ownerRef =
-  //   FirebaseFirestore.instance.doc('Users/$currentUserId');
-  //
-  //   try {
-  //     if (kDebugMode) {
-  //       print(currentUserId);
-  //     }
-  //
-  //     QuerySnapshot snapshot = await FirebaseFirestore.instance
-  //         .collection('Products')
-  //         .where('owner', isEqualTo: ownerRef)
-  //         .get();
-  //     if (snapshot.docs.isEmpty) {
-  //       if (kDebugMode) {
-  //         print('No products found for the current user.');
-  //         if (kDebugMode) {
-  //           products.assignAll([1, 2, 3, 4, 5].map((i) => ProductModel(
-  //               productId: i.toString(),
-  //               name: 'Product $i',
-  //               category: 'Category $i',
-  //               comment: 'Hello $i',
-  //               expirationDate: DateTime.now().add(Duration(hours: i + 3)),
-  //               imageLink: '',
-  //               owner: currentUserId)));
-  //         }
-  //       }
-  //     } else {
-  //       if (kDebugMode) {
-  //         print('${snapshot.docs.length} products found.');
-  //       }
-  //
-  //       List<ProductModel> productsList = snapshot.docs
-  //           .map((doc) =>
-  //           ProductModel.fromMap(doc.data() as Map<String, dynamic>))
-  //           .toList();
-  //
-  //       products.assignAll(productsList);
-  //     }
-  //   } catch (e) {
-  //     print('Failed to fetch products: $e');
-  //   }
-  // }
+  Future<void> fetchProductsForUser() async {
+    String? currentUserId = AuthController.instance.authUser?.uid;
+
+    if (currentUserId == null) {
+      if (kDebugMode) {
+        print("User is not logged in");
+      }
+      return;
+    }
+
+    DocumentReference ownerRef =
+        FirebaseFirestore.instance.doc('Users/$currentUserId');
+
+    try {
+      if (kDebugMode) {
+        print(currentUserId);
+      }
+
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .doc(currentUserId)
+          .collection('Products')
+          .get();
+
+      if (snapshot.docs.isEmpty) {
+        if (kDebugMode) {
+          print('No products found for the current user.');
+          // if (kDebugMode) {
+          //   products.assignAll([1, 2, 3, 4, 5].map((i) => ProductModel(
+          //       productId: i.toString(),
+          //       name: 'Product $i',
+          //       category: 'Category $i',
+          //       comment: 'Hello $i',
+          //       expirationDate: DateTime.now().add(Duration(hours: i + 3)),
+          //       imageLink: '',
+          //       owner: currentUserId)));
+          // }
+        }
+      } else {
+        if (kDebugMode) {
+          print('${snapshot.docs.length} products found.');
+        }
+
+        List<ProductModel> productsList = snapshot.docs
+            .map((doc) =>
+                ProductModel.fromMap(doc.data() as Map<String, dynamic>))
+            .toList();
+
+        products.assignAll(productsList
+            .map((product) => ProductController(productId: product.productId)));
+      }
+    } catch (e) {
+      print('Failed to fetch products: $e');
+    }
+  }
 
   Future<void> addProduct(ProductModel productModel) async {
     try {

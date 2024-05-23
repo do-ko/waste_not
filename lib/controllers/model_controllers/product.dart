@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/models/product.dart';
 
+import '../page_controllers/auth.dart';
+
 class ProductController extends GetxController {
   String productId;
   late Rx<ProductModel?> product;
@@ -22,24 +24,28 @@ class ProductController extends GetxController {
 
   Future<void> fetchProduct() async {
     try {
-      String userId = GetStorage().read("userId") ?? "0";
+      String? userId = AuthController.instance.authUser?.uid ?? '';
       DocumentSnapshot doc = await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .doc(productId)
           .get();
 
       if (doc.exists) {
-        product.value = ProductModel(
-          productId: productId,
-          name: doc['name'],
-          category: doc['category'],
-          comment: doc['comment'],
-          expirationDate: doc['expiration_date'].toDate(),
-          imageLink: doc['image_link'],
-          owner: doc['owner'],
-        );
+        product.value = ProductModel.fromMap(doc.data() as Map<String, dynamic>);
+        // product.value = ProductModel(
+        //   productId: productId,
+        //   name: doc['name'],
+        //   category: doc['category'].id,
+        //   comment: doc['comment'],
+        //   expirationDate: doc['expiration_date'].toDate(),
+        //   imageLink: doc['image_link'],
+        //   owner: doc['owner'].id,
+        // );
+
+        print("product");
+        print(product.value);
       } else if (kDebugMode && ["1", "2", "3", "4", "5"].contains(productId)) {
         product.value = ProductModel(
             productId: productId,
