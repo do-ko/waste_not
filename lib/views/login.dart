@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:waste_not/controllers/login_controller.dart';
+import 'package:waste_not/controllers/validator.dart';
 import 'package:waste_not/views/register.dart';
-import 'package:waste_not/views/shared/validator.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -36,7 +36,8 @@ class LoginView extends StatelessWidget {
                           prefixIcon: Icon(CupertinoIcons.mail),
                         ),
                         controller: controller.email,
-                        validator: (value) => CustomValidator.validateEmail(value),
+                        validator: (value) =>
+                            CustomValidator.validateEmail(value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -45,7 +46,8 @@ class LoginView extends StatelessWidget {
                         () => TextFormField(
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
-                          validator: (value) => CustomValidator.validatePassword(value),
+                          validator: (value) =>
+                              CustomValidator.validatePassword(value),
                           decoration: InputDecoration(
                             labelText: "Password",
                             prefixIcon: const Icon(CupertinoIcons.lock),
@@ -86,7 +88,8 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                            onPressed: () => {controller.signIn()}, child: const Text("Sign in")),
+                            onPressed: () => {controller.signIn()},
+                            child: const Text("Sign in")),
                       ),
                       const SizedBox(
                         height: 16,

@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 
 // Colors
+const Color basicColor = Colors.lightBlue;
+
 const Color backgroundHeaderColor = Color(0xffa7c8ff);
 const Color textHeaderColor = Color(0xff04305F);
 const Color iconColor = Color(0xff04305F);
+
+const Color categoryIconLightColor = Color(0xffFFFFFF);
+const Color categoryIconLightBackgroundColor = Color(0xffD5E3FF);
+const Color categoryIconDarkColor = Color(0xff04305F);
+const Color categoryIconDarkBackgroundColor = Color(0xff3E5F90);
+
 const Color loadingScreenBackground = Color(0xff04305F);
 const Color containerColor = Color(0xffEDF5FE);
 const Color containerColorSplash = Color(0xffa7c8ff);
@@ -16,7 +24,12 @@ const Color primaryBlue = Color(0xff3E5F90);
 
 // TextStyles
 const TextStyle headerStyle = TextStyle(color: textHeaderColor);
-
+const TextStyle productTileNameStyle =
+    TextStyle(color: fontColor, fontSize: 20);
+const TextStyle productTileCategoryStyle =
+    TextStyle(color: fontColor, fontSize: 15);
+const TextStyle productTileDaysLeftStyle =
+    TextStyle(color: fontColor, fontSize: 14);
 
 // ThemeData lightTheme = ThemeData(
 //   primaryColor: backgroundHeaderColor,

@@ -1,11 +1,10 @@
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/models/category.dart';
 import 'package:waste_not/views/edit_product.dart';
+import 'package:waste_not/views/shared/product_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/product_controller.dart';
@@ -22,7 +21,8 @@ class ProductView extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProductController productController = Get.find();
     final CategoryController categoryController = Get.find();
-    final CategoryModel? categoryModel = categoryController.getCategoryById(product.category);
+    final CategoryModel? categoryModel =
+        categoryController.getCategoryById(product.category);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,11 +41,20 @@ class ProductView extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                FutureBuilder<String>(
-                    future: getDownloadURL(product.imageLink),
+                FutureBuilder(
+                    future: ProductController.getDownloadURL(product.imageLink),
                     builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done &&
-                          snapshot.hasData) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return Container(
+                          width: double.maxFinite,
+                          height: 200,
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          child: const CircularProgressIndicator(),
+                        );
+                      }
+
+                      if (snapshot.hasData && snapshot.hasData != null) {
                         return Container(
                           width: double.maxFinite,
                           height: 200,
@@ -55,49 +64,19 @@ class ProductView extends StatelessWidget {
                             image: NetworkImage(snapshot.data!),
                           )),
                         );
-                      } else if (snapshot.hasError) {
-                        return Container(
-                            width: double.maxFinite,
-                            height: 200,
-                            alignment: Alignment.center,
-                            color: Colors.white,
-                            child: const Text('Error loading image'));
                       }
+
                       return Container(
-                        width: double.maxFinite,
-                        height: 200,
-                        alignment: Alignment.center,
-                        color: Colors.white,
-                        child: const CircularProgressIndicator(),
-                      );
+                          width: double.maxFinite,
+                          height: 200,
+                          alignment: Alignment.center,
+                          color: Colors.white,
+                          child: const Text('Error loading image'));
                     }),
                 Positioned(
-                  bottom: -40,
-                  right: 30,
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: primaryBlue, // Color of the circle container
-                      shape: BoxShape.circle, // Makes the container circular
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 5,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3), // Shadow position
-                        ),
-                      ],
-                    ),
-                    child: SvgPicture.asset(
-                      categoryModel!.iconPath,
-                      width: 50,
-                      height: 50,
-                      fit: BoxFit.contain
-                    ),
-                  ),
-                ),
+                    bottom: -40,
+                    right: 30,
+                    child: ProductIcon(categoryId: product.category)),
               ],
             ),
             const SizedBox(height: 60),
@@ -109,7 +88,7 @@ class ProductView extends StatelessWidget {
                     .difference(DateTime.now())
                     .inDays
                     .toString()),
-            _buildDetailCard('Category', categoryModel!.name),
+            _buildDetailCard('Category', categoryModel?.name ?? '[null]'),
             const SizedBox(
               height: 20,
             ),
@@ -247,17 +226,5 @@ class ProductView extends StatelessWidget {
                 ],
               ),
             )));
-  }
-}
-
-Future<String> getDownloadURL(String gsUrl) async {
-  try {
-    final ref = FirebaseStorage.instance.refFromURL(gsUrl);
-    final url = await ref.getDownloadURL();
-    print(url);
-    return url;
-  } catch (e) {
-    print('Error obtaining download URL: $e');
-    return '';
   }
 }

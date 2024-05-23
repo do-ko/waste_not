@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/auth_controller.dart';
 import 'package:waste_not/controllers/edit_account_controller.dart';
 import 'package:waste_not/controllers/user_controller.dart';
+import 'package:waste_not/controllers/validator.dart';
 import 'package:waste_not/views/shared/theme.dart';
-import 'package:waste_not/views/shared/validator.dart';
 
 class EditAccountView extends StatelessWidget {
   const EditAccountView({super.key});

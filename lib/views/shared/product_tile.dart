@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 import 'package:waste_not/controllers/category_controller.dart';
 import 'package:waste_not/controllers/home.dart';
 import 'package:waste_not/models/product.dart';
+import 'package:waste_not/views/shared/product_icon.dart';
+import 'package:waste_not/views/shared/theme.dart';
 
-import '../../controllers/product_controller.dart';
 import '../product.dart';
 
 class ProductTile extends StatelessWidget {
@@ -16,65 +17,80 @@ class ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
     final CategoryController categoryController = Get.find();
-    // final ProductController productController = Get.find();
+    //final ProductController productController = Get.find();
 
-    // return Obx(
-    //   () => ListTile(
-    //       title: Text(product.name ?? "[Name]"),
-    //       subtitle: Text(product.category.toString() ?? "[Category]"),
-    //       // TODO: product category name
-    //       leading: Icon(
-    //           homeController.markedProducts.contains(product.productId)
-    //               ? Icons.check_circle_rounded
-    //               : Icons.add),
-    //       // TODO: get the right icon
-    //       trailing: Text(
-    //           "expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString() ?? "#"} days"),
-    //       // TODO: expiration date
-    //       onTap: () => Navigator.of(context).push(MaterialPageRoute(
-    //           builder: (context) => ProductView(
-    //                 product: product,
-    //               ))),
-    //       onLongPress: () {
-    //         homeController.switchMarkedProduct(product.productId);
-    //       },
-    //     tileColor: Colors.red,
-    //   ),
-    // );
-    return Obx(() => InkWell(
-          onTap: () => Get.to(ProductView(product: product)),
-          onLongPress: () =>
-              homeController.switchMarkedProduct(product.productId),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            // margin: EdgeInsets.only(left: 25, right: 25),
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Row(
-              children: [
-                Icon(homeController.markedProducts.contains(product.productId)
-                    ? Icons.check_circle_rounded
-                    : Icons.add),
-                SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(categoryController.getCategoryById(product.category)!.name,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text(product.name,
-                          style: TextStyle(color: Colors.grey[700])),
-                    ],
-                  ),
-                ),
-                Text(
-                    'expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString()} days'),
-                SizedBox(width: 10),
-                // Icon(Icons.check_circle_outline, color: Colors.green), // Checkbox-like icon
-              ],
-            ),
+    return Obx(
+      () => ListTile(
+        title: Text(
+            categoryController.getCategoryById(product.category)?.name ??
+                "[Category]",
+            style: productTileCategoryStyle
+                .merge(Theme.of(context).listTileTheme.subtitleTextStyle)),
+        subtitle: Text(product.name ?? "[Name]",
+            style: productTileNameStyle.merge(Theme.of(context)
+                .listTileTheme
+                .titleTextStyle
+                ?.merge(productTileNameStyle))),
+        leading: Stack(alignment: Alignment.center, children: [
+          ProductIcon(categoryId: product.category, tileVersion: true),
+          Icon(
+            Icons.check_circle_rounded,
+            color: homeController.markedProducts.contains(product.productId)
+                ? null
+                : Colors.transparent,
           ),
-        ));
+        ]),
+        trailing: Text(
+            "expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString() ?? "#"} days",
+            style: productTileDaysLeftStyle.merge(
+                Theme.of(context).listTileTheme.leadingAndTrailingTextStyle)),
+        onTap: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ProductView(
+                  product: product,
+                ))),
+        onLongPress: () {
+          homeController.switchMarkedProduct(product.productId);
+        },
+      ),
+    );
+    // return Obx(() => InkWell(
+    //       onTap: () => Get.to(ProductView(product: product)),
+    //       onLongPress: () =>
+    //           homeController.switchMarkedProduct(product.productId),
+    //       child: Container(
+    //         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    //         // margin: EdgeInsets.only(left: 25, right: 25),
+    //         decoration: const BoxDecoration(
+    //           color: Colors.white,
+    //         ),
+    //         child: Row(
+    //           children: [
+    //             Icon(homeController.markedProducts.contains(product.productId)
+    //                 ? Icons.check_circle_rounded
+    //                 : Icons.add),
+    //             const SizedBox(width: 10),
+    //             Expanded(
+    //               child: Column(
+    //                 crossAxisAlignment: CrossAxisAlignment.start,
+    //                 children: [
+    //                   Text(
+    //                       categoryController
+    //                               .getCategoryById(product.category)
+    //                               ?.name ??
+    //                           '[null]',
+    //                       style: const TextStyle(fontWeight: FontWeight.bold)),
+    //                   Text(product.name,
+    //                       style: TextStyle(color: Colors.grey[700])),
+    //                 ],
+    //               ),
+    //             ),
+    //             Text(
+    //                 'expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString()} days'),
+    //             const SizedBox(width: 10),
+    //             // Icon(Icons.check_circle_outline, color: Colors.green), // Checkbox-like icon
+    //           ],
+    //         ),
+    //       ),
+    //     ));
   }
 }
