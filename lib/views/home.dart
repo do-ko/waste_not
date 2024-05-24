@@ -27,6 +27,7 @@ class HomeView extends StatelessWidget {
         preferredSize: const Size.fromHeight(56),
         child: Obx(
           () => AppBar(
+            automaticallyImplyLeading: false,
             elevation: 0,
             title: Text('Hello, ${userController.user.value.username}!'),
             centerTitle: false,
