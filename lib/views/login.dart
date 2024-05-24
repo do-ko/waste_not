@@ -56,7 +56,7 @@ class LoginView extends StatelessWidget {
                                     !controller.hidePassword.value,
                                 icon: Icon(controller.hidePassword.value
                                     ? CupertinoIcons.eye
-                                    : CupertinoIcons.eye_fill)),
+                                    : CupertinoIcons.eye_slash)),
                           )),
                       const SizedBox(
                         height: 8,

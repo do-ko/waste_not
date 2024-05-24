@@ -60,7 +60,7 @@ class AddProductView extends StatelessWidget {
               child: const CircularProgressIndicator(),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 24, 24, 48),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 48),
               child: Column(
                 children: [
                   Form(
@@ -70,7 +70,8 @@ class AddProductView extends StatelessWidget {
                         TextFormField(
                           controller: addProductController.nameController,
                           validator: (value) =>
-                              CustomValidator.validateEmptyText("Name", value),
+                              CustomValidator.validateFieldNotEmpty(
+                                  "Name", value),
                           decoration: const InputDecoration(
                             labelText: "Name",
                             labelStyle: TextStyle(
@@ -98,7 +99,8 @@ class AddProductView extends StatelessWidget {
                         TextFormField(
                           controller: addProductController.dateController,
                           validator: (value) =>
-                              CustomValidator.validateEmptyText("Date", value),
+                              CustomValidator.validateFieldNotEmpty(
+                                  "Date", value),
                           decoration: InputDecoration(
                             labelText: "Date",
                             labelStyle: const TextStyle(

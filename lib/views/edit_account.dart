@@ -39,8 +39,9 @@ class EditAccountView extends StatelessWidget {
                       child: TextFormField(
                         controller:
                             editAccountController.usernameTextController,
-                        validator: (value) => CustomValidator.validateEmptyText(
-                            "Username", value),
+                        validator: (value) =>
+                            CustomValidator.validateFieldNotEmpty(
+                                "Username", value),
                         decoration: const InputDecoration(
                           labelText: "Username",
                           labelStyle: TextStyle(

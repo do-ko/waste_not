@@ -9,7 +9,8 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SignupController());
+    final SignupController controller = Get.put(SignupController());
+
     return Scaffold(
       appBar: AppBar(),
       body: SingleChildScrollView(
@@ -36,8 +37,8 @@ class RegisterView extends StatelessWidget {
                           prefixIcon: Icon(CupertinoIcons.person),
                         ),
                         controller: controller.username,
-                        validator: (value) => CustomValidator.validateEmptyText(
-                            "Username", value),
+                        validator: (value) =>
+                            CustomValidator.validateUsername(value),
                       ),
                       const SizedBox(
                         height: 16,
@@ -68,8 +69,23 @@ class RegisterView extends StatelessWidget {
                                     !controller.hidePassword.value,
                                 icon: Icon(controller.hidePassword.value
                                     ? CupertinoIcons.eye
-                                    : CupertinoIcons.eye_fill)),
+                                    : CupertinoIcons.eye_slash)),
                           ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Obx(
+                        () => TextFormField(
+                          obscureText: controller.hidePassword.value,
+                          controller: controller.repeatPassword,
+                          validator: (value) =>
+                              CustomValidator.validateRepeatPassword(
+                                  value, controller.password.text),
+                          decoration: const InputDecoration(
+                              labelText: "Repeat password",
+                              prefixIcon: Icon(CupertinoIcons.lock)),
                         ),
                       )
                     ],
@@ -80,7 +96,7 @@ class RegisterView extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                    onPressed: () => {controller.signUp()},
+                    onPressed: () => controller.signUp(),
                     child: const Text("Create account")),
               )
             ],

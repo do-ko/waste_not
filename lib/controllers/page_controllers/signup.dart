@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/page_controllers/auth.dart';
+import 'package:waste_not/controllers/shared/validator.dart';
 
 import '../../models/user.dart';
 import '../model_controllers/user.dart';
@@ -12,11 +13,20 @@ class SignupController extends GetxController {
   final hidePassword = true.obs;
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final TextEditingController repeatPassword = TextEditingController();
   final TextEditingController username = TextEditingController();
   GlobalKey<FormState> signupFormKey = GlobalKey<FormState>();
   final deviceStorage = GetStorage();
 
   Future<void> signUp() async {
+    String? message = CustomValidator.validateRegisterForm(
+        username.text, email.text, password.text, repeatPassword.text);
+
+    if (message != null) {
+      Get.snackbar("Form error", message);
+      return;
+    }
+
     try {
       final userCredential = await AuthController.instance
           .register(email.text.trim(), password.text.trim());
@@ -37,7 +47,7 @@ class SignupController extends GetxController {
 
       Get.offAllNamed("/home");
     } catch (e) {
-      Get.snackbar("Error", "Sign up failed. Please try again.");
+      Get.snackbar("Error", message ?? "Sign up failed. Please try again.");
     }
   }
 }
