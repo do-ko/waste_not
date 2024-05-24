@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/page_controllers/signup.dart';
+import 'package:waste_not/controllers/page_controllers/register.dart';
 import 'package:waste_not/controllers/shared/validator.dart';
 
 class RegisterView extends StatelessWidget {
@@ -9,7 +9,7 @@ class RegisterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SignupController controller = Get.put(SignupController());
+    final RegisterController controller = Get.put(RegisterController());
 
     return Scaffold(
       appBar: AppBar(),

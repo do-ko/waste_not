@@ -4,7 +4,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'settings.dart';
+import '../page_controllers/settings.dart';
 
 class AuthException implements Exception {
   final String message;

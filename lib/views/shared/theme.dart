@@ -5,7 +5,7 @@ const Color baseThemeColor = Colors.blueAccent;
 
 const Color backgroundHeaderColor = Color(0xffa7c8ff);
 const Color textHeaderColor = Color(0xff04305F);
-const Color iconColor = Color(0xff04305F);
+const Color iconColor = Color(0xff3E5F90); //0xff04305F);
 
 const Color categoryIconLightColor = Color(0xffFFFFFF);
 const Color categoryIconLightBackgroundColor = Color(0xffD5E3FF);

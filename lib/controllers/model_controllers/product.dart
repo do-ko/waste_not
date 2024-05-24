@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/models/product.dart';
 
-import '../page_controllers/auth.dart';
+import '../shared/auth.dart';
 
 class ProductController extends GetxController {
   String productId;
@@ -33,7 +33,8 @@ class ProductController extends GetxController {
           .get();
 
       if (doc.exists) {
-        product.value = ProductModel.fromMap(doc.data() as Map<String, dynamic>);
+        product.value =
+            ProductModel.fromMap(doc.data() as Map<String, dynamic>);
       } else if (kDebugMode && ["1", "2", "3", "4", "5"].contains(productId)) {
         product.value = ProductModel(
             productId: productId,
@@ -126,7 +127,6 @@ class ProductController extends GetxController {
       }
     }
   }
-
 
   Future<void> removeProduct() async {
     try {

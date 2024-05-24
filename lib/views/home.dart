@@ -65,25 +65,37 @@ class HomeView extends StatelessWidget {
         ),
         child: const ProductList(),
       ),
-      bottomNavigationBar: NavigationBar(destinations: [
+      bottomNavigationBar: NavigationBar(height: 50, destinations: [
         Obx(() => homeController.markedProducts.isNotEmpty
             ? IconButton(
-                icon: const Icon(Icons.delete_rounded, color: iconColor),
+                icon: const Icon(Icons.delete_rounded,
+                    color: iconColor, size: 30),
                 onPressed: () {
                   productsController
                       .removeProducts(homeController.markedProducts);
                   homeController.clear();
                 })
-            : const IconButton(
-                icon: Icon(Icons.delete_rounded), onPressed: null)),
+            : IconButton(
+                icon: Icon(Icons.delete_rounded,
+                    color: iconColor.withAlpha(80), size: 30),
+                onPressed: null)),
         IconButton(
-          icon: const Icon(Icons.add, color: iconColor),
-          onPressed: () => Get.toNamed("/product/add"),
-        ),
-        IconButton(
-            icon: const Icon(Icons.live_help_outlined, color: iconColor),
+            icon: const Icon(Icons.live_help_outlined,
+                color: iconColor, size: 30),
             onPressed: () => Get.toNamed("/suggestions"))
       ]),
+      floatingActionButton: Transform.scale(
+          scale: 1.2,
+          child: FloatingActionButton(
+              elevation: 0,
+              hoverElevation: 0,
+              highlightElevation: 0,
+              shape: const CircleBorder(),
+              onPressed: () => Get.toNamed("/product/add"),
+              backgroundColor: categoryIconDarkBackgroundColor,
+              child: const Icon(Icons.add,
+                  color: categoryIconLightColor, size: 30))),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // bottomNavigationBar: BottomNavigationBar(
       //   items: const [
       //     BottomNavigationBarItem(
