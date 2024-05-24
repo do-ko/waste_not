@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/model_controllers/category.dart';
-import 'package:waste_not/views/shared/product_icon.dart';
+import 'package:waste_not/views/shared/category_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/model_controllers/product.dart';
@@ -178,7 +178,13 @@ class ProductView extends StatelessWidget {
                 Positioned(
                     bottom: -40,
                     right: 30,
-                    child: ProductIcon(categoryId: product.category)),
+                    child: CategoryIcon(
+                        iconPath: categoryController
+                            .getCategoryById(product.category)
+                            ?.iconPath,
+                        size: 45,
+                        padding: 10,
+                        withShadow: true)),
               ],
             ),
             const SizedBox(height: 60),

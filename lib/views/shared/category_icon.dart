@@ -1,55 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
-import 'package:waste_not/controllers/model_controllers/category.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 class CategoryIcon extends StatelessWidget {
-  final String categoryId;
-  final bool tileVersion;
-  final bool marked;
+  final String? iconPath;
+  final double size;
+  final double padding;
+  final bool darkBackground;
+  final bool faded;
+  final bool withShadow;
+
+  final placeholderPath = 'assets/placeholder.svg';
 
   const CategoryIcon(
       {super.key,
-      required this.categoryId,
-      this.tileVersion = false,
-      this.marked = false});
+      required this.iconPath,
+      this.size = 15,
+      this.padding = 15,
+      this.darkBackground = true,
+      this.faded = false,
+      this.withShadow = false});
 
   @override
   Widget build(BuildContext context) {
-    CategoryController categoryController = Get.find();
-
     return Container(
-      width: tileVersion ? 35 : 80,
-      height: tileVersion ? 35 : 80,
-      padding: EdgeInsets.all(tileVersion ? 5 : 20),
+      height: size + padding * 2,
+      width: size + padding * 2,
+      padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
-        color: tileVersion
-            ? categoryIconLightBackgroundColor
-            : categoryIconDarkBackgroundColor, // Color of the circle container
-        shape: BoxShape.circle, // Makes the container circular
-        boxShadow: tileVersion
-            ? null
-            : [
+        shape: BoxShape.circle,
+        color: darkBackground
+            ? categoryIconDarkBackgroundColor
+            : categoryIconLightBackgroundColor,
+        boxShadow: withShadow
+            ? [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),
                   spreadRadius: 5,
                   blurRadius: 7,
                   offset: const Offset(0, 3), // Shadow position
                 ),
-              ],
+              ]
+            : null,
       ),
-      child: SvgPicture.asset(
-          categoryController.getCategoryById(categoryId)?.iconPath ??
-              'assets/placeholder.svg',
-          width: tileVersion ? 30 : 50,
-          height: tileVersion ? 30 : 50,
+      child: SvgPicture.asset(iconPath ?? placeholderPath,
+          width: size,
+          height: size,
           fit: BoxFit.contain,
           colorFilter: ColorFilter.mode(
-              tileVersion
-                  ? categoryIconDarkColor.withAlpha(marked ? 100 : 255)
-                  : categoryIconLightColor,
-              BlendMode.hue)),
+              (darkBackground ? categoryIconLightColor : categoryIconDarkColor)
+                  .withAlpha(faded ? 100 : 255),
+              BlendMode.srcIn)),
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/page_controllers/add_product.dart';
 import 'package:waste_not/controllers/shared/validator.dart';
+import 'package:waste_not/views/shared/category_button.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/model_controllers/category.dart';
@@ -197,71 +197,6 @@ class AddProductView extends StatelessWidget {
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class CategoryButton extends StatelessWidget {
-  final String label;
-  final String iconPath;
-  final Color color; // Background color for the button
-  final VoidCallback onPressed;
-
-  const CategoryButton({
-    super.key,
-    required this.label,
-    required this.iconPath,
-    required this.color,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onPressed,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-        decoration: BoxDecoration(
-          color: color,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 8,
-              offset: Offset(0, 2),
-            )
-          ],
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Container(
-              height: 30,
-              width: 30,
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: primaryBlue, // Color of the circle container
-                shape: BoxShape.circle, // Makes the container circular
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.grey.withOpacity(0.5),
-                //     spreadRadius: 5,
-                //     blurRadius: 7,
-                //     offset: const Offset(0, 3), // Shadow position
-                //   ),
-                // ],
-              ),
-              child: SvgPicture.asset(iconPath,
-                  width: 15, height: 15, fit: BoxFit.contain),
-            ),
-            const SizedBox(width: 8),
-            Text(label,
-                style: const TextStyle(
-                    color: fontColor, fontWeight: FontWeight.bold)),
           ],
         ),
       ),

@@ -18,6 +18,7 @@ class ProductTile extends StatelessWidget {
     final HomeController homeController = Get.find();
     final CategoryController categoryController = Get.find();
     //final ProductController productController = Get.find();
+    bool marked = homeController.markedProducts.contains(product.productId);
 
     return Obx(
       () => ListTile(
@@ -31,15 +32,25 @@ class ProductTile extends StatelessWidget {
                 .listTileTheme
                 .titleTextStyle
                 ?.merge(productTileNameStyle))),
-        leading: Stack(alignment: Alignment.center, children: [
-          ProductIcon(categoryId: product.category, tileVersion: true),
-          Icon(
-            Icons.check_circle_rounded,
-            color: homeController.markedProducts.contains(product.productId)
-                ? null
-                : Colors.transparent,
-          ),
-        ]),
+        leading: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+                  ProductIcon(
+                      iconPath: categoryController
+                          .getCategoryById(product.category)
+                          ?.iconPath,
+                      size: 35,
+                      padding: 5,
+                      darkBackground: false,
+                      faded: homeController.markedProducts
+                          .contains(product.productId)),
+                ] +
+                (homeController.markedProducts.contains(product.productId)
+                    ? [
+                        const Icon(Icons.check_circle_rounded,
+                            color: iconColor),
+                      ]
+                    : [])),
         trailing: Text(
             "expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString() ?? "#"} days",
             style: productTileDaysLeftStyle.merge(
