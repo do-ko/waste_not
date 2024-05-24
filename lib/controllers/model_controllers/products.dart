@@ -12,15 +12,10 @@ class ProductsController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final deviceStorage = GetStorage();
 
-  // ProductsController() {
-  //   String userId = deviceStorage.read("userId") ?? "0";
-  //   fetchProducts();
-  // }
 
   @override
   void onReady() {
     super.onReady();
-    // fetchProducts();
     fetchProductsForUser();
   }
 
@@ -172,7 +167,13 @@ class ProductsController extends GetxController {
   }
 
   Future<void> removeProducts(List<String> productIds) async {
-    for (String id in productIds) {
+    if (kDebugMode) {
+      print("removing");
+      print(productIds);
+    }
+
+    List<String> idsToRemove = List.from(productIds);
+    for (String id in idsToRemove) {
       await removeProduct(id);
     }
   }
