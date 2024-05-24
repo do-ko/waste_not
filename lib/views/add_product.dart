@@ -1,5 +1,5 @@
 import 'dart:io';
-import'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +32,6 @@ class AddProductView extends StatelessWidget {
       }
     }
 
-
     return Scaffold(
       appBar: AppBar(
         title: const Text("Add Product"),
@@ -57,14 +56,15 @@ class AddProductView extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: addProductController.image.value != null
-                          ? FileImage(File(addProductController.image.value!.path)) as ImageProvider
-                          : AssetImage('assets/placeholder_product_image.jpg'),
+                  image: addProductController.image.value != null
+                      ? FileImage(File(addProductController.image.value!.path))
+                          as ImageProvider
+                      : AssetImage('assets/placeholder_product_image.jpg'),
                   fit: BoxFit.cover,
                 )),
                 child: ElevatedButton(
                   onPressed: () {
-                    addProductController.pickImage();
+                    addProductController.pickImage("product_image");
                   },
                   style: ElevatedButton.styleFrom(
                     foregroundColor: primaryBlue.withOpacity(0.7),
@@ -152,7 +152,9 @@ class AddProductView extends StatelessWidget {
                           height: 15,
                         ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              addProductController.pickImage("date_reading");
+                            },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: primaryBlue,

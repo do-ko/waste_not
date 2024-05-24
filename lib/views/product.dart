@@ -156,7 +156,7 @@ class ProductView extends StatelessWidget {
                         );
                       }
 
-                      if (snapshot.hasData) {
+                      if (snapshot.hasData && snapshot.data != "") {
                         return Container(
                           width: double.maxFinite,
                           height: 200,
@@ -176,7 +176,7 @@ class ProductView extends StatelessWidget {
                           child: const Text('Error loading image'));
                     }),
                 Positioned(
-                    bottom: -40,
+                    bottom: -30,
                     right: 30,
                     child: CategoryIcon(
                         iconPath: categoryController

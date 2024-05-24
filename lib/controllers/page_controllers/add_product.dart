@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waste_not/controllers/model_controllers/products.dart';
 import 'package:waste_not/controllers/page_controllers/auth.dart';
@@ -39,7 +40,9 @@ class AddProductController extends GetxController {
     }
 
     final userId = AuthController.instance.authUser?.uid;
-    final url = await uploadImage('Users/$userId/Images/', image.value);
+    final url = image.value != null
+        ? await uploadImage('Users/$userId/Images/', image.value)
+        : "";
 
     // Create a new product
     ProductModel newProduct = ProductModel(
@@ -78,17 +81,23 @@ class AddProductController extends GetxController {
       final url = await ref.getDownloadURL();
       return url;
     } catch (e) {
-
       throw 'Image upload failed $e';
     }
   }
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(String purpose) async {
     final ImagePicker picker = ImagePicker();
     try {
-      final XFile? selectedImage = await picker.pickImage(source: ImageSource.camera);
+      final XFile? selectedImage =
+          await picker.pickImage(source: ImageSource.camera);
       if (selectedImage != null) {
-        image.value = selectedImage; // Assuming 'image' is an Rx<XFile?>
+        if (purpose == "product_image") {
+          // action for taking product image
+          image.value = selectedImage;
+        } else if (purpose == "date_reading") {
+          // action for reading text from image
+          getRecognisedText(selectedImage);
+        }
         if (kDebugMode) {
           print('Image picked: ${selectedImage.path}');
         }
@@ -103,5 +112,60 @@ class AddProductController extends GetxController {
       }
       throw 'Failed to pick image: $e';
     }
+  }
+
+  void getRecognisedText(XFile image) async {
+    final inputImage = InputImage.fromFilePath(image.path);
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
+    String textFromImage = recognizedText.text.toString();
+
+    // RegExp exp = RegExp(
+    //     r'(\d{2}/\d{2}/\d{4})|(\d{2}.\d{2}.\d{4})|(\d{2}-\d{2}-\d{4})|(\d{4}/\d{2}/\d{2})|(\d{4}.\d{2}.\d{2})|(\d{4}-\d{2}-\d{2})|(\d{2}/\d{2}/\d{2})|(\d{2}.\d{2}.\d{2})|(\d{2}-\d{2}-\d{2})|(\d{2}/\d{4})|(\d{2}.\d{4})|(\d{2}-\d{4})');
+
+    RegExp exp = RegExp(
+        r'');
+
+    if (kDebugMode) {
+      print("============================ all text lines");
+      print(textFromImage);
+    }
+
+
+    for (TextBlock block in recognizedText.blocks) {
+      for (TextLine line in block.lines) {
+        RegExpMatch? match = exp.firstMatch(line.text);
+        if (match != null) {
+          String foundDate = match.group(
+              0)!;
+          // scannedText = scannedText +
+          //     foundDate +
+          //     "\n"; // Append the found date to your result string with a newline
+          if (kDebugMode) {
+            print("======================================== found date!");
+            print(foundDate);
+          }
+          // print("Date found: $foundDate");  // Optional: output the found date
+        }
+        // scannedText = scannedText + line.text + "\n";
+      }
+    }
+
+    // String test = "test string 12/12/24";
+    // RegExpMatch? match = exp.firstMatch(test);
+    // if (match != null) {
+    //   String foundDate = match.group(
+    //       0)!; // Safely extract the matched date (non-null guaranteed by if-check)
+    //   scannedText = scannedText +
+    //       foundDate +
+    //       "\n"; // Append the found date to your result string with a newline
+    //   print(foundDate);
+    //   // print("Date found: $foundDate");  // Optional: output the found date
+    // }
+    // scannedText = "";
+
+    // textScanning = false;
+    // setState(() {});
   }
 }
