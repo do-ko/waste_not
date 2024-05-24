@@ -22,6 +22,11 @@ class EditAccountController extends GetxController {
   GlobalKey<FormState> editEmailFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editPasswordFormKey = GlobalKey<FormState>();
 
+  @override
+  onReady() {
+    oldEmailTextController.text = userController.user.value.email;
+  }
+
   editUsername() async {
     try {
       Get.dialog(
