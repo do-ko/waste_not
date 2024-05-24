@@ -34,18 +34,6 @@ class ProductController extends GetxController {
 
       if (doc.exists) {
         product.value = ProductModel.fromMap(doc.data() as Map<String, dynamic>);
-        // product.value = ProductModel(
-        //   productId: productId,
-        //   name: doc['name'],
-        //   category: doc['category'].id,
-        //   comment: doc['comment'],
-        //   expirationDate: doc['expiration_date'].toDate(),
-        //   imageLink: doc['image_link'],
-        //   owner: doc['owner'].id,
-        // );
-
-        print("product");
-        print(product.value);
       } else if (kDebugMode && ["1", "2", "3", "4", "5"].contains(productId)) {
         product.value = ProductModel(
             productId: productId,
