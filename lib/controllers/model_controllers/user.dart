@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:waste_not/controllers/page_controllers/auth.dart';
+import 'package:waste_not/controllers/shared/auth.dart';
 import 'package:waste_not/models/user.dart';
 
 class UserController extends GetxController {

@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/controllers/page_controllers/auth.dart';
+import 'package:waste_not/controllers/shared/auth.dart';
 import 'package:waste_not/controllers/shared/validator.dart';
 
 import '../../models/user.dart';
 import '../model_controllers/user.dart';
 
-class SignupController extends GetxController {
-  static SignupController get instance => Get.find();
+class RegisterController extends GetxController {
+  static RegisterController get instance => Get.find();
 
   final hidePassword = true.obs;
   final TextEditingController email = TextEditingController();
@@ -46,8 +46,10 @@ class SignupController extends GetxController {
       deviceStorage.write("userId", userModel.id); // Store user ID
 
       Get.offAllNamed("/home");
+    } on AuthException catch (e) {
+      Get.snackbar("Auth error", e.message);
     } catch (e) {
-      Get.snackbar("Error", message ?? "Sign up failed. Please try again.");
+      Get.snackbar("Error", e.toString());
     }
   }
 }

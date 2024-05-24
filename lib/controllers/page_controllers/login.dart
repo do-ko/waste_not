@@ -3,8 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import '../shared/auth.dart';
 import '../shared/validator.dart';
-import 'auth.dart';
 
 class LoginController extends GetxController {
   static LoginController get instance => Get.find();
@@ -53,10 +53,16 @@ class LoginController extends GetxController {
       deviceStorage.remove("REMEMBER_ME_PASSWORD");
     }
 
-    await AuthController.instance
-        .login(email.text.trim(), password.text.trim());
+    try {
+      await AuthController.instance
+          .login(email.text.trim(), password.text.trim());
 
-    Get.offAllNamed("/home");
+      Get.offAllNamed("/home");
+    } on AuthException catch (e) {
+      Get.snackbar("Auth error", e.message);
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
   }
 }
 

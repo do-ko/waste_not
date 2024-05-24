@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/model_controllers/user.dart';
-import 'package:waste_not/controllers/page_controllers/auth.dart';
+import 'package:waste_not/controllers/shared/auth.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/page_controllers/settings.dart';

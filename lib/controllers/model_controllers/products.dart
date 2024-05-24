@@ -5,20 +5,18 @@ import 'package:get_storage/get_storage.dart';
 import 'package:waste_not/controllers/model_controllers/product.dart';
 
 import '../../models/product.dart';
-import '../page_controllers/auth.dart';
+import '../shared/auth.dart';
 
 class ProductsController extends GetxController {
   RxList<ProductController> products = <ProductController>[].obs;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final deviceStorage = GetStorage();
 
-
   @override
   void onReady() {
     super.onReady();
     fetchProductsForUser();
   }
-
 
   // this method is for testing
   Future<void> fetchProducts() async {

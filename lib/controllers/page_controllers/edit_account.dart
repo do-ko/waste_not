@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:waste_not/controllers/model_controllers/user.dart';
 
 import '../../models/user.dart';
-import 'auth.dart';
+import '../shared/auth.dart';
 
 class EditAccountController extends GetxController {
   static EditAccountController get instance => Get.find();

@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:waste_not/controllers/model_controllers/products.dart';
-import 'package:waste_not/controllers/page_controllers/auth.dart';
+import 'package:waste_not/controllers/shared/auth.dart';
 
 import '../../models/product.dart';
 
