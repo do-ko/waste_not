@@ -27,10 +27,6 @@ class EditProductView extends StatelessWidget {
       );
       if (picked != null &&
           picked != editProductController.selectedDate.value) {
-        // setState(() {
-        //   _selectedDate = picked;
-        //   _dateController.text = DateFormat('MM/dd/yyyy').format(picked);
-        // });
         editProductController.selectedDate.value = picked;
         editProductController.dateController.text =
             DateFormat('MM/dd/yyyy').format(picked);
