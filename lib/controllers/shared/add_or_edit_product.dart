@@ -237,9 +237,9 @@ class AddOrEditProductController extends GetxController {
     if (!dateFound) {
       if (kDebugMode) {
         print("No date found in the text.");
-        Get.snackbar("Error", "No date found in the text.",
-            snackPosition: SnackPosition.BOTTOM);
       }
+      Get.snackbar("Error", "No date found in the text.",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }
