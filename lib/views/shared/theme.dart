@@ -20,6 +20,7 @@ const Color fridgeColor = Color(0xffA7C8FF);
 const Color fontColor = Color(0xff191C20);
 const Color fontColorLight = Color(0xff6C6C6C);
 const Color fontColorBlue = Color(0xff3E5F90);
+const Color fontColorWarning = Color(0xffA7382F);
 const Color primaryBlue = Color(0xff3E5F90);
 const Color selectedCategory = Color(0xffA7C8FF);
 
