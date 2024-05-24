@@ -48,49 +48,25 @@ class SuggestionsView extends StatelessWidget {
                         'Choose three ingredients from your fridge',
                         style: TextStyle(fontSize: 18),
                       ),
-                      SizedBox(height: 20),
-                      Obx(() => DropdownButton<String>(
-                                value: "",
-                                items: productsController.products.value
-                                    .map((productController) {
-                                  return DropdownMenuItem<String>(
-                                    value: productController.product.value?.productId,
-                                    child: Text(
-                                        productController.product.value!.name),
-                                  );
-                                }).toList(),
-                                onChanged: (String? newProduct) {
-                                  if (ProductModel != null) {
-                                    // languageController.updateLanguage(newValue);
-                                    print(newProduct);
-                                  }
-                                },
-                              )
-                          //     () => DropdownButton<String>(
-                          //   value: productsController.products,
-                          //   icon: const Icon(
-                          //     Icons.keyboard_arrow_down_sharp,
-                          //     size: 32,
-                          //   ),
-                          //   onChanged: (String? newValue) {
-                          //     if (newValue != null) {
-                          //       languageController.updateLanguage(newValue);
-                          //     }
-                          //   },
-                          //   items: languageController.languages
-                          //       .map((String value) {
-                          //     return DropdownMenuItem<String>(
-                          //       value: value,
-                          //       child: Text(
-                          //         value,
-                          //         style: const TextStyle(
-                          //           color: fontColor,
-                          //         ),
-                          //       ),
-                          //     );
-                          //   }).toList(), // Ensure this is a synchronous operation
-                          // ),
-                          ),
+                      // SizedBox(height: 20),
+                      // Obx(() => DropdownButton<String>(
+                      //           value: "Test",
+                      //           items: productsController.products.value
+                      //               .map((productController) {
+                      //             return DropdownMenuItem<String>(
+                      //               value: productController.product.value?.productId,
+                      //               child: Text(
+                      //                   productController.product.value!.name),
+                      //             );
+                      //           }).toList(),
+                      //           onChanged: (String? newProduct) {
+                      //             if (ProductModel != null) {
+                      //               // languageController.updateLanguage(newValue);
+                      //               print(newProduct);
+                      //             }
+                      //           },
+                      //         )
+                      //     ),
                       ElevatedButton(
                         onPressed: () {},
                         child: Text('Suggest a recipe'),
