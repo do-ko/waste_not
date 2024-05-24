@@ -15,47 +15,47 @@ class ProductsController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    fetchProductsForUser();
+    getProducts();
   }
 
   // this method is for testing
-  Future<void> fetchProducts() async {
-    String? userId = AuthController.instance.authUser?.uid ?? '';
+  // Future<void> fetchProducts() async {
+  //   String? userId = AuthController.instance.authUser?.uid ?? '';
+  //
+  //   if (userId == null) {
+  //     if (kDebugMode) {
+  //       print("User is not logged in");
+  //     }
+  //     return;
+  //   }
+  //
+  //   try {
+  //     QuerySnapshot snapshot = await _firestore
+  //         .collection('Users')
+  //         .doc(userId)
+  //         .collection('Products')
+  //         .get();
+  //
+  //     List<ProductController> loadedProducts = snapshot.docs.map((doc) {
+  //       return ProductController(productId: doc.id);
+  //     }).toList();
+  //
+  //     products.assignAll(loadedProducts);
+  //
+  //     if (products.isEmpty) {
+  //       if (kDebugMode) {
+  //         products.assignAll([1, 2, 3, 4, 5]
+  //             .map((i) => ProductController(productId: i.toString())));
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (kDebugMode) {
+  //       print('Error fetching products: $e');
+  //     }
+  //   }
+  // }
 
-    if (userId == null) {
-      if (kDebugMode) {
-        print("User is not logged in");
-      }
-      return;
-    }
-
-    try {
-      QuerySnapshot snapshot = await _firestore
-          .collection('Users')
-          .doc(userId)
-          .collection('Products')
-          .get();
-
-      List<ProductController> loadedProducts = snapshot.docs.map((doc) {
-        return ProductController(productId: doc.id);
-      }).toList();
-
-      products.assignAll(loadedProducts);
-
-      if (products.isEmpty) {
-        if (kDebugMode) {
-          products.assignAll([1, 2, 3, 4, 5]
-              .map((i) => ProductController(productId: i.toString())));
-        }
-      }
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error fetching products: $e');
-      }
-    }
-  }
-
-  Future<void> fetchProductsForUser() async {
+  Future<void> getProducts() async {
     String? currentUserId = AuthController.instance.authUser?.uid;
 
     if (currentUserId == null) {
@@ -124,20 +124,19 @@ class ProductsController extends GetxController {
     }
   }
 
-  Future<void> updateProduct(ProductController productController) async {
+  Future<void> updateProduct(ProductModel product) async {
     try {
       String? userId = AuthController.instance.authUser?.uid;
       await _firestore
           .collection('Users')
           .doc(userId)
           .collection('Products')
-          .doc(productController.productId)
-          .update(productController.product.value!.toJson());
+          .doc(product.productId)
+          .update(product.toJson());
 
-      int index = products
-          .indexWhere((p) => p.productId == productController.productId);
+      int index = products.indexWhere((p) => p.productId == product.productId);
       if (index != -1) {
-        products[index] = productController;
+        products[index] = ProductController(productId: product.productId);
       }
     } catch (e) {
       if (kDebugMode) {

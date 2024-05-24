@@ -24,9 +24,10 @@ class ProductList extends StatelessWidget {
           child: SingleChildScrollView(
               child: productsController.products.isEmpty
                   ? Center(
+                      heightFactor: 1.5,
                       child: Padding(
                           padding: const EdgeInsets.all(10),
-                          child: Expanded(
+                          child: Center(
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -43,16 +44,20 @@ class ProductList extends StatelessWidget {
                                             //.withAlpha(250),
                                             BlendMode.srcIn))),
                                 Text("Your fridge is empty",
+                                    textAlign: TextAlign.center,
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineSmall
                                         ?.copyWith(color: textHeaderColor)),
-                                Text(
-                                    "Add some products to your fridge and save food with WasteNot",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge
-                                        ?.copyWith(color: fontColorLight)),
+                                Padding(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Text(
+                                        "Add some products to your fridge\nand save food with WasteNot",
+                                        textAlign: TextAlign.center,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge
+                                            ?.copyWith(color: fontColorLight))),
                               ]))))
                   : Column(
                       children: productsController.products

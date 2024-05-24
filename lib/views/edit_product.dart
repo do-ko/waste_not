@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:waste_not/controllers/page_controllers/edit_product.dart';
 import 'package:waste_not/views/shared/category_button.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/model_controllers/category.dart';
+import '../controllers/shared/add_or_edit_product.dart';
 import '../controllers/shared/validator.dart';
 
 class EditProductView extends StatelessWidget {
@@ -14,8 +14,8 @@ class EditProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final EditProductController editProductController =
-        Get.put(EditProductController());
+    final AddOrEditProductController editProductController =
+        Get.put(AddOrEditProductController());
     final CategoryController categoryController = Get.find();
 
     void presentDatePicker() async {
@@ -62,7 +62,7 @@ class EditProductView extends StatelessWidget {
               child: Column(
                 children: [
                   Form(
-                    key: editProductController.addProductFormKey,
+                    key: editProductController.productFormKey,
                     child: Column(
                       children: [
                         TextFormField(

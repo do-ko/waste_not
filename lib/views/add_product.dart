@@ -3,20 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:waste_not/controllers/page_controllers/add_product.dart';
 import 'package:waste_not/controllers/shared/validator.dart';
 import 'package:waste_not/views/shared/category_button.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/model_controllers/category.dart';
+import '../controllers/shared/add_or_edit_product.dart';
 
 class AddProductView extends StatelessWidget {
   const AddProductView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final AddProductController addProductController =
-        Get.put(AddProductController());
+    final AddOrEditProductController addProductController =
+        Get.put(AddOrEditProductController());
     final CategoryController categoryController = Get.find();
 
     void presentDatePicker() async {
@@ -60,7 +60,8 @@ class AddProductView extends StatelessWidget {
                   image: addProductController.image.value != null
                       ? FileImage(File(addProductController.image.value!.path))
                           as ImageProvider
-                      : AssetImage('assets/placeholder_product_image.jpg'),
+                      : const AssetImage(
+                          'assets/placeholder_product_image.jpg'),
                   fit: BoxFit.cover,
                 )),
                 child: ElevatedButton(
@@ -81,11 +82,11 @@ class AddProductView extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(24, 24, 24, 48),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 48),
               child: Column(
                 children: [
                   Form(
-                    key: addProductController.addProductFormKey,
+                    key: addProductController.productFormKey,
                     child: Column(
                       children: [
                         TextFormField(

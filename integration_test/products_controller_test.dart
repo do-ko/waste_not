@@ -45,7 +45,7 @@ void main() {
         'owner': userId,
       });
 
-      await productsController.fetchProducts();
+      await productsController.getProducts();
 
       expect(productsController.products.length, greaterThan(0));
       expect(

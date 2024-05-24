@@ -6,19 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:waste_not/controllers/model_controllers/products.dart';
 import 'package:waste_not/controllers/shared/auth.dart';
 
 import '../../models/product.dart';
 
-class AddProductController extends GetxController {
+class AddOrEditProductController extends GetxController {
   final ProductsController productsController = Get.find();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController dateController = TextEditingController();
   RxString categoryId = "".obs;
   Rx<DateTime> selectedDate = DateTime.now().obs;
-  GlobalKey<FormState> addProductFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> productFormKey = GlobalKey<FormState>();
   Rx<XFile?> image = Rx<XFile?>(null);
 
   Future<void> createAndAddProduct() async {
@@ -28,7 +27,7 @@ class AddProductController extends GetxController {
           false, // User cannot dismiss the dialog by tapping outside
     );
 
-    if (!addProductFormKey.currentState!.validate()) {
+    if (!productFormKey.currentState!.validate()) {
       Get.back();
       return;
     }
@@ -56,6 +55,52 @@ class AddProductController extends GetxController {
 
     // Add the product to Firestore
     await productsController.addProduct(newProduct).catchError((error) {
+      Get.back();
+      Get.snackbar("Error", "Adding product failed.",
+          snackPosition: SnackPosition.BOTTOM);
+    });
+
+    Get.back();
+    Get.back();
+    Get.snackbar("Success", "Product was added.",
+        snackPosition: SnackPosition.BOTTOM);
+  }
+
+  Future<void> updateProduct() async {
+    Get.dialog(
+      const Center(child: CircularProgressIndicator()),
+      barrierDismissible:
+          false, // User cannot dismiss the dialog by tapping outside
+    );
+
+    if (!productFormKey.currentState!.validate()) {
+      Get.back();
+      return;
+    }
+
+    if (categoryId.value == "") {
+      Get.back();
+      Get.snackbar("Error", "Select a category.",
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+
+    final userId = AuthController.instance.authUser?.uid;
+    final url = image.value != null
+        ? await uploadImage('Users/$userId/Images/', image.value)
+        : "";
+
+    // Create a new product
+    ProductModel updatedProduct = ProductModel(
+        name: nameController.text.trim(),
+        category: categoryId.value,
+        comment: '',
+        expirationDate: selectedDate.value,
+        imageLink: url,
+        owner: AuthController.instance.authUser!.uid);
+
+    // Add the product to Firestore
+    await productsController.updateProduct(updatedProduct).catchError((error) {
       Get.back();
       Get.snackbar("Error", "Adding product failed.",
           snackPosition: SnackPosition.BOTTOM);
@@ -115,88 +160,55 @@ class AddProductController extends GetxController {
     }
   }
 
-  String reformatDateString(String dateStr) {
-    DateFormat inputFormat;
-    // Detect the input format based on separators and length
-    if (dateStr.contains('-')) {
-      if (dateStr.length > 8) {
-        inputFormat = DateFormat('dd-MM-yyyy');
-      } else {
-        inputFormat = DateFormat('dd-MM-yy');
-      }
-    } else if (dateStr.contains('.')) {
-      if (dateStr.length > 8) {
-        inputFormat = DateFormat('dd.MM.yyyy');
-      } else {
-        inputFormat = DateFormat('dd.MM.yy');
-      }
-    } else {  // Default to slashes
-      if (dateStr.length > 8) {
-        inputFormat = DateFormat('dd/MM/yyyy');
-      } else {
-        inputFormat = DateFormat('dd/MM/yy');
-      }
-    }
-
-    DateTime dateTime = inputFormat.parse(dateStr);
-    return DateFormat('MM/dd/yyyy').format(dateTime);
-  }
-
   void getRecognisedText(XFile image) async {
     final inputImage = InputImage.fromFilePath(image.path);
     final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
     final RecognizedText recognizedText =
         await textRecognizer.processImage(inputImage);
     String textFromImage = recognizedText.text.toString();
-    bool dateFound = false;
 
     // RegExp exp = RegExp(
     //     r'(\d{2}/\d{2}/\d{4})|(\d{2}.\d{2}.\d{4})|(\d{2}-\d{2}-\d{4})|(\d{4}/\d{2}/\d{2})|(\d{4}.\d{2}.\d{2})|(\d{4}-\d{2}-\d{2})|(\d{2}/\d{2}/\d{2})|(\d{2}.\d{2}.\d{2})|(\d{2}-\d{2}-\d{2})|(\d{2}/\d{4})|(\d{2}.\d{4})|(\d{2}-\d{4})');
 
-    RegExp exp = RegExp(
-        r'((0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d)|'  // MM/DD/YYYY
-        r'((0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])\.(19|20)\d\d)|'  // MM.DD.YYYY
-        r'((0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{2})|'  // DD.MM.YY
-        r'((0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{2})');  // DD/MM/YY
+    RegExp exp = RegExp(r'');
 
     if (kDebugMode) {
       print("============================ all text lines");
       print(textFromImage);
     }
 
-
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
         RegExpMatch? match = exp.firstMatch(line.text);
         if (match != null) {
           String foundDate = match.group(0)!;
-          String formattedDate = reformatDateString(foundDate);
-
+          // scannedText = scannedText +
+          //     foundDate +
+          //     "\n"; // Append the found date to your result string with a newline
           if (kDebugMode) {
             print("======================================== found date!");
             print(foundDate);
-            print(formattedDate);
           }
-
-          DateFormat format = DateFormat('MM/dd/yyyy');
-          selectedDate.value = format.parse(formattedDate);
-          dateController.text = formattedDate.trim();
-          
-          dateFound = true;
-          break;
+          // print("Date found: $foundDate");  // Optional: output the found date
         }
-      }
-      if (dateFound) {
-        break;
+        // scannedText = scannedText + line.text + "\n";
       }
     }
 
-    if (!dateFound) {
-      if (kDebugMode) {
-        print("No date found in the text.");
-        Get.snackbar("Error", "No date found in the text.",
-            snackPosition: SnackPosition.BOTTOM);
-      }
-    }
+    // String test = "test string 12/12/24";
+    // RegExpMatch? match = exp.firstMatch(test);
+    // if (match != null) {
+    //   String foundDate = match.group(
+    //       0)!; // Safely extract the matched date (non-null guaranteed by if-check)
+    //   scannedText = scannedText +
+    //       foundDate +
+    //       "\n"; // Append the found date to your result string with a newline
+    //   print(foundDate);
+    //   // print("Date found: $foundDate");  // Optional: output the found date
+    // }
+    // scannedText = "";
+
+    // textScanning = false;
+    // setState(() {});
   }
 }

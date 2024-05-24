@@ -29,7 +29,14 @@ class HomeView extends StatelessWidget {
           () => AppBar(
             automaticallyImplyLeading: false,
             elevation: 0,
-            title: Text('Hello, ${userController.user.value.username}!'),
+            title: Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+                child: Text('Hello, ${userController.user.value.username}!',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineSmall
+                        ?.copyWith(color: textHeaderColor))),
             centerTitle: false,
             backgroundColor:
                 darkModeController.darkMode.value ? Colors.red : Colors.white,
