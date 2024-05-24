@@ -52,9 +52,21 @@ class ProductTile extends StatelessWidget {
                       ]
                     : [])),
         trailing: Text(
-            "expires in ${product.expirationDate.difference(DateTime.now()).inDays.toString() ?? "#"} days",
-            style: productTileDaysLeftStyle.merge(
-                Theme.of(context).listTileTheme.leadingAndTrailingTextStyle)),
+            product.expirationDate.difference(DateTime.now()).inDays == 0
+                ? "expires today"
+                : product.expirationDate.isBefore(DateTime.now())
+                    ? "expired ${-product.expirationDate.difference(DateTime.now()).inDays} days ago"
+                    : "expires in ${product.expirationDate.difference(DateTime.now()).inDays} days",
+            style: productTileDaysLeftStyle
+                .merge(
+                    Theme.of(context).listTileTheme.leadingAndTrailingTextStyle)
+                .copyWith(
+                    color: product.expirationDate
+                                .difference(DateTime.now())
+                                .inDays <
+                            1
+                        ? fontColorWarning
+                        : fontColor)),
         onTap: () => Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ProductView(
                   product: product,
