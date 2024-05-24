@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:io';
+import'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -25,10 +26,6 @@ class AddProductView extends StatelessWidget {
         lastDate: DateTime(2050),
       );
       if (picked != null && picked != addProductController.selectedDate.value) {
-        // setState(() {
-        //   _selectedDate = picked;
-        //   _dateController.text = DateFormat('MM/dd/yyyy').format(picked);
-        // });
         addProductController.selectedDate.value = picked;
         addProductController.dateController.text =
             DateFormat('MM/dd/yyyy').format(picked);

@@ -24,6 +24,8 @@ class ProductsController extends GetxController {
     fetchProductsForUser();
   }
 
+
+  // this method is for testing
   Future<void> fetchProducts() async {
     String? userId = AuthController.instance.authUser?.uid ?? '';
 
@@ -70,9 +72,6 @@ class ProductsController extends GetxController {
       return;
     }
 
-    DocumentReference ownerRef =
-        FirebaseFirestore.instance.doc('Users/$currentUserId');
-
     try {
       if (kDebugMode) {
         print(currentUserId);
@@ -87,16 +86,6 @@ class ProductsController extends GetxController {
       if (snapshot.docs.isEmpty) {
         if (kDebugMode) {
           print('No products found for the current user.');
-          // if (kDebugMode) {
-          //   products.assignAll([1, 2, 3, 4, 5].map((i) => ProductModel(
-          //       productId: i.toString(),
-          //       name: 'Product $i',
-          //       category: 'Category $i',
-          //       comment: 'Hello $i',
-          //       expirationDate: DateTime.now().add(Duration(hours: i + 3)),
-          //       imageLink: '',
-          //       owner: currentUserId)));
-          // }
         }
       } else {
         if (kDebugMode) {
@@ -166,7 +155,7 @@ class ProductsController extends GetxController {
 
   Future<void> removeProduct(String productId) async {
     try {
-      String userId = deviceStorage.read("userId") ?? "0";
+      String? userId = AuthController.instance.authUser?.uid;
       await _firestore
           .collection('Users')
           .doc(userId)

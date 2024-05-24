@@ -66,11 +66,11 @@ class ProductController extends GetxController {
 
   Future<void> addProduct(ProductModel newProduct) async {
     try {
-      String userId = GetStorage().read("userId") ?? "0";
+      String? userId = AuthController.instance.authUser?.uid ?? '';
       await _firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .add({
         'name': newProduct.name,
         'category': newProduct.category,
@@ -127,15 +127,6 @@ class ProductController extends GetxController {
     }
   }
 
-  // Future<void> removeProduct(String productId) async {
-  //   var collectionRef = FirebaseFirestore.instance.collection('Products');
-  //   try {
-  //     await collectionRef.doc(productId).delete();
-  //     products.removeWhere((product) => product.productId == productId);
-  //   } catch (e) {
-  //     print('Error removing product: $e');
-  //   }
-  // }
 
   Future<void> removeProduct() async {
     try {
