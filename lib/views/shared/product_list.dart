@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:waste_not/views/shared/icon_and_text_float.dart';
 import 'package:waste_not/views/shared/product_tile.dart';
-import 'package:waste_not/views/shared/theme.dart';
 
 import '../../controllers/model_controllers/products.dart';
 
@@ -23,42 +22,11 @@ class ProductList extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: SingleChildScrollView(
               child: productsController.products.isEmpty
-                  ? Center(
-                      heightFactor: 1.5,
-                      child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                Padding(
-                                    padding: const EdgeInsets.all(30),
-                                    child: SvgPicture.asset(
-                                        "assets/empty_box.svg",
-                                        width: 140,
-                                        height: 140,
-                                        fit: BoxFit.contain,
-                                        colorFilter: const ColorFilter.mode(
-                                            categoryIconDarkColor,
-                                            //(darkBackground ? categoryIconLightColor : categoryIconDarkColor)
-                                            //.withAlpha(250),
-                                            BlendMode.srcIn))),
-                                Text("Your fridge is empty",
-                                    textAlign: TextAlign.center,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall
-                                        ?.copyWith(color: textHeaderColor)),
-                                Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: Text(
-                                        "Add some products to your fridge\nand save food with WasteNot",
-                                        textAlign: TextAlign.center,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .labelLarge
-                                            ?.copyWith(color: fontColorLight))),
-                              ]))))
+                  ? const IconAndTextFloat(
+                      iconPath: "assets/empty_box.svg",
+                      headingText: "Your fridge is empty",
+                      subheadingText:
+                          "Add some products to your fridge\nand save food with WasteNot")
                   : Column(
                       children: productsController.products
                           .where((pc) => pc.product.value != null)
@@ -67,18 +35,5 @@ class ProductList extends StatelessWidget {
         ),
       );
     });
-
-    // return Obx(() {
-    //   if (productController.products.isEmpty) {
-    //     return const Center(child: Text("No products found"));
-    //   }
-    //   return ListView.builder(
-    //     itemCount: productController.products.length,
-    //     itemBuilder: (context, index) {
-    //       ProductModel product = productController.products[index];
-    //       return ProductTile(product: product, productIndex: index);
-    //     },
-    //   );
-    // });
   }
 }

@@ -227,7 +227,7 @@ class SettingsView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(15),
                       // Match InkWell's border radius with Card's
                       child: Padding(
-                        padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        padding: const EdgeInsets.all(16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,11 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:waste_not/models/product.dart';
+import 'package:waste_not/controllers/page_controllers/suggestions.dart';
+import 'package:waste_not/views/shared/icon_and_text_float.dart';
+import 'package:waste_not/views/shared/product_dropdown.dart';
+import 'package:waste_not/views/shared/theme.dart';
 
-import '../controllers/model_controllers/product.dart';
 import '../controllers/model_controllers/products.dart';
 
 class SuggestionsView extends StatelessWidget {
@@ -13,78 +12,57 @@ class SuggestionsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SuggestionsController suggestionsController =
+        Get.put(SuggestionsController());
     ProductsController productsController = Get.find();
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Recipe Suggestions')),
-      body: SingleChildScrollView(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Obx(
-            () => productsController.products.value.length < 3
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.kitchen, size: 100, color: Colors.grey),
-                      Text(
-                        "No products in your fridge",
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Text(
-                          "Come back after you add some products to your fridge.",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.grey),
-                        ),
-                      )
-                    ],
-                  )
-                : Column(
-                    children: [
-                      const Text(
-                        'Choose three ingredients from your fridge',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                      // SizedBox(height: 20),
-                      // Obx(() => DropdownButton<String>(
-                      //           value: "Test",
-                      //           items: productsController.products.value
-                      //               .map((productController) {
-                      //             return DropdownMenuItem<String>(
-                      //               value: productController.product.value?.productId,
-                      //               child: Text(
-                      //                   productController.product.value!.name),
-                      //             );
-                      //           }).toList(),
-                      //           onChanged: (String? newProduct) {
-                      //             if (ProductModel != null) {
-                      //               // languageController.updateLanguage(newValue);
-                      //               print(newProduct);
-                      //             }
-                      //           },
-                      //         )
-                      //     ),
-                      ElevatedButton(
-                        onPressed: () {},
-                        child: Text('Suggest a recipe'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.white,
-                          backgroundColor: Colors.blue,
-                        ),
-                      )
-                    ],
-                  ),
-          )
-        ],
-      )),
-    );
-
-    // SingleChildScrollView(
-    //     child: Expanded(
-    //         child: Center(
-    //             child: SvgPicture.asset("assets/placeholder.svg")))));
+        appBar: AppBar(title: const Text('Recipe suggestions')),
+        body: SingleChildScrollView(
+            child: Obx(() => productsController.products.isEmpty
+                ? const IconAndTextFloat(
+                    iconPath: "assets/recipe.svg",
+                    headingText: "No products in your fridge",
+                    subheadingText:
+                        "Come back after you add\nsome products to your fridge.")
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
+                    child: Center(
+                      child: Column(children: [
+                        const IconAndTextFloat(
+                            iconPath: "assets/recipe.svg",
+                            headingText: "Choose three ingredients",
+                            center: false),
+                        ProductDropdown(
+                            currentValue: suggestionsController.product0.value,
+                            values: suggestionsController.getProducts(0),
+                            onChanged: (val) =>
+                                suggestionsController.setChoice(0, val)),
+                        ProductDropdown(
+                            currentValue: suggestionsController.product1.value,
+                            values: suggestionsController.getProducts(1),
+                            onChanged: (val) =>
+                                suggestionsController.setChoice(1, val)),
+                        ProductDropdown(
+                            currentValue: suggestionsController.product2.value,
+                            values: suggestionsController.getProducts(2),
+                            onChanged: (val) =>
+                                suggestionsController.setChoice(2, val)),
+                        Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 30, 20, 10),
+                            child: FilledButton(
+                              onPressed: () {},
+                              style: FilledButton.styleFrom(
+                                foregroundColor: fontColorBright,
+                                backgroundColor: backgroundDarkColor,
+                              ),
+                              child: const Padding(
+                                  padding: EdgeInsets.all(5),
+                                  child: Text('Suggest a recipe',
+                                      style: TextStyle(fontSize: 18))),
+                            ))
+                      ]),
+                    ),
+                  ))));
   }
 }

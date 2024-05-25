@@ -16,8 +16,10 @@ const Color loadingScreenBackgroundColor = Color(0xff04305F);
 const Color containerColor = Color(0xffEDF5FE);
 const Color containerColorSplash = Color(0xffa7c8ff);
 const Color fridgeColor = Color(0xffA7C8FF);
+const Color backgroundDarkColor = Color(0xff3E5F90);
 
 const Color fontColor = Color(0xff191C20);
+const Color fontColorBright = Color(0xffEDF5FE);
 const Color fontColorLight = Color(0xff6C6C6C);
 const Color fontColorBlue = Color(0xff3E5F90);
 const Color fontColorWarning = Color(0xffA7382F);
