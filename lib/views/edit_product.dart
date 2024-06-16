@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,14 +10,15 @@ import '../controllers/shared/add_or_edit_product.dart';
 import '../controllers/shared/validator.dart';
 
 class EditProductView extends StatelessWidget {
-  //final ProductController productController;
-  const EditProductView({super.key}); //}, required this.productController});
+  const EditProductView({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final String productId = Get.parameters['productId'] ?? 'Default Value';
     final AddOrEditProductController editProductController =
-        Get.put(AddOrEditProductController());
+        Get.put(AddOrEditProductController(productId: productId));
     final CategoryController categoryController = Get.find();
+
 
     void presentDatePicker() async {
       final DateTime? picked = await showDatePicker(
@@ -43,19 +45,43 @@ class EditProductView extends StatelessWidget {
                 size: 24,
               ),
               onPressed: () {
-                editProductController.createAndAddProduct();
+                editProductController.updateProduct();
               }),
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              width: double.maxFinite,
-              height: 200,
-              alignment: Alignment.center,
-              color: Colors.red,
-              child: const CircularProgressIndicator(),
+            Obx(
+                  () => Container(
+                width: double.maxFinite,
+                height: 200,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: editProductController.image.value != null
+                          ? FileImage(File(editProductController.image.value!.path))
+                      as ImageProvider
+                          : const AssetImage(
+                          'assets/placeholder_product_image.jpg'),
+                      fit: BoxFit.cover,
+                    )),
+                child: ElevatedButton(
+                  onPressed: () {
+                    editProductController.pickImage("product_image");
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: primaryBlue.withOpacity(0.7),
+                    backgroundColor: Colors.white.withOpacity(0.7),
+                    shape: const CircleBorder(),
+                    padding: const EdgeInsets.all(5),
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 50,
+                  ),
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 48),
@@ -130,7 +156,9 @@ class EditProductView extends StatelessWidget {
                           height: 15,
                         ),
                         ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              editProductController.pickImage("date_reading");
+                            },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: primaryBlue,
@@ -171,24 +199,25 @@ class EditProductView extends StatelessWidget {
                     height: 15,
                   ),
                   Obx(
-                    () => Wrap(
+                        () => Wrap(
                       spacing: 20, // Horizontal space between buttons
                       runSpacing: 20, // Vertical space between buttons
                       children: categoryController.categories
                           .map((category) => CategoryButton(
-                                label: category.name,
-                                iconPath: category.iconPath,
-                                color: editProductController.categoryId.value ==
-                                        category.id
-                                    ? selectedCategory
-                                    : Colors.white,
-                                onPressed: () {
-                                  // Handle category selection
-                                  // print("Selected: ${category.name}");
-                                  editProductController.categoryId.value =
-                                      category.id;
-                                },
-                              ))
+                        label: category.name,
+                        iconPath: category.iconPath,
+                        color:
+                        editProductController.categoryId.value ==
+                            category.id
+                            ? selectedCategory
+                            : Colors.white,
+                        onPressed: () {
+                          // Handle category selection
+                          // print("Selected: ${category.name}");
+                          editProductController.categoryId.value =
+                              category.id;
+                        },
+                      ))
                           .toList(),
                     ),
                   ),

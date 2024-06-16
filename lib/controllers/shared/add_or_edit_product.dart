@@ -7,19 +7,85 @@ import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:waste_not/controllers/model_controllers/product.dart';
 import 'package:waste_not/controllers/model_controllers/products.dart';
 import 'package:waste_not/controllers/shared/auth.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 import '../../models/product.dart';
 
 class AddOrEditProductController extends GetxController {
+  final String productId;
   final ProductsController productsController = Get.find();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
-  RxString categoryId = "".obs;
+  late final TextEditingController nameController;
+  late final TextEditingController dateController;
+  late RxString categoryId;
   Rx<DateTime> selectedDate = DateTime.now().obs;
   GlobalKey<FormState> productFormKey = GlobalKey<FormState>();
-  Rx<XFile?> image = Rx<XFile?>(null);
+  late Rx<XFile?> image = Rx<XFile?>(null);
+  late RxString imageUrlEdit;
+
+  AddOrEditProductController({this.productId = ''});
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (productId.isNotEmpty) {
+      loadProductDetails();
+    } else {
+      nameController = TextEditingController();
+      dateController = TextEditingController();
+      categoryId = "".obs;
+      imageUrlEdit = "".obs;
+    }
+  }
+
+  void loadProductDetails() async {
+    ProductController? productController = productsController.products
+        .firstWhereOrNull((product) => product.productId == productId);
+    if (productController != null) {
+      nameController =
+          TextEditingController(text: productController.product.value?.name);
+      dateController = TextEditingController(
+          text: DateFormat('MM/dd/yyyy')
+              .format(productController.product.value!.expirationDate));
+      categoryId = productController.product.value!.category.obs;
+      imageUrlEdit = productController.product.value!.imageLink.obs;
+      XFile? file =
+          await urlToXFile(productController.product.value!.imageLink);
+      if (file != null) {
+        image.value = file;
+      }
+    } else {
+      if (kDebugMode) {
+        print("No product found with id: $productId");
+      }
+    }
+  }
+
+  Future<XFile?> urlToXFile(String imageUrl) async {
+    try {
+      // Get the data from the URL
+      final response = await http.get(Uri.parse(imageUrl));
+      if (response.statusCode == 200) {
+        // Get temporary directory
+        final directory = await getTemporaryDirectory();
+        // Create a file in the temporary directory
+        File file = File('${directory.path}/temp_image.jpg');
+        // Write the image bytes to the file
+        file.writeAsBytesSync(response.bodyBytes);
+
+        // Create an XFile from the file
+        return XFile(file.path);
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error converting URL to XFile: $e');
+      }
+      return null;
+    }
+    return null;
+  }
 
   Future<void> createAndAddProduct() async {
     Get.dialog(
@@ -87,12 +153,18 @@ class AddOrEditProductController extends GetxController {
     }
 
     final userId = AuthController.instance.authUser?.uid;
-    final url = image.value != null
-        ? await uploadImage('Users/$userId/Images/', image.value)
-        : "";
+    var url = "";
+    if (image.value?.name != 'temp_image.jpg') {
+      url = image.value != null
+          ? await uploadImage('Users/$userId/Images/', image.value)
+          : "";
+    } else {
+      url = imageUrlEdit.value;
+    }
 
     // Create a new product
     ProductModel updatedProduct = ProductModel(
+        productId: productId,
         name: nameController.text.trim(),
         category: categoryId.value,
         comment: '',
@@ -103,13 +175,13 @@ class AddOrEditProductController extends GetxController {
     // Add the product to Firestore
     await productsController.updateProduct(updatedProduct).catchError((error) {
       Get.back();
-      Get.snackbar("Error", "Adding product failed.",
+      Get.snackbar("Error", "Updating product failed.",
           snackPosition: SnackPosition.BOTTOM);
     });
 
     Get.back();
     Get.back();
-    Get.snackbar("Success", "Product was added.",
+    Get.snackbar("Success", "Product was updated.",
         snackPosition: SnackPosition.BOTTOM);
   }
 
@@ -120,7 +192,7 @@ class AddOrEditProductController extends GetxController {
     try {
       if (kDebugMode) {
         print("name");
-        print(image!.name);
+        print(image.name);
       }
       File file = File(image.path);
       final ref = FirebaseStorage.instance.ref(path).child(image.name);
@@ -176,7 +248,8 @@ class AddOrEditProductController extends GetxController {
       } else {
         inputFormat = DateFormat('dd.MM.yy');
       }
-    } else {  // Default to slashes
+    } else {
+      // Default to slashes
       if (dateStr.length > 8) {
         inputFormat = DateFormat('dd/MM/yyyy');
       } else {
@@ -192,21 +265,20 @@ class AddOrEditProductController extends GetxController {
     final inputImage = InputImage.fromFilePath(image.path);
     final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
     final RecognizedText recognizedText =
-    await textRecognizer.processImage(inputImage);
+        await textRecognizer.processImage(inputImage);
     String textFromImage = recognizedText.text.toString();
     bool dateFound = false;
 
     RegExp exp = RegExp(
-        r'((0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d)|'  // MM/DD/YYYY
-        r'((0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])\.(19|20)\d\d)|'  // MM.DD.YYYY
-        r'((0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{2})|'  // DD.MM.YY
-        r'((0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{2})');  // DD/MM/YY
+        r'((0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/(19|20)\d\d)|' // MM/DD/YYYY
+        r'((0[1-9]|1[0-2])\.(0[1-9]|[12][0-9]|3[01])\.(19|20)\d\d)|' // MM.DD.YYYY
+        r'((0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.\d{2})|' // DD.MM.YY
+        r'((0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/\d{2})'); // DD/MM/YY
 
     if (kDebugMode) {
       print("============================ all text lines");
       print(textFromImage);
     }
-
 
     for (TextBlock block in recognizedText.blocks) {
       for (TextLine line in block.lines) {
