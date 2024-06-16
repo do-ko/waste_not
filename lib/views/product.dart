@@ -10,7 +10,6 @@ import '../models/product.dart';
 
 class ProductView extends StatelessWidget {
   final ProductModel product;
-  // final ProductController productController;
 
   const ProductView({super.key, required this.product});
 

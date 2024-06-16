@@ -181,6 +181,7 @@ class AddOrEditProductController extends GetxController {
 
     Get.back();
     Get.back();
+    Get.back();
     Get.snackbar("Success", "Product was updated.",
         snackPosition: SnackPosition.BOTTOM);
   }
