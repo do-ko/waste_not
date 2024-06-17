@@ -100,6 +100,7 @@ class RegisterView extends StatelessWidget {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
+                    key: const Key('registerSubmitButton'),
                     onPressed: () => controller.signUp(),
                     child: const Text("Create account")),
               )

@@ -95,7 +95,7 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                            key: const Key('registerButton'),
+                            key: const Key('registerNavigateButton'),
                             onPressed: () => {Get.toNamed("/register")},
                             child: const Text("Create account")),
                       )
