@@ -29,14 +29,15 @@ void main() {
 
     testWidgets('Fetch Products', (WidgetTester tester) async {
       String userId = 'test_user';
-      GetStorage().write('userId', userId);
+      // GetStorage().write('userId', userId);
 
       // Add a sample product to Firestore for testing
       await firestore
-          .collection('users')
+          .collection('Users')
           .doc(userId)
-          .collection('products')
+          .collection('Products')
           .add({
+        'productId': 'temp',
         'name': 'Test Product',
         'category': 1,
         'comment': 'Test Comment',

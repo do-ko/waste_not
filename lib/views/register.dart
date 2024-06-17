@@ -32,6 +32,7 @@ class RegisterView extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                        key: const Key('firstNameField'),
                         decoration: const InputDecoration(
                           labelText: "Username",
                           prefixIcon: Icon(CupertinoIcons.person),
@@ -44,6 +45,7 @@ class RegisterView extends StatelessWidget {
                         height: 16,
                       ),
                       TextFormField(
+                        key: const Key('emailField'),
                         decoration: const InputDecoration(
                           labelText: "Email",
                           prefixIcon: Icon(CupertinoIcons.mail),
@@ -57,6 +59,7 @@ class RegisterView extends StatelessWidget {
                       ),
                       Obx(
                         () => TextFormField(
+                          key: const Key('passwordField'),
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
                           validator: (value) =>
@@ -78,6 +81,7 @@ class RegisterView extends StatelessWidget {
                       ),
                       Obx(
                         () => TextFormField(
+                          key: const Key('repeatPasswordField'),
                           obscureText: controller.hidePassword.value,
                           controller: controller.repeatPassword,
                           validator: (value) =>
