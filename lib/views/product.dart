@@ -6,6 +6,7 @@ import 'package:waste_not/views/shared/category_icon.dart';
 import 'package:waste_not/views/shared/theme.dart';
 
 import '../controllers/model_controllers/product.dart';
+import '../controllers/model_controllers/products.dart';
 import '../models/product.dart';
 
 class ProductView extends StatelessWidget {
@@ -125,6 +126,7 @@ class ProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final CategoryController categoryController = Get.find();
+    ProductsController productsController = Get.find();
 
     return Scaffold(
       appBar: AppBar(
@@ -206,7 +208,8 @@ class ProductView extends StatelessWidget {
               padding: const EdgeInsets.all(20.0),
               child: ElevatedButton.icon(
                 onPressed: () {
-                  // Handle remove action
+                  productsController.removeProduct(product.productId);
+                  Get.back();
                 },
                 style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white,
