@@ -58,7 +58,7 @@
     - shared - smaller widgets and widgets common across many views
       - [name].dart - definition of a single widget
   - firebase_options.dart - default configuration of the connection to Firebase, taken as-is from the Firebase console
-  - **main.dart **- entrypoint of the application, WasteNotApp widget declaration
+  - **main.dart**- entrypoint of the application, WasteNotApp widget declaration
 - **<span style="text-decoration:underline;">test - source code and data for tests</span>**
   - widget_test.dart - main test file for unit tests
 
