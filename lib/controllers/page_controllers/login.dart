@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:waste_not/controllers/shared/sound.dart';
 
 import '../shared/auth.dart';
 import '../shared/validator.dart';
@@ -58,6 +59,7 @@ class LoginController extends GetxController {
           .login(email.text.trim(), password.text.trim());
 
       Get.offAllNamed("/home");
+      SoundController.playSound("hello");
     } on AuthException catch (e) {
       Get.snackbar("Auth error", e.message);
     } catch (e) {
