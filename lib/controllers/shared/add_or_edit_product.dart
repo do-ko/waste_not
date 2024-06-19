@@ -5,13 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:waste_not/controllers/model_controllers/product.dart';
 import 'package:waste_not/controllers/model_controllers/products.dart';
 import 'package:waste_not/controllers/shared/auth.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
+import 'package:waste_not/controllers/shared/sound.dart';
+
 import '../../models/product.dart';
 
 class AddOrEditProductController extends GetxController {
@@ -49,6 +51,7 @@ class AddOrEditProductController extends GetxController {
       dateController = TextEditingController(
           text: DateFormat('MM/dd/yyyy')
               .format(productController.product.value!.expirationDate));
+      selectedDate = productController.product.value!.expirationDate.obs;
       categoryId = productController.product.value!.category.obs;
       imageUrlEdit = productController.product.value!.imageLink.obs;
       XFile? file =
@@ -131,6 +134,7 @@ class AddOrEditProductController extends GetxController {
     Get.back();
     Get.snackbar("Success", "Product was added.",
         snackPosition: SnackPosition.BOTTOM);
+    SoundController.playSound("hello");
   }
 
   Future<void> updateProduct() async {
