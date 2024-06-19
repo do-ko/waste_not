@@ -44,6 +44,7 @@ class WasteNotApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AuthController authController = Get.put(AuthController());
+    DarkModeController darkModeController = Get.find();
 
     return GetMaterialApp(
       home: const Scaffold(
@@ -56,20 +57,23 @@ class WasteNotApp extends StatelessWidget {
       ),
       title: 'Waste Not (WIP)',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: baseThemeColor),
-        useMaterial3: true,
-        appBarTheme: const AppBarTheme(
-            backgroundColor: backgroundHeaderColor,
-            centerTitle: true,
-            titleTextStyle: TextStyle(
-              color: fontColor,
-              fontSize: 24,
-            ),
-            iconTheme: IconThemeData(
-              color: fontColor,
-            )),
-      ),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: baseThemeColor),
+      //   useMaterial3: true,
+      //   appBarTheme: const AppBarTheme(
+      //       backgroundColor: backgroundHeaderColor,
+      //       centerTitle: true,
+      //       titleTextStyle: TextStyle(
+      //         color: fontColor,
+      //         fontSize: 24,
+      //       ),
+      //       iconTheme: IconThemeData(
+      //         color: fontColor,
+      //       )),
+      // ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: darkModeController.darkMode.value ? ThemeMode.dark : ThemeMode.light,
       getPages: [
         //GetPage(name: '/', page: () => const AuthenticationView()),
         GetPage(name: '/login', page: () => const LoginView()),

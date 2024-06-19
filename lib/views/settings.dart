@@ -78,7 +78,7 @@ class SettingsView extends StatelessWidget {
                 ),
               ),
               Card(
-                color: containerColor,
+                color: Theme.of(context).colorScheme.tertiary,
                 shape: RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.circular(15), // Set the Card's border radius
@@ -122,7 +122,7 @@ class SettingsView extends StatelessWidget {
                 children: [
                   Obx(
                     () => Card(
-                      color: containerColor,
+                      color: Theme.of(context).colorScheme.tertiary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(
                             15), // Set the Card's border radius
@@ -150,7 +150,7 @@ class SettingsView extends StatelessWidget {
                                 ),
                               ),
                               Switch(
-                                activeTrackColor: primaryBlue,
+                                activeTrackColor: Theme.of(context).colorScheme.primary,
                                 value:
                                     notificationsController.notifications.value,
                                 onChanged: (value) {
@@ -168,45 +168,43 @@ class SettingsView extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                  Obx(
-                    () => Card(
-                      color: containerColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(
-                            15), // Set the Card's border radius
-                      ),
-                      shadowColor: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {
-                          darkModeController.darkMode.value =
-                              !darkModeController.darkMode.value;
-                        },
-                        splashColor: containerColorSplash,
-                        borderRadius: BorderRadius.circular(15),
-                        // Match InkWell's border radius with Card's
-                        child: Padding(
-                          padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Dark Mode",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: fontColor,
-                                ),
+                  Card(
+                    color: Theme.of(context).colorScheme.tertiary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                          15), // Set the Card's border radius
+                    ),
+                    shadowColor: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Get.changeTheme(Get.isDarkMode
+                            ? ThemeData.light()
+                            : ThemeData.dark());
+                      },
+                      splashColor: containerColorSplash,
+                      borderRadius: BorderRadius.circular(15),
+                      // Match InkWell's border radius with Card's
+                      child: Padding(
+                        padding: EdgeInsets.fromLTRB(16, 16, 16, 16),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Dark Mode",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: fontColor,
                               ),
-                              Switch(
-                                activeTrackColor: primaryBlue,
-                                value: darkModeController.darkMode.value,
-                                onChanged: (value) {
-                                  darkModeController.darkMode.value =
-                                      !darkModeController.darkMode.value;
-                                },
-                              ),
-                            ],
-                          ),
+                            ),
+                            Obx(() => Switch(
+                                  activeTrackColor: Theme.of(context).colorScheme.primary,
+                                  value: darkModeController.darkMode.value,
+                                  onChanged: (value) {
+                                    darkModeController.setDarkMode(value);
+                                  },
+                                )),
+                          ],
                         ),
                       ),
                     ),
@@ -215,7 +213,7 @@ class SettingsView extends StatelessWidget {
                     height: 8,
                   ),
                   Card(
-                    color: containerColor,
+                    color: Theme.of(context).colorScheme.tertiary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           15), // Set the Card's border radius
@@ -274,7 +272,7 @@ class SettingsView extends StatelessWidget {
                     height: 8,
                   ),
                   Card(
-                    color: containerColor,
+                    color: Theme.of(context).colorScheme.tertiary,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           15), // Set the Card's border radius
@@ -307,7 +305,7 @@ class SettingsView extends StatelessWidget {
                                                       .notificationInterval
                                                       .value ==
                                                   interval
-                                              ? primaryBlue
+                                              ? Theme.of(context).colorScheme.primary
                                               : Colors.transparent,
                                           borderRadius:
                                               BorderRadius.circular(5)),
@@ -345,7 +343,7 @@ class SettingsView extends StatelessWidget {
                   onPressed: () => AuthController.instance.logout(),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
-                    backgroundColor: primaryBlue,
+                    backgroundColor: Theme.of(context).colorScheme.primary,
                     minimumSize: const Size(180, 36),
                   ),
                   child: const Text(

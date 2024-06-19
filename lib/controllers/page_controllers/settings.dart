@@ -1,5 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+
+import '../../views/shared/theme.dart';
 
 class DarkModeController extends GetxController {
   final deviceStorage = GetStorage();
@@ -11,6 +14,19 @@ class DarkModeController extends GetxController {
     super.onInit();
     bool? darkModeStored = deviceStorage.read<bool>('darkMode');
     _darkMode.value = darkModeStored ?? false;
+  }
+
+  void setDarkMode(bool value) {
+    _darkMode.value = value;
+    Get.changeTheme(value ? darkTheme : lightTheme);
+  }
+
+  // void toggleDarkMode() {
+  //   darkMode = !darkMode.value;
+  // }
+
+  void saveDarkModePreference() async {
+    await deviceStorage.write('darkMode', _darkMode.value);
   }
 }
 

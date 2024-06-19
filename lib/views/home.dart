@@ -30,26 +30,13 @@ class HomeView extends StatelessWidget {
             automaticallyImplyLeading: false,
             elevation: 0,
             title: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
-                child: Text('Hello, ${userController.user.value.username}!',
-                    style: Theme.of(context)
-                        .textTheme
-                        .headlineSmall
-                        ?.copyWith(color: textHeaderColor))),
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 5),
+              child: Text(
+                'Hello, ${userController.user.value.username}!',
+              ),
+            ),
             centerTitle: false,
-            backgroundColor:
-                darkModeController.darkMode.value ? Colors.red : Colors.white,
-            titleTextStyle: TextStyle(
-              color:
-                  //textHeaderColor,
-                  darkModeController.darkMode.value ? Colors.blue : fontColor,
-              fontSize: 24,
-            ),
-            iconTheme: IconThemeData(
-              color:
-                  darkModeController.darkMode.value ? Colors.blue : iconColor,
-            ),
+            backgroundColor: Colors.transparent,
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings),
@@ -63,9 +50,9 @@ class HomeView extends StatelessWidget {
           Container(
         // padding: EdgeInsets.only(top: 20),
         margin: const EdgeInsets.only(top: 10),
-        decoration: const BoxDecoration(
-          color: fridgeColor,
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.secondary,
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20), // 20 is the radius of the curve
             topRight: Radius.circular(20),
           ),
@@ -84,11 +71,11 @@ class HomeView extends StatelessWidget {
                 })
             : IconButton(
                 icon: Icon(Icons.delete_rounded,
-                    color: iconColor.withAlpha(80), size: 30),
+                    color: Theme.of(context).colorScheme.primary.withAlpha(80), size: 30),
                 onPressed: null)),
         IconButton(
-            icon: const Icon(Icons.live_help_outlined,
-                color: iconColor, size: 30),
+            icon: Icon(Icons.live_help_outlined,
+                color: Theme.of(context).colorScheme.primary, size: 30),
             onPressed: () => Get.toNamed("/suggestions"))
       ]),
       floatingActionButton: Transform.scale(
@@ -99,7 +86,7 @@ class HomeView extends StatelessWidget {
               highlightElevation: 0,
               shape: const CircleBorder(),
               onPressed: () => Get.toNamed("/product/add"),
-              backgroundColor: categoryIconDarkBackgroundColor,
+              backgroundColor: Theme.of(context).colorScheme.primary,
               child: const Icon(Icons.add,
                   color: categoryIconLightColor, size: 30))),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
