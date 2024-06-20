@@ -4,9 +4,7 @@ import 'package:get/get.dart';
 class SoundController extends GetxController {
   static SoundController get instance => Get.find();
 
-  static const Map<String, String> assetPaths = {
-    "hello": "assets/jingle_short.mp3"
-  };
+  static const Map<String, String> assetPaths = {"hello": "jingle_short.mp3"};
 
   RxBool playSounds = true.obs;
 
