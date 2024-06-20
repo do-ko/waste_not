@@ -135,7 +135,7 @@ class AddOrEditProductController extends GetxController {
     Get.back();
     Get.snackbar("Success", "Product was added.",
         snackPosition: SnackPosition.BOTTOM);
-    SoundController.playSound("hello");
+    await SoundController.playSound("hello");
   }
 
   Future<void> updateProduct() async {

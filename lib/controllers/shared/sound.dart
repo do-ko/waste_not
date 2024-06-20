@@ -10,7 +10,7 @@ class SoundController extends GetxController {
 
   RxBool playSounds = true.obs;
 
-  static void playSound(String assetKey) async {
+  static Future<void> playSound(String assetKey) async {
     SoundController soundController = Get.find();
 
     if (soundController.playSounds.value && assetPaths.containsKey(assetKey)) {
