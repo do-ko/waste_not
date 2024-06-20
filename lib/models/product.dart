@@ -9,40 +9,57 @@ class ProductModel {
   String imageLink;
   String owner;
 
-  ProductModel(
-      {this.productId = '',
-      required this.name,
-      required this.category,
-      required this.comment,
-      required this.expirationDate,
-      required this.imageLink,
-      required this.owner});
+  ProductModel({
+    required this.productId,
+    required this.name,
+    required this.category,
+    required this.comment,
+    required this.expirationDate,
+    required this.imageLink,
+    required this.owner,
+  });
 
-  // Convert a Product instance to a Map.
   Map<String, dynamic> toJson() {
     return {
       'productId': productId,
       'name': name,
-      'category': FirebaseFirestore.instance.doc("Categories/$category"),
+      'category': category,
       'comment': comment,
-      'expiration_date': expirationDate,
+      'expiration_date': Timestamp.fromDate(expirationDate), // Corrected
       'image_link': imageLink,
-      'owner': FirebaseFirestore.instance.doc("Users/$owner"),
+      'owner': owner,
     };
   }
 
-  // Construct a Product from a map.
   factory ProductModel.fromMap(Map<String, dynamic> map) {
-    print("mapping now:");
-    print(map);
     return ProductModel(
       productId: map['productId'],
       name: map['name'],
-      category: map['category'] is DocumentReference ? map['category'].id : map['category'],
+      category: map['category'],
       comment: map['comment'],
-      expirationDate: (map['expiration_date'] as Timestamp).toDate(),
+      expirationDate: (map['expiration_date'] as Timestamp).toDate(), // Corrected
       imageLink: map['image_link'],
-      owner: map['owner'] is DocumentReference ? map['owner'].id : map['owner'],
+      owner: map['owner'],
+    );
+  }
+
+  ProductModel copyWith({
+    String? productId,
+    String? name,
+    String? category,
+    String? comment,
+    DateTime? expirationDate,
+    String? imageLink,
+    String? owner,
+  }) {
+    return ProductModel(
+      productId: productId ?? this.productId,
+      name: name ?? this.name,
+      category: category ?? this.category,
+      comment: comment ?? this.comment,
+      expirationDate: expirationDate ?? this.expirationDate,
+      imageLink: imageLink ?? this.imageLink,
+      owner: owner ?? this.owner,
     );
   }
 }

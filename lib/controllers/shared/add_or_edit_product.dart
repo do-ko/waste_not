@@ -121,7 +121,8 @@ class AddOrEditProductController extends GetxController {
         comment: '',
         expirationDate: selectedDate.value,
         imageLink: url,
-        owner: AuthController.instance.authUser!.uid);
+        owner: AuthController.instance.authUser!.uid,
+        productId: '');
 
     // Add the product to Firestore
     await productsController.addProduct(newProduct).catchError((error) {

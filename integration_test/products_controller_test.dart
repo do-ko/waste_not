@@ -65,6 +65,7 @@ void main() {
         expirationDate: DateTime.now(),
         imageLink: 'new_link',
         owner: userId,
+        productId: '',
       );
 
       await productsController.addProduct(productController.product.value!);
