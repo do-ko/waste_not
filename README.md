@@ -26,14 +26,17 @@
 - linux - configuration and build files for Linux version of the app, auto-generated
 - macos - configuration and build files for MacOS version of the app, auto-generated
 
+- firebase.json - Firebase configuration data
+- pubspec.yaml - Flutter package configuration
+
 - **<span style="text-decoration:underline;">assets - assets to be folded into the application executable on build</span>**
   - [category name].svg - vector icons for product categories
+  - placeholder.svg - vector version of placeholder image for missing images
   - placeholder_product_image.jpg - placeholder image for a missing image in Product views
   - jingle_short.mp3 - sound file used on sign-in and adding product
-- **<span style="text-decoration:underline;">intergration_test - source code and data for integration tests, specifically</span>**
+- **<span style="text-decoration:underline;">integration_test - source code and data for integration tests, specifically</span>**
 
-  - auth_test.dart - source code for the registration test
-  - products_controller_test.dart - source code for the testing of proper display of products
+  - auth_test.dart - source code for the registration and login tests
 
 - **<span style="text-decoration:underline;">lib - source code for the application</span>**
   - controllers - definitions of controllers
@@ -60,7 +63,9 @@
   - firebase_options.dart - default configuration of the connection to Firebase, taken as-is from the Firebase console
   - **main.dart**- entrypoint of the application, WasteNotApp widget declaration
 - **<span style="text-decoration:underline;">test - source code and data for tests</span>**
-  - widget_test.dart - main test file for unit tests
+  - home_view_test.dart - testing of HomeView UI component
+  - product_model_test.dart - testing of Product model class
+  - user_model_test.dart - testing of User model class
 
 **Installation:**
 
