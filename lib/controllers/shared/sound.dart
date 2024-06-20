@@ -5,7 +5,7 @@ class SoundController extends GetxController {
   static SoundController get instance => Get.find();
 
   static const Map<String, String> assetPaths = {
-    "hello": "assets/jingle_short.mp3"
+    "hello": "jingle_short.mp3"
   };
 
   RxBool playSounds = true.obs;

@@ -32,6 +32,7 @@ class LoginView extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                        key: const Key('emailField'),
                         decoration: const InputDecoration(
                           labelText: "Email",
                           prefixIcon: Icon(CupertinoIcons.mail),
@@ -44,6 +45,7 @@ class LoginView extends StatelessWidget {
                         height: 16,
                       ),
                       TextFormField(
+                          key: const Key('passwordField'),
                           obscureText: controller.hidePassword.value,
                           controller: controller.password,
                           validator: (value) =>
@@ -86,6 +88,7 @@ class LoginView extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
+                            key: const Key('loginSubmitButton'),
                             onPressed: () => {controller.signIn()},
                             child: const Text("Sign in")),
                       ),

@@ -47,8 +47,8 @@ class ProductTile extends StatelessWidget {
                 ] +
                 (homeController.markedProducts.contains(product.productId)
                     ? [
-                        const Icon(Icons.check_circle_rounded,
-                            color: iconColor),
+                        Icon(Icons.check_circle_rounded,
+                            color: Theme.of(context).colorScheme.onSecondary),
                       ]
                     : [])),
         trailing: Text(

@@ -17,7 +17,7 @@ class ProductList extends StatelessWidget {
         height: double.maxFinite,
         margin: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(30)),
+            color: Theme.of(context).colorScheme.tertiary, borderRadius: BorderRadius.circular(30)),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: SingleChildScrollView(

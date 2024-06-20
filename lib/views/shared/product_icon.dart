@@ -32,8 +32,8 @@ class ProductIcon extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: darkBackground
-            ? categoryIconDarkBackgroundColor
-            : categoryIconLightBackgroundColor,
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.secondary,
         boxShadow: withShadow
             ? [
                 BoxShadow(
@@ -59,8 +59,8 @@ class ProductIcon extends StatelessWidget {
               fit: BoxFit.contain,
               colorFilter: ColorFilter.mode(
                   (darkBackground
-                          ? categoryIconLightColor
-                          : categoryIconDarkColor)
+                          ? Theme.of(context).colorScheme.secondary
+                          : Theme.of(context).colorScheme.tertiary)
                       .withAlpha(faded ? 80 : 255),
                   BlendMode.srcIn)),
     );

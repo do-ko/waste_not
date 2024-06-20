@@ -19,7 +19,7 @@ class HomeView extends StatelessWidget {
     UserController userController = Get.put(UserController());
     HomeController homeController = Get.put(HomeController());
     ProductsController productsController = Get.put(ProductsController());
-    DarkModeController darkModeController = Get.find();
+    // DarkModeController darkModeController = Get.find();
     Get.put(CategoryController());
 
     return Scaffold(
@@ -59,7 +59,7 @@ class HomeView extends StatelessWidget {
         ),
         child: const ProductList(),
       ),
-      bottomNavigationBar: NavigationBar(height: 50, destinations: [
+      bottomNavigationBar: NavigationBar(height: 50, backgroundColor: Theme.of(context).colorScheme.tertiary, destinations: [
         Obx(() => homeController.markedProducts.isNotEmpty
             ? IconButton(
                 icon: const Icon(Icons.delete_rounded,

@@ -56,6 +56,7 @@ const Color darkFontColor = Color(0xffEDF5FE);
 const Color darkPrimaryColor = Color(0xff1a1a1a);
 const Color darkSecondaryColor = Color(0xff1f1f1f);
 const Color darkTertiaryColor = Color(0xff3a3a3a);
+const Color darkHighlightColor = Color(0xff3E5F90);
 
 final ThemeData lightTheme = ThemeData(
   appBarTheme: const AppBarTheme(
@@ -69,8 +70,8 @@ final ThemeData lightTheme = ThemeData(
         color: fontColor,
       )),
   textTheme: const TextTheme(
-    bodyLarge: TextStyle(color: Colors.white70, fontSize: 16),
-    bodyMedium: TextStyle(color: Colors.white70, fontSize: 14),
+    bodyLarge: TextStyle(color: Colors.black, fontSize: 16),
+    bodyMedium: TextStyle(color: Colors.black, fontSize: 14),
   ),
   colorScheme: const ColorScheme(
     background: Colors.white,
@@ -111,7 +112,7 @@ final ThemeData darkTheme = ThemeData(
     secondary: darkSecondaryColor,
     tertiary: darkTertiaryColor,
     onPrimary: Color(0xffEDF5FE),
-    onSecondary: Color(0xffEDF5FE),
+    onSecondary: darkHighlightColor,
     error: Color(0xffA7382F),
     onError: Color(0xffEDF5FE),
     onBackground: Color(0xff191C20),

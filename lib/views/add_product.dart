@@ -69,7 +69,8 @@ class AddProductView extends StatelessWidget {
                     addProductController.pickImage("product_image");
                   },
                   style: ElevatedButton.styleFrom(
-                    foregroundColor: primaryBlue.withOpacity(0.7),
+                    foregroundColor:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.7),
                     backgroundColor: Colors.white.withOpacity(0.7),
                     shape: const CircleBorder(),
                     padding: const EdgeInsets.all(5),
@@ -94,14 +95,14 @@ class AddProductView extends StatelessWidget {
                           validator: (value) =>
                               CustomValidator.validateFieldNotEmpty(
                                   "Name", value),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             labelText: "Name",
-                            labelStyle: TextStyle(
+                            labelStyle: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: fontColorBlue),
                             filled: true,
-                            fillColor: containerColor,
+                            fillColor: Theme.of(context).colorScheme.tertiary,
                             enabledBorder: InputBorder.none,
                           ),
                         ),
@@ -135,7 +136,7 @@ class AddProductView extends StatelessWidget {
                               onPressed: presentDatePicker,
                             ),
                             filled: true,
-                            fillColor: containerColor,
+                            fillColor: Theme.of(context).colorScheme.tertiary,
                             enabledBorder: InputBorder.none,
                           ),
                           readOnly: true,
