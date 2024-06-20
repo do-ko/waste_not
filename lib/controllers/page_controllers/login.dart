@@ -59,7 +59,7 @@ class LoginController extends GetxController {
           .login(email.text.trim(), password.text.trim());
 
       Get.offAllNamed("/home");
-      SoundController.playSound("hello");
+      await SoundController.playSound("hello");
     } on AuthException catch (e) {
       Get.snackbar("Auth error", e.message);
     } catch (e) {
